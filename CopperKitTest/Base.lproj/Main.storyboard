@@ -40,7 +40,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XCA-r0-M8q">
-                                        <rect key="frame" x="527" y="16" width="57" height="30"/>
+                                        <rect key="frame" x="527" y="24" width="57" height="30"/>
                                         <state key="normal" title="Sign out"/>
                                         <connections>
                                             <action selector="signoutButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="lhN-qr-aNp"/>
@@ -122,7 +122,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="A2L-Ub-jU3" firstAttribute="leading" secondItem="SPa-gG-T79" secondAttribute="leading" id="0bq-K2-0ba"/>
-                                    <constraint firstItem="XCA-r0-M8q" firstAttribute="top" secondItem="o5c-C0-6Pd" secondAttribute="top" constant="16" id="9lg-M7-29Y"/>
+                                    <constraint firstItem="XCA-r0-M8q" firstAttribute="top" secondItem="o5c-C0-6Pd" secondAttribute="top" constant="24" id="9lg-M7-29Y"/>
                                     <constraint firstItem="SPa-gG-T79" firstAttribute="centerX" secondItem="o5c-C0-6Pd" secondAttribute="centerX" id="BjZ-S0-G3h"/>
                                     <constraint firstItem="dY4-8e-SoG" firstAttribute="top" secondItem="o5c-C0-6Pd" secondAttribute="top" constant="75" id="DTF-60-NgQ"/>
                                     <constraint firstItem="ENn-bE-i57" firstAttribute="centerX" secondItem="o5c-C0-6Pd" secondAttribute="centerX" id="E0j-8X-Tcu"/>
