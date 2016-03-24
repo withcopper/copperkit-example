@@ -1,0 +1,10 @@
+framework module CopperKit {
+  umbrella header "CopperKit.h"
+
+  export *
+  module * { export * }
+}
+
+module CopperKit.Swift {
+    header "CopperKit-Swift.h"
+}
