@@ -3,7 +3,7 @@
 //  CopperKitTest
 //
 //  Created by Doug Williams on 3/15/16.
-//  Copyright © 2016 Doug Williams. All rights reserved.
+//  Copyright © 2016 Copper Technologies, Inc. All rights reserved.
 //
 
 import UIKit
