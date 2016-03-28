@@ -28,6 +28,7 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.signedInView.setNeedsLayout()
         // reset our UI elements to the Signed Out state
         resetView()
     }
