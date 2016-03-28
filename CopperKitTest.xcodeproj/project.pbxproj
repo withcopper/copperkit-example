@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		F082BCDB1CA47D13002C54F9 /* CopperKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F082BCDA1CA47D13002C54F9 /* CopperKit.framework */; };
-		F082BCDC1CA47D19002C54F9 /* CopperKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F082BCDA1CA47D13002C54F9 /* CopperKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		F0535F491CA8C3CD005A4579 /* CopperKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F0535F481CA8C3CD005A4579 /* CopperKit.framework */; };
+		F0535F4A1CA8C3D1005A4579 /* CopperKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F0535F481CA8C3CD005A4579 /* CopperKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F0E8BBBC1C98FFEB00B9A850 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0E8BBBB1C98FFEB00B9A850 /* AppDelegate.swift */; };
 		F0E8BBBE1C98FFEB00B9A850 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0E8BBBD1C98FFEB00B9A850 /* ViewController.swift */; };
 		F0E8BBC11C98FFEB00B9A850 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F0E8BBBF1C98FFEB00B9A850 /* Main.storyboard */; };
@@ -34,7 +34,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				F082BCDC1CA47D19002C54F9 /* CopperKit.framework in Embed Frameworks */,
+				F0535F4A1CA8C3D1005A4579 /* CopperKit.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -42,7 +42,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		F082BCDA1CA47D13002C54F9 /* CopperKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CopperKit.framework; sourceTree = "<group>"; };
+		F0535F481CA8C3CD005A4579 /* CopperKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CopperKit.framework; sourceTree = "<group>"; };
 		F0E8BBB81C98FFEB00B9A850 /* CopperKitTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CopperKitTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F0E8BBBB1C98FFEB00B9A850 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F0E8BBBD1C98FFEB00B9A850 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -60,7 +60,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F082BCDB1CA47D13002C54F9 /* CopperKit.framework in Frameworks */,
+				F0535F491CA8C3CD005A4579 /* CopperKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -101,7 +101,7 @@
 				F0E8BBC21C98FFEB00B9A850 /* Assets.xcassets */,
 				F0E8BBC41C98FFEB00B9A850 /* LaunchScreen.storyboard */,
 				F0E8BBC71C98FFEB00B9A850 /* Info.plist */,
-				F082BCDA1CA47D13002C54F9 /* CopperKit.framework */,
+				F0535F481CA8C3CD005A4579 /* CopperKit.framework */,
 			);
 			path = CopperKitTest;
 			sourceTree = "<group>";

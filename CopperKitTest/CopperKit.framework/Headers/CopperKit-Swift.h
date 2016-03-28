@@ -95,9 +95,8 @@ typedef int swift_int4  __attribute__((__ext_vector_type__(4)));
 @import ObjectiveC;
 @import Foundation;
 @import SafariServices;
-@import UIKit;
-@import WebKit;
 @import LocalAuthentication;
+@import UIKit;
 @import CoreGraphics;
 #endif
 
@@ -509,22 +508,6 @@ SWIFT_CLASS("_TtC9CopperKit16CopperImageCache")
 
 @interface CopperImageCache (SWIFT_EXTENSION(CopperKit))
 - (void)set:(CopperImageCache * _Nonnull)cache;
-@end
-
-@class WKUserContentController;
-@class WKScriptMessage;
-@class NSBundle;
-
-SWIFT_CLASS("_TtC9CopperKit23CopperKitViewController")
-@interface CopperKitViewController : UIViewController <WKScriptMessageHandler>
-+ (void)login:(UIViewController * _Nonnull)viewController withApplicationId:(NSString * _Nonnull)applicationId scopes:(NSString * _Nonnull)scopes completion:(void (^ _Nonnull)(BOOL, NSDictionary * _Nullable))completion;
-@property (nonatomic, strong) NSURL * _Nullable url;
-- (void)loadView;
-- (void)viewDidLoad;
-- (void)observeValueForKeyPath:(NSString * _Nullable)keyPath ofObject:(id _Nullable)object change:(NSDictionary<NSString *, id> * _Nullable)change context:(void * _Null_unspecified)context;
-- (void)userContentController:(WKUserContentController * _Nonnull)userContentController didReceiveScriptMessage:(WKScriptMessage * _Nonnull)message;
-- (nonnull instancetype)initWithNibName:(NSString * _Nullable)nibNameOrNil bundle:(NSBundle * _Nullable)nibBundleOrNil OBJC_DESIGNATED_INITIALIZER;
-- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)aDecoder OBJC_DESIGNATED_INITIALIZER;
 @end
 
 

@@ -4,29 +4,9 @@
 <dict>
 	<key>files</key>
 	<dict>
-		<key>CopperKit.storyboardc/BiH-jF-3Zs-view-Zms-H2-su5.nib</key>
-		<data>
-		r2NM6wr/eBN+8nnTd5uMcbw/obw=
-		</data>
-		<key>CopperKit.storyboardc/CULoginView.nib</key>
-		<data>
-		+7uvXaPeEdZLwAhA6t8UVg+yUdM=
-		</data>
-		<key>CopperKit.storyboardc/CopperKit.nib</key>
-		<data>
-		S4r3V68tHtMjVJIcLR6wR1vSqQE=
-		</data>
-		<key>CopperKit.storyboardc/Info.plist</key>
-		<data>
-		mV1bemeZeGA/7d4eKkVbCMlYiKU=
-		</data>
-		<key>CopperKit.storyboardc/k2m-Ey-Rsm-view-7NZ-1f-4rP.nib</key>
-		<data>
-		wXve43L6FLY1VNvO4qwC2BRcPYs=
-		</data>
 		<key>Headers/CopperKit-Swift.h</key>
 		<data>
-		oDPvHHc5WxG6MB4UDv5/mxYZ3lw=
+		gBxjLRvkbFqEFEkkyGaJ+KRpKC8=
 		</data>
 		<key>Headers/CopperKit.h</key>
 		<data>
@@ -90,15 +70,15 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		m4tNbGIRWy2KUVCDxAit4zNB9b0=
+		jjeir/ZqJdH7yPycYZ6HEbINm2I=
 		</data>
 		<key>Modules/CopperKit.swiftmodule/arm.swiftdoc</key>
 		<data>
-		271/Lvca949/sgBz6BhwKqxRo+I=
+		xThnYJ5EcTJmerkEnk8rxpoZh7I=
 		</data>
 		<key>Modules/CopperKit.swiftmodule/arm.swiftmodule</key>
 		<data>
-		3aa8p/lw+9huX5ejwTENp/2sphE=
+		crcdlCA+Rfs4D8GYxVjH7yd/cpk=
 		</data>
 		<key>Modules/CopperKit.swiftmodule/arm64.swiftdoc</key>
 		<data>
@@ -106,7 +86,7 @@
 		</data>
 		<key>Modules/CopperKit.swiftmodule/arm64.swiftmodule</key>
 		<data>
-		tk57RXDt2yJ1Ucp9LbYuSwRhHBE=
+		L26bJrR5vYrDDoB7pye0t+aN+pc=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -115,29 +95,9 @@
 	</dict>
 	<key>files2</key>
 	<dict>
-		<key>CopperKit.storyboardc/BiH-jF-3Zs-view-Zms-H2-su5.nib</key>
-		<data>
-		r2NM6wr/eBN+8nnTd5uMcbw/obw=
-		</data>
-		<key>CopperKit.storyboardc/CULoginView.nib</key>
-		<data>
-		+7uvXaPeEdZLwAhA6t8UVg+yUdM=
-		</data>
-		<key>CopperKit.storyboardc/CopperKit.nib</key>
-		<data>
-		S4r3V68tHtMjVJIcLR6wR1vSqQE=
-		</data>
-		<key>CopperKit.storyboardc/Info.plist</key>
-		<data>
-		mV1bemeZeGA/7d4eKkVbCMlYiKU=
-		</data>
-		<key>CopperKit.storyboardc/k2m-Ey-Rsm-view-7NZ-1f-4rP.nib</key>
-		<data>
-		wXve43L6FLY1VNvO4qwC2BRcPYs=
-		</data>
 		<key>Headers/CopperKit-Swift.h</key>
 		<data>
-		oDPvHHc5WxG6MB4UDv5/mxYZ3lw=
+		gBxjLRvkbFqEFEkkyGaJ+KRpKC8=
 		</data>
 		<key>Headers/CopperKit.h</key>
 		<data>
@@ -201,11 +161,11 @@
 		</data>
 		<key>Modules/CopperKit.swiftmodule/arm.swiftdoc</key>
 		<data>
-		271/Lvca949/sgBz6BhwKqxRo+I=
+		xThnYJ5EcTJmerkEnk8rxpoZh7I=
 		</data>
 		<key>Modules/CopperKit.swiftmodule/arm.swiftmodule</key>
 		<data>
-		3aa8p/lw+9huX5ejwTENp/2sphE=
+		crcdlCA+Rfs4D8GYxVjH7yd/cpk=
 		</data>
 		<key>Modules/CopperKit.swiftmodule/arm64.swiftdoc</key>
 		<data>
@@ -213,7 +173,7 @@
 		</data>
 		<key>Modules/CopperKit.swiftmodule/arm64.swiftmodule</key>
 		<data>
-		tk57RXDt2yJ1Ucp9LbYuSwRhHBE=
+		L26bJrR5vYrDDoB7pye0t+aN+pc=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
