@@ -140,42 +140,28 @@ You can call the open method directly in your view controller's viewDidLoad meth
 **Swift**
 
 ```
-func viewDidLoad {
-        super.viewDidLoad()
-        
-        // 1. Decide which scopes you need
-        let scopes: [C29Scope] = [.Email, .Name, .Phone, .Avatar, .Username]
-        // 2. Grab an instance of the Copper Application singleton
-        let copper = C29Application.sharedInstance
-        // 3. Register your application's ID
-        copper.configure(withApplicationId: [YOUR_APPLICATION_ID]) // replace with your value from Copperworks
-        // 4. Call open() to initiate things
-        copper.open(withViewController: self, scopes: scopes, completion: { (userInfo: C29UserInfo?, error: NSError?) in
-                    // check for errors
-                    guard error == nil else {
-                         // inspect and handle the error
-                        return
-                    }
-                    // if userInfo is nil and no error, the user cancelled
-                    guard let userInfo = userInfo else {
-                            // handle user cancelation
-                        return
-                    }
-                    // no error if we got here...
-                    // make use of the user information we asked for in scopes
-                    let userId: String? = userInfo.userId
-                    let firstName: String? = userInfo.firstName
-                    let lastName: String? =  userInfo.lastName
-                    let phone: String? = userInfo.phoneNumber
-                    let email: String? = userInfo.emailAddress
-                    let avatarURL: NSURL? = userInfo.avatarURL
-                    let avatarImage: UIImage? = userInfo.avatar
-                    let username: String? = userInfo.username
-                    
-                    // onward...
-                    println("Welcome, \(firstName!).")
-                })
-    }
+	// get a reference to our CopperKit application instance
+    copper = C29Application.sharedInstance
+    // TODO: configure it with your app's token
+    copper!.configure(withApplicationId: "[YOUR_APPLICATION_ID]")
+    // decide what information we want from the user
+    let scopes = [C29Scope.Name, C29Scope.Avatar, C29Scope.Email, C29Scope.Phone]
+    // make the call to ask the user =
+    copper!.open(withViewController: self, scopes: scopes, completion: { (userInfo: C29UserInfo?, error: NSError?) in
+        // check for errors
+        guard error == nil else {
+            print("Bummer: \(error)")
+            return
+        }
+        // or user cancellation, if userInfo is nil
+        guard let userInfo = userInfo else {
+            print("The user cancelled without continuing ...")
+            return
+        }
+        // if we get here then the user completed successfully
+        self.handleSignin(withUserInfo: userInfo)
+    })
+
 ```
 
 **Objective-C**
@@ -252,26 +238,19 @@ none
 ```
 --
 
-### `configure(_ applicationId: String)`
-Configure and initialize CopperKit with your application’s id. You must call this before calling `open(_ viewController:scopes:completion:)`.
+### `configure(_ applicationId:String) {`
+Configure and initialize CopperKit with your application’s id. **You must call this before calling `open(_ viewController:scopes:completion:)`**.
 
 Parameters
 
-```
-token: String - your applications OAuth token from Copperworks
-```
+> `token: String` - your applications OAuth token from Copperworks
 
 Declaration
 
 ```
-func configure(withOauthToken token: String)
+func configure(withApplicationId applicationId: String)
 ```
 
-Returned values
-
-```
-none
-```
 --
 
 ### `getPermittedScopes()`
@@ -280,52 +259,42 @@ Get an array of the [`C29Scope`](#c29scope) items your app is permitted to acces
 Declaration
 
 ```
-func getPermittedScopes() -> [[C29Scope](#c29scope)]?
+func getPermittedScopes() -> [C29Scope]?
 ```
 
 Returned values
 
-```
-[[C29Scope](#c29scope)]? : an array of permitted scopes. This will be nil if the session is not active, for example if you call this before open(_ viewController:scopes:completion:).
-```
+> `[C29Scope]?` : an array of permitted scopes. This will be `nil` if the session is not active, for example if you call this before `open(_ viewController:scopes:completion:)`.
+
 --
 
 ### `open(_ viewController:scopes:completion:)`
 Authenticate and request information from a user. This will use a local copy of the user’s information if present, relying on a network call if necessary. If the user’s session is active, and all requested information present on the device, the callback will return successfully without the modal appearing.
 
 Parameters
-
-```
-viewController: UIViewController - the view controller presenting the CopperKit modal
+> `viewController: UIViewController` - the view controller presenting the CopperKit modal
 scopes: [[C29Scope](#c29scope)] - array of scopes to request from the user
-completion: (userInfo: C29UserInfo?, error: NSError?) - results callback with returned information or error
+> `completion: (userInfo: C29UserInfo?, error: NSError?)` - results callback with returned information or error
 ```
 
 Declaration
 
 ```
-func open(withViewController viewController: UIViewController, scopes: [[C29Scopes](#c29scopes)], completion: C29ApplicationUserInfoCompletionHandler)
-```
-
-Returned values
-
-```
-none
+func open(withViewController viewController: UIViewController, scopes: [C29Scope], completion: C29ApplicationUserInfoCompletionHandler)
 ```
  
 Discussion on the completion callback
 
-```
-After the user completes or dismisses the CopperKit modal, the complete block will execute returning the userInfo:[`C29UserInfo`](#c29userinfo)? object and/or the error:NSError? object. You should inspect these objects to determine what action the user took.
+> After the user completes or dismisses the CopperKit modal, the complete block will execute returning the `userInfo:C29UserInfo?` object and/or the `error:NSError?` object. You should inspect these objects to determine what action the user took.
     
-When the user dismisses the modal, for example pressing 'Done' to close the modal, both objects will be empty or `nil`.
+> When the user dismisses the modal, for example pressing 'Done' to close the modal, both objects will be equal to `nil`.
     
-error: NSError?
-You should inspect the error object. If it does not equal `nil` the there was a runtime error preventing the call to `open` from completing successfully. Your app should handle this case gracefully. Other possible errors include NSError objects returned from the underlying API and network stack. 
-    
-userInfo: [`C29UserInfo`](#c29userinfo)?
-If userInfo does not equal `nil` then you can assume the call to open was successful and all information you requested is within. See the related documetation on the C29UserInfo object for more information on it's variables and methods.
-```
+> `error: NSError?`
+> You should inspect the error object. If it does not equal `nil` the there was an error, such as network connectivity, preventing the request from completing successfully. Your app should handle error cases gracefully for the person behind the screen. 
+
+> `userInfo: C29UserInfo?`
+> If userInfo does not equal `nil` then you can assume the call to open was successful and all information you requested is within. See the related documetation on the C29UserInfo object for more information on it's variables and methods.
+
 --
  
 ### `openURL(url:sourceApplication)`
@@ -333,10 +302,8 @@ This method is used the App Delegate’s openURL method, in conjunction with our
  
 Parameters
 
-```
-url : NSURL - a NSURL candidate object to inspect; should be the untouched URL from the `openURL(url:sourceApplication)` method simply passed along
-sourceApplication : String? - a string representing the source application; should be the untouched sourceApplication String from the `openURL(url:sourceApplication)` method simply passed along
-```
+> `url: NSURL` — the url passed to the App Delegate
+> `sourceApplication: String?` — the source applicatoin passed to the App Delegate
  
 Declaration
 
@@ -346,10 +313,8 @@ func openURL(url: NSURL, sourceApplication: String?) -> Bool
  
 Returned Values
 
-```
-bool: indicating if the call was a response to an active call to open(_ viewController:scopes:completion:).
-```
- 
+> `bool` indicating if the call was a response to an active call to `open(_ viewController:scopes:completion:)`.
+
 ### `sharedInstance: C29Application`
 A singleton representing the root C29Application object for all CopperKit usage. Your app should hold a reference to this to make calls to methods such as `open(_ viewController:scopes:completion:)` .
  
@@ -390,7 +355,7 @@ var emailAddress: String? { get }
 
 ### Name
 A name for the user. `firstName` and `lastName` are guaranteed to be non-nil. `fullName` 
-is a convenience concatenation of `firstName`  and `lastName`. `initials` will return the first and last name initials in uppercase letters. Requested with [`C29Scope.Name`](#c29scope).
+is a convenience concatenation of `firstName`  and `lastName`, if present. `initials` will return the first and last name initials in uppercase letters, if present. Requested with [`C29Scope.Name`](#c29scope).
 
 ```
 var firstName: String? { get }
