@@ -178,42 +178,34 @@ You can call the open method directly in your view controller's viewDidLoad meth
 At this point your app should compile, and CopperKit should be fully functional within your app.
 
 ## C29Scope 
-User Information available with CopperKit
+User Information available with CopperKit. 
 
-A successful call to  `open(_ viewController:scopes:completion:)`  returns an instance of a `C29UserInfo`  object which holds the user data requested in the `scopes`  variable. Below is the complete list of valid scopes. See the documentation for [`C29UserInfo`](#c29userinfo) for more information on how you will access these values after the call.
+A successful call to  `open(_ viewController:scopes:completion:)`  returns an instance of a `C29UserInfo`  object which holds the user data requested in the `scopes`  variable. Below is the complete list of valid scopes. 
+
+See the corresponding entries in [`C29UserInfo`](#c29userinfo) to understand what data is returned back with each scope.
 
 ### User Id
 
-Copper always returns a application-unique User Id with a successful call to `open()` . Copper will always return the same User Id for the same application so that you can identify the same user across different sessions or devices. You do not need to specify this scope as this value is always returned. Copper will never return the same Id for a different user or the same user on a different application.
+Copper always returns a application-unique User Id with a successful call to `open(_ viewController:scopes:completion:)` . Copper will always return the same User Id for the same application so that you can identify the same user across different sessions or devices. You do not need to specify this scope as this value is always returned. Copper will never return the same Id for a different user or the same user on a different application.
 
 ### Avatar
-
-An avatar is the user’s picture
 
 `C29Scope.Avatar` 
 
 ### Email
 
-An email address for the user
-
 `C29Scope.Email` 
 
 ### Name
-
-A name for the user, with first name and last name as separate objects.
 
 `C29Scope.Name` 
 
 ### Phone
 
-A phone number for the user, returned in E.164 format (e.g. +14158309190).
-
 `C29Scope.Phone` 
 
 
 ### Username
-
-The username for the user
 
 `C29Scope.Username` 
 
@@ -274,6 +266,7 @@ Authenticate and request information from a user. This will use a local copy of 
 Parameters
 > `viewController: UIViewController` - the view controller presenting the CopperKit modal
 scopes: [[C29Scope](#c29scope)] - array of scopes to request from the user
+
 > `completion: (userInfo: C29UserInfo?, error: NSError?)` - results callback with returned information or error
 ```
 
