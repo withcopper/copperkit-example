@@ -6,7 +6,7 @@ The CopperKit framework (download the latest)[https://….] allows your iOS app 
 
 Copper remembers a person’s information so that signups within your app can be a single tap, rather than the person reentering their information.  Plus users love how Copper uses their phone number for authentication so they never see a password. You can expect more people will sign up for your app rather than abandon it at this critical step with Copper.
 
-You can use Copper in your iOS app in three steps:
+You can use Copper in your iOS app in four steps:
 
 1. Register your app for free on Copperworks
 2. Add the CopperKit Framework to your Xcode Project
@@ -70,13 +70,11 @@ CopperKit uses a custom iOS URL scheme to securely signal to your app when a use
 
 ### A. Create the custom URL scheme for your app
 
-Carefully copy the iOS URL Scheme from Copperworks that you created in Step 1.
-
 In your application’s `info.plist` file create a new entry for the Custom URL Scheme structured exactly like the example below. You may need to create new entries with the `+` button to create and format the tree as required.
 
 The value of `URL identifier` should be something something custom and unique, like your application’s bundle id.
 
-The value of `URL Schemes`, the Item 0 array should equal the iOS URL Scheme value copied from Copperworks.
+The value of `URL Schemes`, the Item 0 array should equal the iOS URL Scheme value copied from Copperworks in Step 1.
 
 ![Adding Custom URLs to the info.plist file](https://raw.githubusercontent.com/withcopper/copperkit-example/master/assets/infoplist-custom-url.png)
 
@@ -195,7 +193,7 @@ At this point your app should compile, and CopperKit should be fully functional 
 
 ## C29Scopes - User Information available with CopperKit
 
-A successful call to  `open(_ viewController:scopes:completion:)`  returns an instance of a `C29UserInfo`  object which holds the user data requested in the `scopes`  variable. Below is the complete list of valid scopes. See the documentation for `C29UserInfo` for more information on how you will access these values after the call.
+A successful call to  `open(_ viewController:scopes:completion:)`  returns an instance of a `C29UserInfo`  object which holds the user data requested in the `scopes`  variable. Below is the complete list of valid scopes. See the documentation for [`C29UserInfo`](#C29UserInfo) for more information on how you will access these values after the call.
 
 ### User Id
 
