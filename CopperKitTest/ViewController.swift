@@ -36,8 +36,9 @@ class ViewController: UIViewController {
     @IBAction func signinButtonPressed(sender: AnyObject) {
         // get a reference to our CopperKit application instance
         copper = C29Application.sharedInstance
+        copper!.debug = true
         // configure it with our app's token
-        copper!.configure(withOauthToken: "55F1DD04F89379E9F9394259994155A27C658591")
+        copper!.configure(withApplicationId: "56FC63513259B250EC174C72B35697EB7C38B7B0")
         // decide what information we want from the user
         let scopes = [C29Scope.Name, C29Scope.Avatar, C29Scope.Email, C29Scope.Phone]
         // make the call to ask the user =
@@ -49,7 +50,7 @@ class ViewController: UIViewController {
             }
             // or user cancellation, if userInfo is nil
             guard let userInfo = userInfo else {
-                print("The user cancelled without continuing...")
+                print("The user cancelled without continuing ...")
                 return
             }
             // if we get here then the user completed successfully

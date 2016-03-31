@@ -7,34 +7,23 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		F0535F491CA8C3CD005A4579 /* CopperKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F0535F481CA8C3CD005A4579 /* CopperKit.framework */; };
-		F0535F4A1CA8C3D1005A4579 /* CopperKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F0535F481CA8C3CD005A4579 /* CopperKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		F04189391CACA229003461CA /* CopperKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F04189371CACA217003461CA /* CopperKit.framework */; };
+		F041893A1CACA229003461CA /* CopperKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F04189371CACA217003461CA /* CopperKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F0E8BBBC1C98FFEB00B9A850 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0E8BBBB1C98FFEB00B9A850 /* AppDelegate.swift */; };
 		F0E8BBBE1C98FFEB00B9A850 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0E8BBBD1C98FFEB00B9A850 /* ViewController.swift */; };
 		F0E8BBC11C98FFEB00B9A850 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F0E8BBBF1C98FFEB00B9A850 /* Main.storyboard */; };
 		F0E8BBC31C98FFEB00B9A850 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F0E8BBC21C98FFEB00B9A850 /* Assets.xcassets */; };
 		F0E8BBC61C98FFEB00B9A850 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F0E8BBC41C98FFEB00B9A850 /* LaunchScreen.storyboard */; };
-		F0E8BBD11C98FFEB00B9A850 /* CopperKitTestUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0E8BBD01C98FFEB00B9A850 /* CopperKitTestUITests.swift */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		F0E8BBCD1C98FFEB00B9A850 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = F0E8BBB01C98FFEB00B9A850 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = F0E8BBB71C98FFEB00B9A850;
-			remoteInfo = CopperKitTest;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXCopyFilesBuildPhase section */
-		F075031C1CA0D09F009C36CF /* Embed Frameworks */ = {
+		F041893B1CACA229003461CA /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				F0535F4A1CA8C3D1005A4579 /* CopperKit.framework in Embed Frameworks */,
+				F041893A1CACA229003461CA /* CopperKit.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -42,7 +31,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		F0535F481CA8C3CD005A4579 /* CopperKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CopperKit.framework; sourceTree = "<group>"; };
+		F04189371CACA217003461CA /* CopperKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CopperKit.framework; sourceTree = "<group>"; };
 		F0E8BBB81C98FFEB00B9A850 /* CopperKitTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CopperKitTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F0E8BBBB1C98FFEB00B9A850 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F0E8BBBD1C98FFEB00B9A850 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -50,9 +39,6 @@
 		F0E8BBC21C98FFEB00B9A850 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F0E8BBC51C98FFEB00B9A850 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F0E8BBC71C98FFEB00B9A850 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F0E8BBCC1C98FFEB00B9A850 /* CopperKitTestUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CopperKitTestUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		F0E8BBD01C98FFEB00B9A850 /* CopperKitTestUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CopperKitTestUITests.swift; sourceTree = "<group>"; };
-		F0E8BBD21C98FFEB00B9A850 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,14 +46,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F0535F491CA8C3CD005A4579 /* CopperKit.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		F0E8BBC91C98FFEB00B9A850 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
+				F04189391CACA229003461CA /* CopperKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,7 +57,6 @@
 			isa = PBXGroup;
 			children = (
 				F0E8BBBA1C98FFEB00B9A850 /* CopperKitTest */,
-				F0E8BBCF1C98FFEB00B9A850 /* CopperKitTestUITests */,
 				F0E8BBB91C98FFEB00B9A850 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -87,7 +65,6 @@
 			isa = PBXGroup;
 			children = (
 				F0E8BBB81C98FFEB00B9A850 /* CopperKitTest.app */,
-				F0E8BBCC1C98FFEB00B9A850 /* CopperKitTestUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -101,18 +78,9 @@
 				F0E8BBC21C98FFEB00B9A850 /* Assets.xcassets */,
 				F0E8BBC41C98FFEB00B9A850 /* LaunchScreen.storyboard */,
 				F0E8BBC71C98FFEB00B9A850 /* Info.plist */,
-				F0535F481CA8C3CD005A4579 /* CopperKit.framework */,
+				F04189371CACA217003461CA /* CopperKit.framework */,
 			);
 			path = CopperKitTest;
-			sourceTree = "<group>";
-		};
-		F0E8BBCF1C98FFEB00B9A850 /* CopperKitTestUITests */ = {
-			isa = PBXGroup;
-			children = (
-				F0E8BBD01C98FFEB00B9A850 /* CopperKitTestUITests.swift */,
-				F0E8BBD21C98FFEB00B9A850 /* Info.plist */,
-			);
-			path = CopperKitTestUITests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -125,7 +93,7 @@
 				F0E8BBB41C98FFEB00B9A850 /* Sources */,
 				F0E8BBB51C98FFEB00B9A850 /* Frameworks */,
 				F0E8BBB61C98FFEB00B9A850 /* Resources */,
-				F075031C1CA0D09F009C36CF /* Embed Frameworks */,
+				F041893B1CACA229003461CA /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -135,24 +103,6 @@
 			productName = CopperKitTest;
 			productReference = F0E8BBB81C98FFEB00B9A850 /* CopperKitTest.app */;
 			productType = "com.apple.product-type.application";
-		};
-		F0E8BBCB1C98FFEB00B9A850 /* CopperKitTestUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = F0E8BBD81C98FFEB00B9A850 /* Build configuration list for PBXNativeTarget "CopperKitTestUITests" */;
-			buildPhases = (
-				F0E8BBC81C98FFEB00B9A850 /* Sources */,
-				F0E8BBC91C98FFEB00B9A850 /* Frameworks */,
-				F0E8BBCA1C98FFEB00B9A850 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				F0E8BBCE1C98FFEB00B9A850 /* PBXTargetDependency */,
-			);
-			name = CopperKitTestUITests;
-			productName = CopperKitTestUITests;
-			productReference = F0E8BBCC1C98FFEB00B9A850 /* CopperKitTestUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
 
@@ -166,10 +116,6 @@
 				TargetAttributes = {
 					F0E8BBB71C98FFEB00B9A850 = {
 						CreatedOnToolsVersion = 7.2.1;
-					};
-					F0E8BBCB1C98FFEB00B9A850 = {
-						CreatedOnToolsVersion = 7.2.1;
-						TestTargetID = F0E8BBB71C98FFEB00B9A850;
 					};
 				};
 			};
@@ -187,7 +133,6 @@
 			projectRoot = "";
 			targets = (
 				F0E8BBB71C98FFEB00B9A850 /* CopperKitTest */,
-				F0E8BBCB1C98FFEB00B9A850 /* CopperKitTestUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -203,13 +148,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		F0E8BBCA1C98FFEB00B9A850 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -222,23 +160,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		F0E8BBC81C98FFEB00B9A850 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				F0E8BBD11C98FFEB00B9A850 /* CopperKitTestUITests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		F0E8BBCE1C98FFEB00B9A850 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = F0E8BBB71C98FFEB00B9A850 /* CopperKitTest */;
-			targetProxy = F0E8BBCD1C98FFEB00B9A850 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		F0E8BBBF1C98FFEB00B9A850 /* Main.storyboard */ = {
@@ -379,38 +301,6 @@
 			};
 			name = Release;
 		};
-		F0E8BBD91C98FFEB00B9A850 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/CopperKitTest",
-				);
-				INFOPLIST_FILE = CopperKitTestUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.igudo.Copper.CopperKitTestUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_TARGET_NAME = CopperKitTest;
-				USES_XCTRUNNER = YES;
-			};
-			name = Debug;
-		};
-		F0E8BBDA1C98FFEB00B9A850 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/CopperKitTest",
-				);
-				INFOPLIST_FILE = CopperKitTestUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.igudo.Copper.CopperKitTestUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_TARGET_NAME = CopperKitTest;
-				USES_XCTRUNNER = YES;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -428,15 +318,6 @@
 			buildConfigurations = (
 				F0E8BBD61C98FFEB00B9A850 /* Debug */,
 				F0E8BBD71C98FFEB00B9A850 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		F0E8BBD81C98FFEB00B9A850 /* Build configuration list for PBXNativeTarget "CopperKitTestUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				F0E8BBD91C98FFEB00B9A850 /* Debug */,
-				F0E8BBDA1C98FFEB00B9A850 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
