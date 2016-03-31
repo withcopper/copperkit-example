@@ -66,7 +66,7 @@ Here is how you do that:
 
 ## 3. Update your App Delegate to accept incoming callbacks
 
-CopperKit uses a custom iOS URL scheme to securely signal to your app when a user successfully completes a login.
+CopperKit uses a custom iOS URL scheme within your app to securely signal to your app when a user successfully completes a login.
 
 ### A. Create the custom URL scheme for your app
 
@@ -223,11 +223,6 @@ Declaration
 func closeSession()
 ```
 
-Returned values
-
-```
-none
-```
 --
 
 ### `configure(_ applicationId:String) {`
