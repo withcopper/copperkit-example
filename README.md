@@ -362,7 +362,6 @@ var sharedInstance: C29Application { get }
 ## C29UserInfo
 
 A successful call to `open(_ viewController:scopes:completion:)` returns an instance of the `C29UserInfo` object containing the requested user information. Values for any scopes that were not requested will be nil.
-```
 
 ### User Id
 An application-unique userId will always be returned. This userId will be consistent across different sessions of the same user for your application.
