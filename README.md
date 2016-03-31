@@ -191,9 +191,10 @@ func viewDidLoad {
 
 At this point your app should compile, and CopperKit should be fully functional within your app.
 
-## C29Scopes - User Information available with CopperKit
+## C29Scope 
+User Information available with CopperKit
 
-A successful call to  `open(_ viewController:scopes:completion:)`  returns an instance of a `C29UserInfo`  object which holds the user data requested in the `scopes`  variable. Below is the complete list of valid scopes. See the documentation for [`C29UserInfo`](#C29UserInfo) for more information on how you will access these values after the call.
+A successful call to  `open(_ viewController:scopes:completion:)`  returns an instance of a `C29UserInfo`  object which holds the user data requested in the `scopes`  variable. Below is the complete list of valid scopes. See the documentation for [`C29UserInfo`](#c29userinfo) for more information on how you will access these values after the call.
 
 ### User Id
 
@@ -274,18 +275,18 @@ none
 --
 
 ### `getPermittedScopes()`
-Get an array of the `C29Scope` items your app is permitted to access. You must have an active session for this to return 
+Get an array of the [`C29Scope`](#c29scope) items your app is permitted to access. You must have an active session for this to return 
 
 Declaration
 
 ```
-func getPermittedScopes() -> [C29Scope]?
+func getPermittedScopes() -> [[C29Scope](#c29scope)]?
 ```
 
 Returned values
 
 ```
-[C29Scope]? : an array of permitted scopes. This will be nil if the session is not active, for example if you call this before open(_ viewController:scopes:completion:).
+[[C29Scope](#c29scope)]? : an array of permitted scopes. This will be nil if the session is not active, for example if you call this before open(_ viewController:scopes:completion:).
 ```
 --
 
@@ -296,14 +297,14 @@ Parameters
 
 ```
 viewController: UIViewController - the view controller presenting the CopperKit modal
-scopes: [C29Scopes] - array of scopes to request from the user
+scopes: [[C29Scope](#c29scope)] - array of scopes to request from the user
 completion: (userInfo: C29UserInfo?, error: NSError?) - results callback with returned information or error
 ```
 
 Declaration
 
 ```
-func open(withViewController viewController: UIViewController, scopes: [C29Scope], completion: C29ApplicationUserInfoCompletionHandler)
+func open(withViewController viewController: UIViewController, scopes: [[C29Scopes](#c29scopes)], completion: C29ApplicationUserInfoCompletionHandler)
 ```
 
 Returned values
@@ -315,14 +316,14 @@ none
 Discussion on the completion callback
 
 ```
-After the user completes or dismisses the CopperKit modal, the complete block will execute returning the userInfo:C29UserInfo? object and/or the error:NSError? object. You should inspect these objects to determine what action the user took.
+After the user completes or dismisses the CopperKit modal, the complete block will execute returning the userInfo:[`C29UserInfo`](#c29userinfo)? object and/or the error:NSError? object. You should inspect these objects to determine what action the user took.
     
 When the user dismisses the modal, for example pressing 'Done' to close the modal, both objects will be empty or `nil`.
     
 error: NSError?
 You should inspect the error object. If it does not equal `nil` the there was a runtime error preventing the call to `open` from completing successfully. Your app should handle this case gracefully. Other possible errors include NSError objects returned from the underlying API and network stack. 
     
-userInfo: C29UserInfo?
+userInfo: [`C29UserInfo`](#c29userinfo)?
 If userInfo does not equal `nil` then you can assume the call to open was successful and all information you requested is within. See the related documetation on the C29UserInfo object for more information on it's variables and methods.
 ```
 --
@@ -371,7 +372,7 @@ var userId: String! { get }
 ```
 
 ### Avatar
-An image selected by the user as his or her picture. `avatar` and `avatarURL` are guaranteed to be non-nil. Requested with `C29Scope.Avatar`.
+An image selected by the user as his or her picture. `avatar` and `avatarURL` are guaranteed to be non-nil. Requested with [`C29Scope.Avatar`](#c29scope).
 
 ```
 var avatar: UIImage? { get }
@@ -382,7 +383,7 @@ var avatarURL: NSURL? { get }
 ```
 
 ### Email
-Email address for the user. `emailAddress`  is guaranteed to be non-nil. Requested with `C29Scope.Email`. 
+Email address for the user. `emailAddress`  is guaranteed to be non-nil. Requested with [`C29Scope.Email`](#c29scope). 
     
 ```
 var emailAddress: String? { get }
@@ -390,7 +391,7 @@ var emailAddress: String? { get }
 
 ### Name
 A name for the user. `firstName` and `lastName` are guaranteed to be non-nil. `fullName` 
-is a convenience concatenation of `firstName`  and `lastName`. `initials` will return the first and last name initials in uppercase letters. Requested with `C29Scope.Name`.
+is a convenience concatenation of `firstName`  and `lastName`. `initials` will return the first and last name initials in uppercase letters. Requested with [`C29Scope.Name`](#c29scope).
 
 ```
 var firstName: String? { get }
@@ -406,14 +407,14 @@ var initials: String? { get }
 ```
 
 ### Phone
-A phone number for the user. `phoneNumber` is guaranteed to be non-nil when requested, and will be in E.164 format (e.g. +14158309190). Requested with `C29Scope.Phone`. 
+A phone number for the user. `phoneNumber` is guaranteed to be non-nil when requested, and will be in E.164 format (e.g. +14158309190). Requested with [`C29Scope.Phone`](#c29scope). 
 
 ```
 var phoneNumber: String? { get }
 ```
     
 ### Username
-The username provided by the user. `username`  is guaranteed to be non-nil when requested. Requested with `C29Scope.Username`.
+The username provided by the user. `username`  is guaranteed to be non-nil when requested. Requested with [`C29Scope.Username`](#c29scope).
 
 ```
 var username: String? { get }
