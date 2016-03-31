@@ -116,6 +116,7 @@ SWIFT_PROTOCOL("_TtP9CopperKit24C29ApplicationDataSource_")
 
 @class UIColor;
 @class NSCoder;
+@class NSDictionary;
 
 SWIFT_CLASS("_TtC9CopperKit11Application")
 @interface Application : NSObject <C29ApplicationDataSource, NSCoding>
@@ -129,6 +130,7 @@ SWIFT_CLASS("_TtC9CopperKit11Application")
 - (nonnull instancetype)initWithApplicationId:(NSString * _Nonnull)applicationId name:(NSString * _Nonnull)name records:(NSArray<id <CopperRecord>> * _Nonnull)records OBJC_DESIGNATED_INITIALIZER;
 - (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)decoder;
 - (void)encodeWithCoder:(NSCoder * _Nonnull)coder;
++ (NSArray<Application *> * _Nullable)getApplicationsFromDictionary:(NSArray<NSDictionary *> * _Nonnull)dataDict;
 @end
 
 
@@ -140,18 +142,50 @@ SWIFT_CLASS("_TtC9CopperKit11Application")
 SWIFT_CLASS("_TtC9CopperKit14C29Application")
 @interface C29Application : NSObject
 + (C29Application * _Nonnull)sharedInstance;
-- (void)configureWithOauthToken:(NSString * _Nonnull)token;
+- (void)configureWithApplicationId:(NSString * _Nonnull)applicationId;
+@property (nonatomic, copy) NSString * _Nonnull baseURL;
+@property (nonatomic) BOOL debug;
 - (void)closeSession;
 - (BOOL)openURL:(NSURL * _Nonnull)url sourceApplication:(NSString * _Nullable)sourceApplication;
+@end
+
+
+@interface C29Application (SWIFT_EXTENSION(CopperKit))
+@end
+
+
+@interface C29Application (SWIFT_EXTENSION(CopperKit))
+@end
+
+
+SWIFT_CLASS("_TtC9CopperKit19C29ApplicationCache")
+@interface C29ApplicationCache : NSObject <NSCoding>
++ (NSString * _Nonnull)C29ApplicationCacheRefreshNotification;
++ (NSString * _Nonnull)CacheFile;
++ (void)setCacheFile:(NSString * _Nonnull)value;
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)decoder;
+- (void)encodeWithCoder:(NSCoder * _Nonnull)coder;
+- (NSArray<id <C29ApplicationDataSource>> * _Nonnull)getApplications;
+- (id <C29ApplicationDataSource> _Nullable)getApplication:(NSString * _Nonnull)applicationId;
+- (void)push:(Application * _Nonnull)application;
+- (void)remove:(id <C29ApplicationDataSource> _Nonnull)application;
+- (void)update:(Application * _Nonnull)replace add:(Application * _Nonnull)add;
+- (void)setApplications:(NSArray<Application *> * _Nonnull)applications;
+- (void)removeAll;
+@property (nonatomic, readonly, copy) NSString * _Nonnull status;
+- (BOOL)load;
+- (void)deleteFile;
+- (void)save;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
 
-@interface C29Application (SWIFT_EXTENSION(CopperKit))
+@interface C29ApplicationCache (SWIFT_EXTENSION(CopperKit))
 @end
 
 
-@interface C29Application (SWIFT_EXTENSION(CopperKit))
+@interface C29ApplicationCache (SWIFT_EXTENSION(CopperKit))
+- (void)set:(C29ApplicationCache * _Nonnull)cache;
 @end
 
 
@@ -183,7 +217,66 @@ SWIFT_PROTOCOL("_TtP9CopperKit21C29IdentityDataSource_")
 - (void)reload;
 @end
 
+@class UIImage;
+
+SWIFT_CLASS("_TtC9CopperKit13C29ImageCache")
+@interface C29ImageCache : NSObject <NSCoding>
++ (NSString * _Nonnull)CacheFile;
++ (void)setCacheFile:(NSString * _Nonnull)value;
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)decoder;
+- (void)encodeWithCoder:(NSCoder * _Nonnull)coder;
+- (void)getImage:(NSString * _Nonnull)url cacheOnDownload:(BOOL)cacheOnDownload callback:(void (^ _Nonnull)(UIImage * _Nullable))callback;
+- (void)update:(UIImage * _Nullable)image forUrl:(NSString * _Nonnull)forUrl;
+- (void)remove:(NSString * _Nonnull)url;
+- (void)removeAll;
+@property (nonatomic, readonly, copy) NSString * _Nonnull status;
+- (BOOL)load;
+- (void)deleteFile;
+- (void)save;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
+@interface C29ImageCache (SWIFT_EXTENSION(CopperKit))
+@end
+
+
+@interface C29ImageCache (SWIFT_EXTENSION(CopperKit))
+- (void)set:(C29ImageCache * _Nonnull)cache;
+@end
+
 @class NSDate;
+
+SWIFT_CLASS("_TtC9CopperKit14C29RecordCache")
+@interface C29RecordCache : NSObject <NSCoding>
++ (NSString * _Nonnull)CacheFile;
++ (void)setCacheFile:(NSString * _Nonnull)value;
+@property (nonatomic, strong) NSDate * _Nullable lastServerSyncTimestamp;
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)decoder;
+- (void)encodeWithCoder:(NSCoder * _Nonnull)coder;
+- (id <CopperRecord> _Nullable)getRecord:(enum C29Scope)scope includeDeleted:(BOOL)includeDeleted;
+- (NSArray<id <CopperRecord>> * _Nonnull)getAllRecords:(BOOL)includeDeleted;
+- (void)add:(id <CopperRecord> _Nonnull)record;
+- (void)remove:(enum C29Scope)scope;
+- (NSString * _Nonnull)getNextRecordId;
+- (void)removeAll;
+@property (nonatomic, readonly, copy) NSString * _Nonnull status;
+- (void)removeAllInvalid;
+- (BOOL)load;
+- (void)deleteFile;
+- (void)save;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
+@interface C29RecordCache (SWIFT_EXTENSION(CopperKit))
+- (void)set:(C29RecordCache * _Nonnull)cache;
+@end
+
+
+@interface C29RecordCache (SWIFT_EXTENSION(CopperKit))
+@end
+
 @class C29RequestPlatform;
 
 SWIFT_PROTOCOL("_TtP9CopperKit20C29RequestDataSource_")
@@ -229,7 +322,6 @@ SWIFT_CLASS("_TtC9CopperKit10C29Request")
 @end
 
 
-@class NSDictionary;
 
 SWIFT_CLASS("_TtC9CopperKit15C29RequestGrant")
 @interface C29RequestGrant : NSObject
@@ -242,6 +334,38 @@ SWIFT_CLASS("_TtC9CopperKit18C29RequestPlatform")
 - (nonnull instancetype)initWithType:(NSString * _Nonnull)type version:(NSString * _Nonnull)version OBJC_DESIGNATED_INITIALIZER;
 - (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)decoder OBJC_DESIGNATED_INITIALIZER;
 - (void)encodeWithCoder:(NSCoder * _Nonnull)coder;
+@end
+
+
+SWIFT_CLASS("_TtC9CopperKit15C29RequestStack")
+@interface C29RequestStack : NSObject <NSCoding>
++ (NSString * _Nonnull)CacheFile;
++ (void)setCacheFile:(NSString * _Nonnull)value;
+@property (nonatomic, readonly, copy) NSString * _Nonnull status;
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)decoder;
+- (void)encodeWithCoder:(NSCoder * _Nonnull)coder;
+- (void)push:(id <C29RequestDataSource> _Nonnull)request display:(BOOL)display;
+- (void)attemptPop;
+- (C29Request * _Nullable)pop;
+- (void)requestWasDismissed:(NSString * _Nonnull)requestId;
+- (void)addResponded:(NSString * _Nonnull)requestId;
+- (BOOL)isResponded:(NSString * _Nonnull)requestId;
+- (id <C29RequestDataSource> _Nullable)getRequest:(NSString * _Nonnull)requestId;
+- (BOOL)contains:(NSString * _Nonnull)requestId;
+- (void)removeAll;
+- (BOOL)load;
+- (void)deleteFile;
+- (void)save;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
+@interface C29RequestStack (SWIFT_EXTENSION(CopperKit))
+@end
+
+
+@interface C29RequestStack (SWIFT_EXTENSION(CopperKit))
+- (void)set:(C29RequestStack * _Nonnull)stack;
 @end
 
 typedef SWIFT_ENUM(NSInteger, C29RequestStatus) {
@@ -264,21 +388,36 @@ typedef SWIFT_ENUM(NSInteger, C29Scope) {
   C29ScopeContactsFavorites = 3001,
 };
 
+@class UserDevice;
 
-SWIFT_CLASS("_TtC9CopperKit17C29SecureSettings")
-@interface C29SecureSettings : NSObject
-@property (nonatomic, copy) NSString * _Nullable secret;
-@property (nonatomic, copy) NSString * _Nullable authToken;
-@property (nonatomic, copy) NSString * _Nullable passcode;
-@property (nonatomic, copy) NSString * _Nullable aesKey;
-@property (nonatomic, copy) NSString * _Nullable aesIV;
+SWIFT_CLASS("_TtC9CopperKit7C29User")
+@interface C29User : NSObject <NSCoding>
++ (NSString * _Nonnull)CacheFile;
++ (void)setCacheFile:(NSString * _Nonnull)value;
+@property (nonatomic, copy) NSArray<UserDevice *> * _Nonnull devices;
+@property (nonatomic, strong) NSDate * _Nullable lastAuthenticationTimestamp;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)decoder;
+- (void)encodeWithCoder:(NSCoder * _Nonnull)coder;
+- (void)setUserInfo:(C29User * _Nullable)user;
+- (void)resetUserData;
+- (BOOL)load;
+- (void)deleteFile;
+- (void)save;
 @end
 
 
-@interface C29SecureSettings (SWIFT_EXTENSION(CopperKit))
+@interface C29User (SWIFT_EXTENSION(CopperKit))
 @end
 
-@class UIImage;
+
+@interface C29User (SWIFT_EXTENSION(CopperKit))
+@end
+
+
+@interface C29User (SWIFT_EXTENSION(CopperKit))
+@end
+
 @class NSError;
 
 SWIFT_CLASS("_TtC9CopperKit11C29UserInfo")
@@ -379,37 +518,6 @@ SWIFT_PROTOCOL("_TtP9CopperKit25CopperStringDisplayRecord_")
 @end
 
 
-SWIFT_CLASS("_TtC9CopperKit22CopperApplicationCache")
-@interface CopperApplicationCache : NSObject <NSCoding>
-+ (NSString * _Nonnull)C29ApplicationCacheRefreshNotification;
-+ (NSString * _Nonnull)CacheFile;
-+ (void)setCacheFile:(NSString * _Nonnull)value;
-- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)decoder;
-- (void)encodeWithCoder:(NSCoder * _Nonnull)coder;
-- (NSArray<id <C29ApplicationDataSource>> * _Nonnull)getApplications;
-- (id <C29ApplicationDataSource> _Nullable)getApplication:(NSString * _Nonnull)applicationId;
-- (void)push:(Application * _Nonnull)application;
-- (void)remove:(id <C29ApplicationDataSource> _Nonnull)application;
-- (void)update:(Application * _Nonnull)replace add:(Application * _Nonnull)add;
-- (void)setApplications:(NSArray<Application *> * _Nonnull)applications;
-- (void)removeAll;
-@property (nonatomic, readonly, copy) NSString * _Nonnull status;
-- (BOOL)load;
-- (void)deleteFile;
-- (void)save;
-- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
-@end
-
-
-@interface CopperApplicationCache (SWIFT_EXTENSION(CopperKit))
-@end
-
-
-@interface CopperApplicationCache (SWIFT_EXTENSION(CopperKit))
-- (void)set:(CopperApplicationCache * _Nonnull)cache;
-@end
-
-
 SWIFT_PROTOCOL("_TtP9CopperKit12CopperAvatar_")
 @protocol CopperAvatar <CopperRecord>
 @property (nonatomic, strong) UIImage * _Nullable image;
@@ -484,37 +592,12 @@ SWIFT_CLASS("_TtC9CopperKit17CopperEmailRecord")
 @end
 
 
-SWIFT_CLASS("_TtC9CopperKit16CopperImageCache")
-@interface CopperImageCache : NSObject <NSCoding>
-+ (NSString * _Nonnull)CacheFile;
-+ (void)setCacheFile:(NSString * _Nonnull)value;
-- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)decoder;
-- (void)encodeWithCoder:(NSCoder * _Nonnull)coder;
-- (void)getImage:(NSString * _Nonnull)url cacheOnDownload:(BOOL)cacheOnDownload callback:(void (^ _Nonnull)(UIImage * _Nullable))callback;
-- (void)update:(UIImage * _Nullable)image forUrl:(NSString * _Nonnull)forUrl;
-- (void)remove:(NSString * _Nonnull)url;
-- (void)removeAll;
-@property (nonatomic, readonly, copy) NSString * _Nonnull status;
-- (BOOL)load;
-- (void)deleteFile;
-- (void)save;
-- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
-@end
-
-
-@interface CopperImageCache (SWIFT_EXTENSION(CopperKit))
-@end
-
-
-@interface CopperImageCache (SWIFT_EXTENSION(CopperKit))
-- (void)set:(CopperImageCache * _Nonnull)cache;
-@end
-
-
 SWIFT_PROTOCOL("_TtP9CopperKit10CopperName_")
 @protocol CopperName <CopperRecord>
 @property (nonatomic, copy) NSString * _Nullable firstName;
 @property (nonatomic, copy) NSString * _Nullable lastName;
+@property (nonatomic, readonly, copy) NSString * _Nullable fullName;
+@property (nonatomic, readonly, copy) NSString * _Nullable initials;
 @end
 
 
@@ -522,6 +605,8 @@ SWIFT_CLASS("_TtC9CopperKit16CopperNameRecord")
 @interface CopperNameRecord : CopperRecordObject <CopperName>
 @property (nonatomic, copy) NSString * _Nullable firstName;
 @property (nonatomic, copy) NSString * _Nullable lastName;
+@property (nonatomic, readonly, copy) NSString * _Nullable fullName;
+@property (nonatomic, readonly, copy) NSString * _Nullable initials;
 - (nonnull instancetype)initWithFirstName:(NSString * _Null_unspecified)firstName lastName:(NSString * _Null_unspecified)lastName id:(NSString * _Nonnull)id verified:(BOOL)verified;
 @property (nonatomic, readonly) BOOL valid;
 @end
@@ -535,7 +620,7 @@ SWIFT_CLASS("_TtC9CopperKit16CopperNameRecord")
 
 SWIFT_CLASS("_TtC9CopperKit16CopperNetworkAPI")
 @interface CopperNetworkAPI : NSObject
-@property (nonatomic) NSInteger baseURLSetting;
+@property (nonatomic, copy) NSString * _Nonnull URL;
 - (void)getJWT:(NSString * _Nonnull)userId secret:(NSString * _Nonnull)secret callback:(void (^ _Nonnull)(id _Nullable, NSError * _Nullable))callback;
 - (void)getUserInfo:(void (^ _Nonnull)(id _Nullable, NSError * _Nullable))callback;
 - (void)oauthAuthorize:(NSString * _Nonnull)userId applicationId:(NSString * _Nonnull)applicationId redirectUri:(NSString * _Nonnull)redirectUri nonce:(NSString * _Nonnull)nonce state:(NSString * _Nonnull)state scope:(NSString * _Nonnull)scope responseMode:(NSString * _Nonnull)responseMode responseType:(NSString * _Nonnull)responseType callback:(void (^ _Nonnull)(id _Nullable, NSError * _Nullable))callback;
@@ -600,37 +685,6 @@ SWIFT_CLASS("_TtC9CopperKit17CopperPhoneRecord")
 @property (nonatomic, readonly, copy) NSString * _Nonnull displayString;
 @end
 
-
-
-SWIFT_CLASS("_TtC9CopperKit17CopperRecordCache")
-@interface CopperRecordCache : NSObject <NSCoding>
-+ (NSString * _Nonnull)CacheFile;
-+ (void)setCacheFile:(NSString * _Nonnull)value;
-@property (nonatomic, strong) NSDate * _Nullable lastServerSyncTimestamp;
-- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)decoder;
-- (void)encodeWithCoder:(NSCoder * _Nonnull)coder;
-- (id <CopperRecord> _Nullable)getRecord:(enum C29Scope)scope includeDeleted:(BOOL)includeDeleted;
-- (NSArray<id <CopperRecord>> * _Nonnull)getAllRecords:(BOOL)includeDeleted;
-- (void)add:(id <CopperRecord> _Nonnull)record;
-- (void)remove:(enum C29Scope)scope;
-- (NSString * _Nonnull)getNextRecordId;
-- (void)removeAll;
-@property (nonatomic, readonly, copy) NSString * _Nonnull status;
-- (void)removeAllInvalid;
-- (BOOL)load;
-- (void)deleteFile;
-- (void)save;
-- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
-@end
-
-
-@interface CopperRecordCache (SWIFT_EXTENSION(CopperKit))
-- (void)set:(CopperRecordCache * _Nonnull)cache;
-@end
-
-
-@interface CopperRecordCache (SWIFT_EXTENSION(CopperKit))
-@end
 
 
 
@@ -702,36 +756,6 @@ SWIFT_CLASS("_TtC9CopperKit20CopperUsernameRecord")
 
 @interface NSURLComponents (SWIFT_EXTENSION(CopperKit))
 - (NSString * _Nullable)getQueryStringParameter:(NSString * _Nonnull)name;
-@end
-
-
-SWIFT_CLASS("_TtC9CopperKit12RequestStack")
-@interface RequestStack : NSObject <NSCoding>
-+ (NSString * _Nonnull)CacheFile;
-+ (void)setCacheFile:(NSString * _Nonnull)value;
-@property (nonatomic, readonly, copy) NSString * _Nonnull status;
-- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)decoder;
-- (void)encodeWithCoder:(NSCoder * _Nonnull)coder;
-- (void)push:(id <C29RequestDataSource> _Nonnull)request display:(BOOL)display;
-- (C29Request * _Nullable)pop;
-- (void)addResponded:(id <C29RequestDataSource> _Nonnull)request;
-- (BOOL)isResponded:(NSString * _Nonnull)requestId;
-- (id <C29RequestDataSource> _Nullable)getRequest:(NSString * _Nonnull)requestId;
-- (BOOL)contains:(NSString * _Nonnull)requestId;
-- (void)removeAll;
-- (BOOL)load;
-- (void)deleteFile;
-- (void)save;
-- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
-@end
-
-
-@interface RequestStack (SWIFT_EXTENSION(CopperKit))
-@end
-
-
-@interface RequestStack (SWIFT_EXTENSION(CopperKit))
-- (void)set:(RequestStack * _Nonnull)stack;
 @end
 
 
@@ -878,6 +902,7 @@ SWIFT_CLASS("_TtC9CopperKit18TouchAndHoldButton")
 + (UIFont * _Nonnull)copper_CardHeaderTitleFont;
 + (UIFont * _Nonnull)copper_CardHeaderSubtitleFont;
 + (UIFont * _Nonnull)copper_SettingsTableViewFooterVersionFont;
++ (UIFont * _Nonnull)copper_SettingsTableViewNavigationControllerFont;
 + (UIFont * _Nonnull)copper_CopperContactsPickerCellFont;
 + (UIFont * _Nonnull)copper_ContactsPickerNavigationBarFont;
 + (UIFont * _Nonnull)copper_ContactsPickerNavigationButtonFont;
@@ -899,6 +924,7 @@ SWIFT_CLASS("_TtC9CopperKit18TouchAndHoldButton")
 + (CGSize)newSizeFromHeight:(UIImage * _Nonnull)image newHeight:(CGFloat)newHeight;
 + (UIImage * _Nonnull)imageWithImage:(UIImage * _Nonnull)image newSize:(CGSize)newSize;
 - (UIImage * _Nonnull)roundImage;
++ (UIImage * _Nonnull)pixelWithColor:(UIColor * _Nonnull)color;
 + (void)pulseImageView:(UIImageView * _Nonnull)imageView repeat:(BOOL)repeat;
 @end
 
@@ -927,44 +953,6 @@ SWIFT_CLASS("_TtC9CopperKit18TouchAndHoldButton")
 - (void)noticeWiggleWithConstant:(NSLayoutConstraint * _Nonnull)constraint withWiggleDistance:(CGFloat)withWiggleDistance animationDuration:(double)animationDuration completion:(void (^ _Null_unspecified)(void))completion;
 @end
 
-@class UserDevice;
-
-SWIFT_CLASS("_TtC9CopperKit4User")
-@interface User : NSObject <NSCoding>
-+ (NSString * _Nonnull)CacheFile;
-+ (void)setCacheFile:(NSString * _Nonnull)value;
-@property (nonatomic, copy) NSString * _Nullable userId;
-@property (nonatomic, copy) NSArray<UserDevice *> * _Nonnull devices;
-@property (nonatomic, strong) C29SecureSettings * _Null_unspecified secureSettings;
-@property (nonatomic, strong) NSDate * _Nullable lastAuthenticationTimestamp;
-- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
-- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)decoder;
-- (void)encodeWithCoder:(NSCoder * _Nonnull)coder;
-- (void)login:(BOOL)forceAuthTokenRefresh callback:(void (^ _Null_unspecified)(NSString * _Nullable, NSError * _Nullable))callback;
-- (void)refreshUserApplications:(void (^ _Null_unspecified)(BOOL))callback;
-- (void)refreshUserDevices:(NSString * _Nonnull)deviceId callback:(void (^ _Null_unspecified)(BOOL))callback;
-- (void)isDeviceLoggedIn:(NSString * _Nonnull)deviceId callback:(void (^ _Nonnull)(BOOL))callback;
-- (void)logoutOfUserDevice:(NSString * _Nonnull)deviceId callback:(void (^ _Nonnull)(BOOL))callback;
-- (void)pollForLastRequest;
-- (void)deleteUserFromAPI:(void (^ _Nonnull)(BOOL))callback;
-- (void)resetUserData;
-- (BOOL)load;
-- (void)deleteFile;
-- (void)save;
-@end
-
-
-@interface User (SWIFT_EXTENSION(CopperKit))
-@end
-
-
-@interface User (SWIFT_EXTENSION(CopperKit))
-@end
-
-
-@interface User (SWIFT_EXTENSION(CopperKit))
-@end
-
 
 SWIFT_CLASS("_TtC9CopperKit10UserDevice")
 @interface UserDevice : NSObject <NSCoding>
@@ -975,6 +963,8 @@ SWIFT_CLASS("_TtC9CopperKit10UserDevice")
 @property (nonatomic, readonly, copy) NSString * _Null_unspecified label;
 - (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)decoder;
 - (void)encodeWithCoder:(NSCoder * _Nonnull)coder;
++ (UserDevice * _Nullable)fromDictionary:(NSDictionary * _Nonnull)dataDict;
++ (NSArray<UserDevice *> * _Nullable)getDevicesFromDictionary:(NSArray<NSDictionary *> * _Nonnull)dataDict;
 - (BOOL)isEqual:(id _Nullable)object;
 @end
 

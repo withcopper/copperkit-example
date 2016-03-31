@@ -6,7 +6,7 @@
 	<dict>
 		<key>Headers/CopperKit-Swift.h</key>
 		<data>
-		gBxjLRvkbFqEFEkkyGaJ+KRpKC8=
+		Jr7f2yA6NrMKzCUXZnBkufSrPmU=
 		</data>
 		<key>Headers/CopperKit.h</key>
 		<data>
@@ -70,7 +70,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		jjeir/ZqJdH7yPycYZ6HEbINm2I=
+		nSOKXkqHVi2+604Y3wJw1ul/Hgw=
 		</data>
 		<key>Modules/CopperKit.swiftmodule/arm.swiftdoc</key>
 		<data>
@@ -78,7 +78,7 @@
 		</data>
 		<key>Modules/CopperKit.swiftmodule/arm.swiftmodule</key>
 		<data>
-		crcdlCA+Rfs4D8GYxVjH7yd/cpk=
+		n1PPkADGcXQPXe3RBoCYcc55d9o=
 		</data>
 		<key>Modules/CopperKit.swiftmodule/arm64.swiftdoc</key>
 		<data>
@@ -86,7 +86,7 @@
 		</data>
 		<key>Modules/CopperKit.swiftmodule/arm64.swiftmodule</key>
 		<data>
-		L26bJrR5vYrDDoB7pye0t+aN+pc=
+		ZSliXfv10F9WGrxp+fuqvowJdj0=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -96,89 +96,236 @@
 	<key>files2</key>
 	<dict>
 		<key>Headers/CopperKit-Swift.h</key>
-		<data>
-		gBxjLRvkbFqEFEkkyGaJ+KRpKC8=
-		</data>
+		<dict>
+			<key>hash</key>
+			<data>
+			Jr7f2yA6NrMKzCUXZnBkufSrPmU=
+			</data>
+			<key>hash2</key>
+			<data>
+			JX9NHSMKOv/HqAGOtnA6FpD6YFJDwmHviGoL0Bl4X6w=
+			</data>
+		</dict>
 		<key>Headers/CopperKit.h</key>
-		<data>
-		OLEgEGODZinO4AavvLVH3QnL+0k=
-		</data>
+		<dict>
+			<key>hash</key>
+			<data>
+			OLEgEGODZinO4AavvLVH3QnL+0k=
+			</data>
+			<key>hash2</key>
+			<data>
+			hwyrO2qadwthT5eKBPR954NIUP6KlLs9WO4TQapLHt8=
+			</data>
+		</dict>
 		<key>Headers/NBAsYouTypeFormatter.h</key>
-		<data>
-		Hn/f8J1yom+pNCM/FZwtEk0kkhc=
-		</data>
+		<dict>
+			<key>hash</key>
+			<data>
+			Hn/f8J1yom+pNCM/FZwtEk0kkhc=
+			</data>
+			<key>hash2</key>
+			<data>
+			3w3bVJ+tz8uzPN1gwN2POR/LdoLe5xCkFUkLtnUNPDs=
+			</data>
+		</dict>
 		<key>Headers/NBMetadataCore.h</key>
-		<data>
-		xH4hCgDknbJ9auDBKcPAgcTDxzo=
-		</data>
+		<dict>
+			<key>hash</key>
+			<data>
+			xH4hCgDknbJ9auDBKcPAgcTDxzo=
+			</data>
+			<key>hash2</key>
+			<data>
+			uIyZnzMMonj4lAmQWUiq2vj618T3mIuVvrhBkiYBuPc=
+			</data>
+		</dict>
 		<key>Headers/NBMetadataCoreMapper.h</key>
-		<data>
-		V00nj5a0jLhbdHuK7bu9ytq3IHU=
-		</data>
+		<dict>
+			<key>hash</key>
+			<data>
+			V00nj5a0jLhbdHuK7bu9ytq3IHU=
+			</data>
+			<key>hash2</key>
+			<data>
+			23uf6I8QcQIZLMKUmGrEOM+AWu0h+hqT6WHiz7N71U4=
+			</data>
+		</dict>
 		<key>Headers/NBMetadataCoreTestMapper.h</key>
-		<data>
-		FSeKpKcFzeNjJvg56EbaT+UEQYw=
-		</data>
+		<dict>
+			<key>hash</key>
+			<data>
+			FSeKpKcFzeNjJvg56EbaT+UEQYw=
+			</data>
+			<key>hash2</key>
+			<data>
+			L/viCKbdXfjnGQXJkpqo1meU/pc1SNsDJ+tlBHBJqck=
+			</data>
+		</dict>
 		<key>Headers/NBMetadataHelper.h</key>
-		<data>
-		N2QgZlZrcM+NV5XNlVpJm9TBo9w=
-		</data>
+		<dict>
+			<key>hash</key>
+			<data>
+			N2QgZlZrcM+NV5XNlVpJm9TBo9w=
+			</data>
+			<key>hash2</key>
+			<data>
+			xCqOQCvBgM4nM2g5nB09lxqsfRcnLzxLjtienS+LCWQ=
+			</data>
+		</dict>
 		<key>Headers/NBNumberFormat.h</key>
-		<data>
-		k4xUuzklFUC2VL6TK/GC6LAmuj0=
-		</data>
+		<dict>
+			<key>hash</key>
+			<data>
+			k4xUuzklFUC2VL6TK/GC6LAmuj0=
+			</data>
+			<key>hash2</key>
+			<data>
+			j35xFgcFaDu1c/VXplCZKNFA/Cj9dA2U8pVJqV1FSOw=
+			</data>
+		</dict>
 		<key>Headers/NBPhoneMetaData.h</key>
-		<data>
-		8CrAHSpo40l5wHjP84HCgwXND8I=
-		</data>
+		<dict>
+			<key>hash</key>
+			<data>
+			8CrAHSpo40l5wHjP84HCgwXND8I=
+			</data>
+			<key>hash2</key>
+			<data>
+			nb0rSt5hYBeubS3gi672Sr9wb5vOBIVfsRwO/AAxb64=
+			</data>
+		</dict>
 		<key>Headers/NBPhoneMetaDataGenerator.h</key>
-		<data>
-		ntvLYsn6rdhX8y5kaJ5Kjg0WOyE=
-		</data>
+		<dict>
+			<key>hash</key>
+			<data>
+			ntvLYsn6rdhX8y5kaJ5Kjg0WOyE=
+			</data>
+			<key>hash2</key>
+			<data>
+			XjT5c/QtKKFcpUOt2SCbM5nwH70O+5lCCxgmqj6dCMA=
+			</data>
+		</dict>
 		<key>Headers/NBPhoneNumber.h</key>
-		<data>
-		IEMvpC2AktLvlyeXihfcg3dzFKk=
-		</data>
+		<dict>
+			<key>hash</key>
+			<data>
+			IEMvpC2AktLvlyeXihfcg3dzFKk=
+			</data>
+			<key>hash2</key>
+			<data>
+			cFKiSjO3tiFBoZod06mDXIKPpDFAK8HsnCD0ht50hTA=
+			</data>
+		</dict>
 		<key>Headers/NBPhoneNumberDefines.h</key>
-		<data>
-		IE6P48bnjZnXi6M1lnbtp8PMi8E=
-		</data>
+		<dict>
+			<key>hash</key>
+			<data>
+			IE6P48bnjZnXi6M1lnbtp8PMi8E=
+			</data>
+			<key>hash2</key>
+			<data>
+			J9n8sn4cjG+lEY7zpf1Mj3pn/6QilvciW1k7xesDNe4=
+			</data>
+		</dict>
 		<key>Headers/NBPhoneNumberDesc.h</key>
-		<data>
-		Ncur1umCJyq9/UwQA0arXJnCHhM=
-		</data>
+		<dict>
+			<key>hash</key>
+			<data>
+			Ncur1umCJyq9/UwQA0arXJnCHhM=
+			</data>
+			<key>hash2</key>
+			<data>
+			L8H7LMmukowW0hj14FYUXCeFOpYxs4HzmtHgdQ5Mn3A=
+			</data>
+		</dict>
 		<key>Headers/NBPhoneNumberUtil.h</key>
-		<data>
-		Mh+Q4PG5whIY+OpJJmaiL7uDgRw=
-		</data>
+		<dict>
+			<key>hash</key>
+			<data>
+			Mh+Q4PG5whIY+OpJJmaiL7uDgRw=
+			</data>
+			<key>hash2</key>
+			<data>
+			wQ1aoAMUExf2OoHUQdnUemDOHyFGEaYMpgcGPim+PPY=
+			</data>
+		</dict>
 		<key>Headers/NSArray+NBAdditions.h</key>
-		<data>
-		Txzmh73VUTz8m6HyitqWj+2FYpE=
-		</data>
+		<dict>
+			<key>hash</key>
+			<data>
+			Txzmh73VUTz8m6HyitqWj+2FYpE=
+			</data>
+			<key>hash2</key>
+			<data>
+			aA7UTOidmRybhZXMBJQQUnrua63hq9FDo9dnMJmMjGA=
+			</data>
+		</dict>
 		<key>Headers/SFHFKeychainUtils.h</key>
-		<data>
-		/LyFjEOLIUxQdKrVsMO62lu/Aiw=
-		</data>
+		<dict>
+			<key>hash</key>
+			<data>
+			/LyFjEOLIUxQdKrVsMO62lu/Aiw=
+			</data>
+			<key>hash2</key>
+			<data>
+			ry2gzMzopKxO9fDHVciYKaPyWl+6/DAE+S/AIRcusAc=
+			</data>
+		</dict>
 		<key>Modules/CopperKit.swiftmodule/arm.swiftdoc</key>
-		<data>
-		xThnYJ5EcTJmerkEnk8rxpoZh7I=
-		</data>
+		<dict>
+			<key>hash</key>
+			<data>
+			xThnYJ5EcTJmerkEnk8rxpoZh7I=
+			</data>
+			<key>hash2</key>
+			<data>
+			FxAPok8Uoe5kv0vzVNx9wvUqGcbywGHJXBE+wi7RFCY=
+			</data>
+		</dict>
 		<key>Modules/CopperKit.swiftmodule/arm.swiftmodule</key>
-		<data>
-		crcdlCA+Rfs4D8GYxVjH7yd/cpk=
-		</data>
+		<dict>
+			<key>hash</key>
+			<data>
+			n1PPkADGcXQPXe3RBoCYcc55d9o=
+			</data>
+			<key>hash2</key>
+			<data>
+			8kUNhmyc1b1b+5b/L/oacOr3avGaLtooFxTK6aXm3Q8=
+			</data>
+		</dict>
 		<key>Modules/CopperKit.swiftmodule/arm64.swiftdoc</key>
-		<data>
-		gnYqNKsbO1x/roZpuv7tytvZaX8=
-		</data>
+		<dict>
+			<key>hash</key>
+			<data>
+			gnYqNKsbO1x/roZpuv7tytvZaX8=
+			</data>
+			<key>hash2</key>
+			<data>
+			88sE+Z+DtkxqFZE4eXfPdO6y0e7TDehw/gJd2DQgCgA=
+			</data>
+		</dict>
 		<key>Modules/CopperKit.swiftmodule/arm64.swiftmodule</key>
-		<data>
-		L26bJrR5vYrDDoB7pye0t+aN+pc=
-		</data>
+		<dict>
+			<key>hash</key>
+			<data>
+			ZSliXfv10F9WGrxp+fuqvowJdj0=
+			</data>
+			<key>hash2</key>
+			<data>
+			0BxoAwHAXBul3Z6AjA7OMOK8vdhWwmgQjeQ2eptyxAU=
+			</data>
+		</dict>
 		<key>Modules/module.modulemap</key>
-		<data>
-		NAsbrXwXT7BLvY37vGK8qCn2DbQ=
-		</data>
+		<dict>
+			<key>hash</key>
+			<data>
+			NAsbrXwXT7BLvY37vGK8qCn2DbQ=
+			</data>
+			<key>hash2</key>
+			<data>
+			sthhRxSadX8/osS1wAZZwnFVLEpVwTp+aeBtElbceRc=
+			</data>
+		</dict>
 	</dict>
 	<key>rules</key>
 	<dict>
