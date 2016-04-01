@@ -142,24 +142,27 @@ You can call the open method directly in your view controller's viewDidLoad meth
 ```
 	// get a reference to our CopperKit application instance
     copper = C29Application.sharedInstance
-    // TODO: configure it with your app's token
-    copper!.configure(withApplicationId: "[YOUR_APPLICATION_ID]")
-    // decide what information we want from the user
-    let scopes = [C29Scope.Name, C29Scope.Avatar, C29Scope.Email, C29Scope.Phone]
+    // TODO: configure this with your app id
+    copper.configure(withApplicationId: "[YOUR_APPLICATION_ID]")
+    // optionally request a non-default set of scopes like this:
+    // let scopes = [C29Scope.Name, C29Scope.Avatar, C29Scope.Email, C29Scope.Phone]
     // make the call to ask the user =
-    copper!.open(withViewController: self, scopes: scopes, completion: { (userInfo: C29UserInfo?, error: NSError?) in
-        // check for errors
+    copper.open(withViewController: self, scopes: scopes, completion: { (userInfo: C29UserInfo?, error: NSError?) in
+        // Look for an handle errors
         guard error == nil else {
             print("Bummer: \(error)")
             return
         }
-        // or user cancellation, if userInfo is nil
+        // Or for user cancellation, i.e. if userInfo is nil
         guard let userInfo = userInfo else {
             print("The user cancelled without continuing ...")
             return
         }
         // if we get here then the user completed successfully
-        self.handleSignin(withUserInfo: userInfo)
+        let userId = userInfo.userId
+        let name = userInfo.fullName
+     	
+        // ... the rest is up to you
     })
 
 ```
@@ -180,13 +183,17 @@ At this point your app should compile, and CopperKit should be fully functional 
 ## C29Scope 
 User Information available with CopperKit. 
 
-A successful call to  `open(_ viewController:scopes:completion:)`  returns an instance of a `C29UserInfo`  object which holds the user data requested in the `scopes`  variable. Below is the complete list of valid scopes. 
+A successful call to  `open(_ viewController:scopes:completion:)`  returns an instance of a `C29UserInfo`  object which holds the user data requested. You can customize the information requested by including the optional the `scopes`  parameter in this call. Below is the complete list of valid scopes. 
 
 See the corresponding entries in [`C29UserInfo`](#c29userinfo) to understand what data is returned back with each scope.
 
 ### User Id
 
 Copper always returns a application-unique User Id with a successful call to `open(_ viewController:scopes:completion:)` . Copper will always return the same User Id for the same application so that you can identify the same user across different sessions or devices. You do not need to specify this scope as this value is always returned. Copper will never return the same Id for a different user or the same user on a different application.
+
+### Address
+
+`C29Scope.Address`
 
 ### Avatar
 
@@ -208,6 +215,10 @@ Copper always returns a application-unique User Id with a successful call to `op
 ### Username
 
 `C29Scope.Username` 
+
+### All
+
+You can inspect C29Scope.All for a complete list available scopes.
 
 
 # CopperKit Objects
@@ -301,7 +312,9 @@ func openURL(url: NSURL, sourceApplication: String?) -> Bool
  
 Returned Values
 
-> `bool` indicating if the call was a response to an active call to `open(_ viewController:scopes:completion:)`.
+> `Bool` indicating if the call was a response to an active call to `open(_ viewController:scopes:completion:)`.
+
+--
 
 ### `sharedInstance: C29Application`
 A singleton representing the root C29Application object for all CopperKit usage. Your app should hold a reference to this to make calls to methods such as `open(_ viewController:scopes:completion:)` .
@@ -312,15 +325,66 @@ Declaration
 var sharedInstance: C29Application { get }
 ```
 
+--
+
+### `scopes: [C29Scope]`
+Set or reset this variable before calling `open(_ viewController:scopes:completion:)` to configure the list of scopes that you would like to request with your call. 
+
+The default value for this is equal to C29Scope.DefaultScopes
+
+
+
 ## C29UserInfo
 
 A successful call to `open(_ viewController:scopes:completion:)` returns an instance of the `C29UserInfo` object containing the requested user information. Values for any scopes that were not requested will be nil.
+
+### `isVerified(scope: C29Scope)`
+Determine if Copper has verified that the scope's information has been verified, for example, phone numbers by text and emails by link.
+
+Declaration
+
+```
+func isVerified(scope: C29Scope) -> Bool
+```
+
+Returned Values
+
+> `Bool` returns true if the scope is permitted and it has been verified
+
+--
 
 ### User Id
 An application-unique userId will always be returned. This userId will be consistent across different sessions of the same user for your application.
 
 ```
 var userId: String! { get }
+```
+
+### Address
+A street address for the user. Requested with [`C29Scope.Address`](#c29scope).
+
+```
+var streetOne: String? { get }
+```
+
+```
+var streetTwo: String? { get }
+```
+
+```
+var city: String? { get }
+```
+
+```
+var state: String? { get }
+```
+
+```
+var zip: String? { get }
+```
+
+```
+var country: String? { get }
 ```
 
 ### Avatar
