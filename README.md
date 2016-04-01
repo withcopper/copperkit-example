@@ -338,6 +338,21 @@ The default value for this is equal to C29Scope.DefaultScopes
 
 A successful call to `open(_ viewController:scopes:completion:)` returns an instance of the `C29UserInfo` object containing the requested user information. Values for any scopes that were not requested will be nil.
 
+### `getPermittedScopes()`
+Get the list of scopes that your application currently has access to. You must call `open(_ viewController:scopes:completion:)` else this will return nil.
+
+Declaration
+
+```
+func getPermittedScopes() -> [C29Scope]? 
+```
+
+Return Values
+
+> `[C29Scope]?` complete list of scopes permitted to your application by the user. This will return nil before you have called `open(_ viewController:scopes:completion:)`.
+
+-- 
+
 ### `isVerified(scope: C29Scope)`
 Determine if Copper has verified that the scope's information has been verified, for example, phone numbers by text and emails by link.
 
