@@ -102,7 +102,10 @@ This method will return `true` if it is, and signal the remainder of the authent
 
 ```
 func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
-	return C29Application.sharedInstance.openURL(url, sourceApplication: sourceApplication)
+	if C29Application.sharedInstance.openURL(url, sourceApplication: sourceApplication) {
+		return true
+	}
+	// TODO handle any other URLs you may be expecting, as necessary
 }
 ```
 
@@ -110,7 +113,10 @@ func application(application: UIApplication, openURL url: NSURL, sourceApplicati
 
 ```
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
-	return [[C29Application sharedInstance] openURL:url sourceApplication:sourceApplication];
+	if ([[C29Application sharedInstance] openURL:url sourceApplication:sourceApplication]) {
+		return true;
+	}
+	// TODO handle any other URLs you may be expecting, as necessary
 }
 ```
 
