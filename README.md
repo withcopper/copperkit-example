@@ -149,7 +149,7 @@ You can call the open method directly in your view controller's viewDidLoad meth
 	// get a reference to our CopperKit application instance
 	let copper = C29Application.sharedInstance
 	// Required: configure it with our app's token
-	copper.configureForApplication("56FC63513259B250EC174C72B35697EB7C38B7B0")
+	copper.configureForApplication("[YOUR_APPLICATION_ID]")
 	// Optionally, decide what information we want from the user, defaults to C29Scope.DefaultScopes = [C29Scope.Name, C29Scope.Avatar, C29Scope.Phone]
 	copper.scopes = [C29Scope.Name, C29Scope.Avatar, C29Scope.Email, C29Scope.Phone]
 	// OK, let's make our call
