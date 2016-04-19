@@ -534,20 +534,20 @@ SWIFT_CLASS("_TtC9CopperKit11C29UserInfo")
 @end
 
 
-SWIFT_CLASS("_TtC9CopperKit19C29VerificationCode")
-@interface C29VerificationCode : NSObject
-@property (nonatomic, copy) NSString * _Nonnull code;
-+ (C29VerificationCode * _Nullable)fromDictionary:(NSDictionary * _Nonnull)dataDict;
-@end
-
-
-SWIFT_CLASS("_TtC9CopperKit17C29ViewController")
-@interface C29ViewController : SFSafariViewController <SFSafariViewControllerDelegate>
+SWIFT_CLASS("_TtC9CopperKit25C29UserInfoViewController")
+@interface C29UserInfoViewController : SFSafariViewController <SFSafariViewControllerDelegate>
 - (void)loadView;
 - (void)viewDidLoad;
 - (void)safariViewController:(SFSafariViewController * _Nonnull)controller didCompleteInitialLoad:(BOOL)didLoadSuccessfully;
 - (void)safariViewControllerDidFinish:(SFSafariViewController * _Nonnull)controller;
 - (nonnull instancetype)initWithURL:(NSURL * _Nonnull)URL entersReaderIfAvailable:(BOOL)entersReaderIfAvailable OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
+SWIFT_CLASS("_TtC9CopperKit19C29VerificationCode")
+@interface C29VerificationCode : NSObject
+@property (nonatomic, copy) NSString * _Nonnull code;
++ (C29VerificationCode * _Nullable)fromDictionary:(NSDictionary * _Nonnull)dataDict;
 @end
 
 

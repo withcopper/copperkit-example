@@ -6,7 +6,7 @@
 	<dict>
 		<key>Headers/CopperKit-Swift.h</key>
 		<data>
-		D/fPQeH/cQAO/BnCISm/J77n90U=
+		XEUx4UtaO5zYgBIecmrK8HVq1qE=
 		</data>
 		<key>Headers/CopperKit.h</key>
 		<data>
@@ -82,7 +82,7 @@
 		</data>
 		<key>Modules/CopperKit.swiftmodule/arm.swiftmodule</key>
 		<data>
-		n7ZM8MP4QjqLJxIs0POLyl9KJ+8=
+		vpOdppzcMvaa+8Y3WBWQpWYU+II=
 		</data>
 		<key>Modules/CopperKit.swiftmodule/arm64.swiftdoc</key>
 		<data>
@@ -90,7 +90,7 @@
 		</data>
 		<key>Modules/CopperKit.swiftmodule/arm64.swiftmodule</key>
 		<data>
-		SdvEeo9ytr3pXXRQrRzPN2twY9E=
+		7qK8jS7MGQLND55ckquvwF82mB8=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -103,11 +103,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			D/fPQeH/cQAO/BnCISm/J77n90U=
+			XEUx4UtaO5zYgBIecmrK8HVq1qE=
 			</data>
 			<key>hash2</key>
 			<data>
-			V2xnCdlvwa5+B96RKAlQpUZCNXCDq/f9WZfxIrdW7sg=
+			FJptLvuHYFaLwp1PamCnYPrqqFuDt7ATrxCD3xav66Y=
 			</data>
 		</dict>
 		<key>Headers/CopperKit.h</key>
@@ -301,11 +301,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			n7ZM8MP4QjqLJxIs0POLyl9KJ+8=
+			vpOdppzcMvaa+8Y3WBWQpWYU+II=
 			</data>
 			<key>hash2</key>
 			<data>
-			R7S95xwrA5zSMATAf8KA26G3l/Szgxxdp7CLFRfvCxY=
+			PcznErseu/u2d481BXiJOucWdihPgn8b7Iswx+gJcPw=
 			</data>
 		</dict>
 		<key>Modules/CopperKit.swiftmodule/arm64.swiftdoc</key>
@@ -323,11 +323,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			SdvEeo9ytr3pXXRQrRzPN2twY9E=
+			7qK8jS7MGQLND55ckquvwF82mB8=
 			</data>
 			<key>hash2</key>
 			<data>
-			u9/KBlqF9u/ZUZcjHI5uhLd5rwieoBVVLRTGXn26LSg=
+			kzVNnxalrQ2N+qjoL3YYpJPXqrz1bh9dLG+eo0+sq+4=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
