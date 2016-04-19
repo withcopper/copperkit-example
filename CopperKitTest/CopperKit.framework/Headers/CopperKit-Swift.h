@@ -102,39 +102,14 @@ typedef int swift_int4  __attribute__((__ext_vector_type__(4)));
 
 #pragma clang diagnostic ignored "-Wproperty-attribute-mismatch"
 #pragma clang diagnostic ignored "-Wduplicate-method-arg"
-@protocol CopperRecord;
+@protocol CopperNetworkAPIDelegate;
+@protocol CopperNetworkAPIDataSource;
 
-SWIFT_PROTOCOL("_TtP9CopperKit24C29ApplicationDataSource_")
-@protocol C29ApplicationDataSource
-@property (nonatomic, readonly, copy) NSString * _Nonnull id;
-@property (nonatomic, readonly, copy) NSArray<id <CopperRecord>> * _Nonnull records;
-@property (nonatomic, readonly, copy) NSString * _Nonnull name;
-@property (nonatomic, readonly, copy) NSString * _Nullable logoUri;
-@property (nonatomic, readonly, copy) NSString * _Nullable url;
-@property (nonatomic, readonly, copy) NSString * _Nullable redirectUri;
-@end
-
-@class UIColor;
-@class NSCoder;
-@class NSDictionary;
-
-SWIFT_CLASS("_TtC9CopperKit11Application")
-@interface Application : NSObject <C29ApplicationDataSource, NSCoding>
-@property (nonatomic, copy) NSString * _Nonnull id;
-@property (nonatomic, copy) NSArray<id <CopperRecord>> * _Nonnull records;
-@property (nonatomic, copy) NSString * _Nonnull name;
-@property (nonatomic, copy) NSString * _Nullable logoUri;
-@property (nonatomic, strong) UIColor * _Nullable color;
-@property (nonatomic, copy) NSString * _Nullable url;
-@property (nonatomic, copy) NSString * _Nullable redirectUri;
-- (nonnull instancetype)initWithApplicationId:(NSString * _Nonnull)applicationId name:(NSString * _Nonnull)name records:(NSArray<id <CopperRecord>> * _Nonnull)records OBJC_DESIGNATED_INITIALIZER;
-- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)decoder;
-- (void)encodeWithCoder:(NSCoder * _Nonnull)coder;
-+ (NSArray<Application *> * _Nullable)getApplicationsFromDictionary:(NSArray<NSDictionary *> * _Nonnull)dataDict;
-@end
-
-
-@interface Application (SWIFT_EXTENSION(CopperKit))
+SWIFT_PROTOCOL("_TtP9CopperKit6C29API_")
+@protocol C29API
+@property (nonatomic, strong) id <CopperNetworkAPIDelegate> _Nullable delegate;
+@property (nonatomic, strong) id <CopperNetworkAPIDataSource> _Nullable dataSource;
+@property (nonatomic, copy) NSString * _Nonnull URL;
 @end
 
 @class NSURL;
@@ -142,9 +117,9 @@ SWIFT_CLASS("_TtC9CopperKit11Application")
 SWIFT_CLASS("_TtC9CopperKit14C29Application")
 @interface C29Application : NSObject
 + (C29Application * _Nonnull)sharedInstance;
-- (void)configureWithApplicationId:(NSString * _Nonnull)applicationId;
 @property (nonatomic, copy) NSString * _Nonnull baseURL;
 @property (nonatomic) BOOL debug;
+- (void)configureForApplication:(NSString * _Nonnull)applicationId;
 - (void)closeSession;
 - (BOOL)openURL:(NSURL * _Nonnull)url sourceApplication:(NSString * _Nullable)sourceApplication;
 @end
@@ -157,20 +132,58 @@ SWIFT_CLASS("_TtC9CopperKit14C29Application")
 @interface C29Application (SWIFT_EXTENSION(CopperKit))
 @end
 
+@protocol CopperRecord;
 
-SWIFT_CLASS("_TtC9CopperKit19C29ApplicationCache")
-@interface C29ApplicationCache : NSObject <NSCoding>
-+ (NSString * _Nonnull)C29ApplicationCacheRefreshNotification;
-+ (NSString * _Nonnull)CacheFile;
-+ (void)setCacheFile:(NSString * _Nonnull)value;
+SWIFT_PROTOCOL("_TtP9CopperKit35C29CopperworksApplicationDataSource_")
+@protocol C29CopperworksApplicationDataSource
+@property (nonatomic, readonly, copy) NSString * _Nonnull id;
+@property (nonatomic, readonly, copy) NSArray<id <CopperRecord>> * _Nonnull records;
+@property (nonatomic, readonly, copy) NSString * _Nonnull name;
+@property (nonatomic, readonly, copy) NSString * _Nullable logoUri;
+@property (nonatomic, readonly, copy) NSString * _Nullable url;
+@property (nonatomic, readonly, copy) NSString * _Nullable redirectUri;
+@end
+
+@class UIColor;
+@class NSCoder;
+@class NSDictionary;
+
+SWIFT_CLASS("_TtC9CopperKit25C29CopperworksApplication")
+@interface C29CopperworksApplication : NSObject <C29CopperworksApplicationDataSource, NSCoding>
+@property (nonatomic, copy) NSString * _Nonnull id;
+@property (nonatomic, copy) NSArray<id <CopperRecord>> * _Nonnull records;
+@property (nonatomic, copy) NSString * _Nonnull name;
+@property (nonatomic, copy) NSString * _Nullable logoUri;
+@property (nonatomic, strong) UIColor * _Nullable color;
+@property (nonatomic, copy) NSString * _Nullable url;
+@property (nonatomic, copy) NSString * _Nullable redirectUri;
+- (nonnull instancetype)initWithApplicationId:(NSString * _Nonnull)applicationId name:(NSString * _Nonnull)name records:(NSArray<id <CopperRecord>> * _Nonnull)records OBJC_DESIGNATED_INITIALIZER;
 - (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)decoder;
 - (void)encodeWithCoder:(NSCoder * _Nonnull)coder;
-- (NSArray<id <C29ApplicationDataSource>> * _Nonnull)getApplications;
-- (id <C29ApplicationDataSource> _Nullable)getApplication:(NSString * _Nonnull)applicationId;
-- (void)push:(Application * _Nonnull)application;
-- (void)remove:(id <C29ApplicationDataSource> _Nonnull)application;
-- (void)update:(Application * _Nonnull)replace add:(Application * _Nonnull)add;
-- (void)setApplications:(NSArray<Application *> * _Nonnull)applications;
++ (C29CopperworksApplication * _Nullable)fromDictionary:(NSDictionary * _Nonnull)dataDict;
++ (NSArray<C29CopperworksApplication *> * _Nullable)getApplicationsFromDictionary:(NSArray<NSDictionary *> * _Nonnull)dataDict;
+@end
+
+
+@interface C29CopperworksApplication (SWIFT_EXTENSION(CopperKit))
+@end
+
+@protocol C29SessionDataSource;
+
+SWIFT_CLASS("_TtC9CopperKit30C29CopperworksApplicationCache")
+@interface C29CopperworksApplicationCache : NSObject <NSCoding>
++ (NSString * _Nonnull)C29CopperworksApplicationCacheRefreshNotification;
++ (NSString * _Nonnull)CacheFile;
++ (void)setCacheFile:(NSString * _Nonnull)value;
+@property (nonatomic, strong) id <C29SessionDataSource> _Nullable session;
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)decoder;
+- (void)encodeWithCoder:(NSCoder * _Nonnull)coder;
+- (NSArray<id <C29CopperworksApplicationDataSource>> * _Nonnull)getApplications;
+- (id <C29CopperworksApplicationDataSource> _Nullable)getApplication:(NSString * _Nonnull)applicationId;
+- (void)push:(C29CopperworksApplication * _Nonnull)application;
+- (void)remove:(id <C29CopperworksApplicationDataSource> _Nonnull)application;
+- (void)update:(C29CopperworksApplication * _Nonnull)replace add:(C29CopperworksApplication * _Nonnull)add;
+- (void)setApplications:(NSArray<C29CopperworksApplication *> * _Nonnull)applications;
 - (void)removeAll;
 @property (nonatomic, readonly, copy) NSString * _Nonnull status;
 - (BOOL)load;
@@ -180,12 +193,12 @@ SWIFT_CLASS("_TtC9CopperKit19C29ApplicationCache")
 @end
 
 
-@interface C29ApplicationCache (SWIFT_EXTENSION(CopperKit))
+@interface C29CopperworksApplicationCache (SWIFT_EXTENSION(CopperKit))
 @end
 
 
-@interface C29ApplicationCache (SWIFT_EXTENSION(CopperKit))
-- (void)set:(C29ApplicationCache * _Nonnull)cache;
+@interface C29CopperworksApplicationCache (SWIFT_EXTENSION(CopperKit))
+- (void)set:(C29CopperworksApplicationCache * _Nonnull)cache;
 @end
 
 
@@ -223,6 +236,7 @@ SWIFT_CLASS("_TtC9CopperKit13C29ImageCache")
 @interface C29ImageCache : NSObject <NSCoding>
 + (NSString * _Nonnull)CacheFile;
 + (void)setCacheFile:(NSString * _Nonnull)value;
+@property (nonatomic, strong) id <C29SessionDataSource> _Nullable session;
 - (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)decoder;
 - (void)encodeWithCoder:(NSCoder * _Nonnull)coder;
 - (void)getImage:(NSString * _Nonnull)url cacheOnDownload:(BOOL)cacheOnDownload callback:(void (^ _Nonnull)(UIImage * _Nullable))callback;
@@ -246,12 +260,14 @@ SWIFT_CLASS("_TtC9CopperKit13C29ImageCache")
 @end
 
 @class NSDate;
+@class CopperRecordObject;
 
 SWIFT_CLASS("_TtC9CopperKit14C29RecordCache")
 @interface C29RecordCache : NSObject <NSCoding>
 + (NSString * _Nonnull)CacheFile;
 + (void)setCacheFile:(NSString * _Nonnull)value;
 @property (nonatomic, strong) NSDate * _Nullable lastServerSyncTimestamp;
+@property (nonatomic, strong) id <C29SessionDataSource> _Nullable session;
 - (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)decoder;
 - (void)encodeWithCoder:(NSCoder * _Nonnull)coder;
 - (id <CopperRecord> _Nullable)getRecord:(enum C29Scope)scope includeDeleted:(BOOL)includeDeleted;
@@ -262,6 +278,8 @@ SWIFT_CLASS("_TtC9CopperKit14C29RecordCache")
 - (void)removeAll;
 @property (nonatomic, readonly, copy) NSString * _Nonnull status;
 - (void)removeAllInvalid;
+- (void)saveToAPI:(id <C29SessionDataSource> _Nonnull)session records:(NSArray<CopperRecordObject *> * _Nonnull)records forceUpload:(BOOL)forceUpload callback:(void (^ _Null_unspecified)(BOOL, NSArray<CopperRecordObject *> * _Nonnull))callback;
+- (void)deleteFromAPI:(id <C29SessionDataSource> _Nonnull)session records:(NSArray<CopperRecordObject *> * _Nonnull)records forceDelete:(BOOL)forceDelete callback:(void (^ _Null_unspecified)(BOOL, NSArray<CopperRecordObject *> * _Nonnull))callback;
 - (BOOL)load;
 - (void)deleteFile;
 - (void)save;
@@ -275,6 +293,7 @@ SWIFT_CLASS("_TtC9CopperKit14C29RecordCache")
 
 
 @interface C29RecordCache (SWIFT_EXTENSION(CopperKit))
+- (void)save:(id <C29SessionDataSource> _Nonnull)session callback:(void (^ _Nonnull)(BOOL))callback;
 @end
 
 @class C29RequestPlatform;
@@ -294,6 +313,7 @@ SWIFT_PROTOCOL("_TtP9CopperKit20C29RequestDataSource_")
 @property (nonatomic, copy) NSArray<id <CopperRecord>> * _Nonnull records;
 @end
 
+enum C29RequestStatus : NSInteger;
 
 SWIFT_CLASS("_TtC9CopperKit10C29Request")
 @interface C29Request : NSObject <C29RequestDataSource, NSCoding>
@@ -308,9 +328,13 @@ SWIFT_CLASS("_TtC9CopperKit10C29Request")
 @property (nonatomic, readonly) BOOL responded;
 @property (nonatomic, readonly) BOOL expired;
 @property (nonatomic, readonly) BOOL complete;
+- (C29CopperworksApplication * _Nullable)getApplication:(id <C29SessionDataSource> _Nonnull)session;
 - (nonnull instancetype)initWithRequestData:(id <C29RequestDataSource> _Nonnull)requestData;
 - (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)decoder OBJC_DESIGNATED_INITIALIZER;
 - (void)encodeWithCoder:(NSCoder * _Nonnull)coder;
++ (void)getRequest:(id <C29SessionDataSource> _Nonnull)session requestId:(NSString * _Nonnull)requestId callback:(void (^ _Nonnull)(id <C29RequestDataSource> _Nullable))callback;
+- (void)sendResponse:(id <C29SessionDataSource> _Nonnull)session status:(enum C29RequestStatus)status callback:(void (^ _Nonnull)(BOOL, BOOL))callback;
+- (void)setAck:(id <C29SessionDataSource> _Nonnull)session;
 @end
 
 
@@ -342,6 +366,7 @@ SWIFT_CLASS("_TtC9CopperKit15C29RequestStack")
 + (NSString * _Nonnull)CacheFile;
 + (void)setCacheFile:(NSString * _Nonnull)value;
 @property (nonatomic, readonly, copy) NSString * _Nonnull status;
+@property (nonatomic, strong) id <C29SessionDataSource> _Nullable session;
 - (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)decoder;
 - (void)encodeWithCoder:(NSCoder * _Nonnull)coder;
 - (void)push:(id <C29RequestDataSource> _Nonnull)request display:(BOOL)display;
@@ -388,17 +413,53 @@ typedef SWIFT_ENUM(NSInteger, C29Scope) {
   C29ScopeContactsFavorites = 3001,
 };
 
-@class UserDevice;
+@class NSData;
+@class NSError;
+@class C29VerificationCode;
+
+SWIFT_PROTOCOL("_TtP9CopperKit21C29SessionCoordinator_")
+@protocol C29SessionCoordinator
+- (void)saveUserRecords:(NSArray<CopperRecordObject *> * _Nonnull)records callback:(void (^ _Nonnull)(BOOL))callback;
+- (void)deleteUserRecords:(NSArray<CopperRecordObject *> * _Nonnull)records callback:(void (^ _Nonnull)(BOOL))callback;
+- (void)getRequest:(NSString * _Nonnull)requestId callback:(void (^ _Nonnull)(C29Request * _Nullable))callback;
+- (void)createByteFromFile:(NSString * _Nonnull)fileId data:(NSData * _Nonnull)data callback:(void (^ _Nonnull)(id _Nullable, NSError * _Nullable))callback;
+- (void)setRequestGrant:(C29Request * _Nonnull)request status:(enum C29RequestStatus)status records:(NSArray<id <CopperRecord>> * _Nonnull)records forceRecordUpload:(BOOL)forceRecordUpload callback:(void (^ _Nonnull)(id _Nullable, NSError * _Nullable))callback;
+- (void)setRequestAck:(C29Request * _Nonnull)request;
+- (void)deleteUserApplication:(id <C29CopperworksApplicationDataSource> _Nonnull)application callback:(void (^ _Nonnull)(id _Nullable, NSError * _Nullable))callback;
+- (void)getURLforCode:(NSString * _Nonnull)code callback:(void (^ _Nonnull)(id _Nullable, NSError * _Nullable))callback;
+- (void)postUserVerification:(C29VerificationCode * _Nonnull)verificationCode digits:(NSString * _Nonnull)digits callback:(void (^ _Nonnull)(id _Nullable, NSError * _Nullable))callback;
+@end
+
+@class C29User;
+
+SWIFT_PROTOCOL("_TtP9CopperKit20C29SessionDataSource_")
+@protocol C29SessionDataSource
+@property (nonatomic, readonly, copy) NSString * _Nullable userId;
+@property (nonatomic, readonly, strong) C29RequestStack * _Nonnull requestStack;
+@property (nonatomic, readonly, strong) C29CopperworksApplicationCache * _Nonnull applicationCache;
+@property (nonatomic, readonly, strong) C29RecordCache * _Nonnull recordCache;
+@property (nonatomic, readonly, strong) C29ImageCache * _Nonnull imageCache;
+@property (nonatomic, readonly, strong) C29User * _Nullable user;
+@property (nonatomic, readonly, strong) id <C29SessionCoordinator> _Nullable sessionCoordinator;
+@property (nonatomic, readonly, copy) NSString * _Nonnull appGroupIdentifier;
+@end
+
+@class C29UserDevice;
+enum Key : NSInteger;
 
 SWIFT_CLASS("_TtC9CopperKit7C29User")
 @interface C29User : NSObject <NSCoding>
 + (NSString * _Nonnull)CacheFile;
 + (void)setCacheFile:(NSString * _Nonnull)value;
-@property (nonatomic, copy) NSArray<UserDevice *> * _Nonnull devices;
+@property (nonatomic, copy) NSArray<C29UserDevice *> * _Nonnull devices;
 @property (nonatomic, strong) NSDate * _Nullable lastAuthenticationTimestamp;
+@property (nonatomic, strong) id <C29SessionDataSource> _Nullable session;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 - (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)decoder;
 - (void)encodeWithCoder:(NSCoder * _Nonnull)coder;
++ (C29User * _Nullable)fromDictionary:(NSDictionary * _Nonnull)dataDict;
+- (id _Nullable)getValue:(enum Key)key;
+- (void)setValue:(enum Key)key value:(id _Nullable)value;
 - (void)setUserInfo:(C29User * _Nullable)user;
 - (void)resetUserData;
 - (BOOL)load;
@@ -406,6 +467,14 @@ SWIFT_CLASS("_TtC9CopperKit7C29User")
 - (void)save;
 @end
 
+typedef SWIFT_ENUM(NSInteger, Key) {
+  KeyId = 0,
+  KeyUserId = 1,
+  KeyICloudToken = 2,
+  KeyLastRequestId = 3,
+  KeyRole = 4,
+};
+
 
 @interface C29User (SWIFT_EXTENSION(CopperKit))
 @end
@@ -418,11 +487,37 @@ SWIFT_CLASS("_TtC9CopperKit7C29User")
 @interface C29User (SWIFT_EXTENSION(CopperKit))
 @end
 
-@class NSError;
+
+SWIFT_CLASS("_TtC9CopperKit13C29UserDevice")
+@interface C29UserDevice : NSObject <NSCoding>
+@property (nonatomic, readonly, copy) NSString * _Null_unspecified id;
+@property (nonatomic, readonly, strong) NSDate * _Null_unspecified timestamp;
+@property (nonatomic, readonly, copy) NSString * _Null_unspecified name;
+@property (nonatomic, readonly, strong) NSDate * _Null_unspecified lastActive;
+@property (nonatomic, readonly, copy) NSString * _Null_unspecified label;
+@property (nonatomic, readonly, copy) NSString * _Nullable deviceToken;
+@property (nonatomic, readonly, copy) NSString * _Nullable bundleId;
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)decoder;
+- (void)encodeWithCoder:(NSCoder * _Nonnull)coder;
++ (C29UserDevice * _Nullable)fromDictionary:(NSDictionary * _Nonnull)dataDict;
++ (NSArray<C29UserDevice *> * _Nullable)getDevicesFromDictionary:(NSArray<NSDictionary *> * _Nonnull)dataDict;
+- (BOOL)isEqual:(id _Nullable)object;
+@end
+
+
+@interface C29UserDevice (SWIFT_EXTENSION(CopperKit))
+@end
+
 
 SWIFT_CLASS("_TtC9CopperKit11C29UserInfo")
 @interface C29UserInfo : NSObject
 @property (nonatomic, copy) NSString * _Null_unspecified userId;
+@property (nonatomic, readonly, copy) NSString * _Nullable streetOne;
+@property (nonatomic, readonly, copy) NSString * _Nullable streetTwo;
+@property (nonatomic, readonly, copy) NSString * _Nullable city;
+@property (nonatomic, readonly, copy) NSString * _Nullable state;
+@property (nonatomic, readonly, copy) NSString * _Nullable zip;
+@property (nonatomic, readonly, copy) NSString * _Nullable country;
 @property (nonatomic, readonly, copy) NSString * _Nullable firstName;
 @property (nonatomic, readonly, copy) NSString * _Nullable lastName;
 @property (nonatomic, readonly, copy) NSString * _Nonnull fullName;
@@ -431,11 +526,18 @@ SWIFT_CLASS("_TtC9CopperKit11C29UserInfo")
 @property (nonatomic, readonly, strong) UIImage * _Nullable avatar;
 @property (nonatomic, readonly, strong) NSURL * _Nullable avatarURL;
 @property (nonatomic, readonly, copy) NSString * _Nullable username;
-+ (void)fromDictionary:(NSString * _Nonnull)jwt dataDict:(NSDictionary * _Nullable)dataDict callback:(void (^ _Nonnull)(C29UserInfo * _Nullable, NSError * _Nullable))callback;
+- (BOOL)isVerified:(enum C29Scope)scope;
 @end
 
 
 @interface C29UserInfo (SWIFT_EXTENSION(CopperKit))
+@end
+
+
+SWIFT_CLASS("_TtC9CopperKit19C29VerificationCode")
+@interface C29VerificationCode : NSObject
+@property (nonatomic, copy) NSString * _Nonnull code;
++ (C29VerificationCode * _Nullable)fromDictionary:(NSDictionary * _Nonnull)dataDict;
 @end
 
 
@@ -488,6 +590,7 @@ SWIFT_CLASS("_TtC9CopperKit18CopperRecordObject")
 @property (nonatomic, readonly, strong) NSDictionary * _Nonnull dictionary;
 - (nonnull instancetype)initWithCoder:(NSCoder * _Nonnull)decoder;
 - (void)encodeWithCoder:(NSCoder * _Nonnull)coder;
++ (void)fromDictionary:(enum C29Scope)scope dataDict:(NSDictionary * _Nonnull)dataDict session:(id <C29SessionDataSource> _Nullable)session completion:(void (^ _Nonnull)(CopperRecordObject * _Nullable))completion;
 @property (nonatomic, readonly) BOOL valid;
 - (id _Nonnull)copyWithZone:(struct _NSZone * _Null_unspecified)zone;
 @end
@@ -522,15 +625,18 @@ SWIFT_PROTOCOL("_TtP9CopperKit12CopperAvatar_")
 @protocol CopperAvatar <CopperRecord>
 @property (nonatomic, strong) UIImage * _Nullable image;
 @property (nonatomic, copy) NSString * _Nullable url;
+- (UIImage * _Nullable)getAvatar;
 @end
 
 
 SWIFT_CLASS("_TtC9CopperKit18CopperAvatarRecord")
 @interface CopperAvatarRecord : CopperRecordObject <CopperAvatar>
 @property (nonatomic, strong) UIImage * _Nullable image;
+- (UIImage * _Nullable)getAvatar;
 @property (nonatomic, copy) NSString * _Nullable url;
 - (nonnull instancetype)initWithId:(NSString * _Nonnull)id verified:(BOOL)verified;
 @property (nonatomic, readonly) BOOL valid;
++ (id <CopperAvatar> _Nonnull)getAvatarRecordForInitials:(NSString * _Nonnull)initials session:(id <C29SessionDataSource> _Null_unspecified)session;
 @end
 
 
@@ -616,34 +722,32 @@ SWIFT_CLASS("_TtC9CopperKit16CopperNameRecord")
 @property (nonatomic, readonly, copy) NSString * _Nonnull displayString;
 @end
 
-@class NSData;
+@class NSHTTPURLResponse;
 
 SWIFT_CLASS("_TtC9CopperKit16CopperNetworkAPI")
-@interface CopperNetworkAPI : NSObject
+@interface CopperNetworkAPI : NSObject <C29API>
+@property (nonatomic, weak) id <CopperNetworkAPIDelegate> _Nullable delegate;
+@property (nonatomic, weak) id <CopperNetworkAPIDataSource> _Nullable dataSource;
 @property (nonatomic, copy) NSString * _Nonnull URL;
-- (void)getJWT:(NSString * _Nonnull)userId secret:(NSString * _Nonnull)secret callback:(void (^ _Nonnull)(id _Nullable, NSError * _Nullable))callback;
-- (void)getUserInfo:(void (^ _Nonnull)(id _Nullable, NSError * _Nullable))callback;
-- (void)oauthAuthorize:(NSString * _Nonnull)userId applicationId:(NSString * _Nonnull)applicationId redirectUri:(NSString * _Nonnull)redirectUri nonce:(NSString * _Nonnull)nonce state:(NSString * _Nonnull)state scope:(NSString * _Nonnull)scope responseMode:(NSString * _Nonnull)responseMode responseType:(NSString * _Nonnull)responseType callback:(void (^ _Nonnull)(id _Nullable, NSError * _Nullable))callback;
-- (void)getURLforCode:(NSString * _Nonnull)userId code:(NSString * _Nonnull)code callback:(void (^ _Nonnull)(id _Nullable, NSError * _Nullable))callback;
-- (void)getUserWithID:(NSString * _Nonnull)userID callback:(void (^ _Nonnull)(id _Nullable, NSError * _Nullable))callback;
-- (void)deleteUserWithUserID:(NSString * _Nonnull)userID secret:(NSString * _Nonnull)secret callback:(void (^ _Nonnull)(id _Nullable, NSError * _Nullable))callback;
-- (void)getVerificationCode:(NSString * _Nonnull)toPhoneNumber secret:(NSString * _Nonnull)secret callback:(void (^ _Nonnull)(id _Nullable, NSError * _Nullable))callback;
-- (void)saveUserRecordsForUserID:(NSString * _Nonnull)userID records:(NSArray<id <CopperRecord>> * _Nonnull)records callback:(void (^ _Nonnull)(id _Nullable, NSError * _Nullable))callback;
-- (void)getUserRecordsForUserID:(NSString * _Nonnull)userID since:(NSDate * _Nullable)since callback:(void (^ _Nonnull)(id _Nullable, NSError * _Nullable))callback;
-- (void)deleteUserRecordsForUserID:(NSString * _Nonnull)userId records:(NSArray<id <CopperRecord>> * _Nonnull)records callback:(void (^ _Nonnull)(id _Nullable, NSError * _Nullable))callback;
-- (void)getUserApplicationsForUserID:(NSString * _Nonnull)userID callback:(void (^ _Nonnull)(id _Nullable, NSError * _Nullable))callback;
-- (void)getUserApplicationForUserID:(NSString * _Nonnull)userID applicationId:(NSString * _Nonnull)applicationId callback:(void (^ _Nonnull)(id _Nullable, NSError * _Nullable))callback;
-- (void)deleteUserApplicationForUserID:(NSString * _Nonnull)userId applicationId:(NSString * _Nonnull)applicationId callback:(void (^ _Nonnull)(id _Nullable, NSError * _Nullable))callback;
-- (void)getUserDevicesForUserID:(NSString * _Nonnull)userID deviceId:(NSString * _Nullable)deviceId callback:(void (^ _Nonnull)(id _Nullable, NSError * _Nullable))callback;
-- (void)getUserDeviceForUserID:(NSString * _Nonnull)userID deviceId:(NSString * _Nonnull)deviceId callback:(void (^ _Nonnull)(id _Nullable, NSError * _Nullable))callback;
-- (void)deleteUserDeviceForUserID:(NSString * _Nonnull)userId deviceId:(NSString * _Nonnull)deviceId callback:(void (^ _Nonnull)(id _Nullable, NSError * _Nullable))callback;
-- (void)getRequestForUserID:(NSString * _Nonnull)userId requestId:(NSString * _Nonnull)requestId callback:(void (^ _Nonnull)(id _Nullable, NSError * _Nullable))callback;
-- (void)setRequestGrantForUserID:(NSString * _Nonnull)userId request:(C29Request * _Nonnull)request status:(enum C29RequestStatus)status records:(NSArray<id <CopperRecord>> * _Nonnull)records forceRecordUpload:(BOOL)forceRecordUpload callback:(void (^ _Nonnull)(id _Nullable, NSError * _Nullable))callback;
-- (void)setRequestAckForUserID:(NSString * _Nonnull)userID request:(C29Request * _Nonnull)request callback:(void (^ _Nonnull)(id _Nullable, NSError * _Nullable))callback;
-- (void)saveUserApplicationRecordsForUserID:(NSString * _Nonnull)userId applicationId:(NSString * _Nonnull)applicationId records:(NSArray<id <CopperRecord>> * _Nonnull)records callback:(void (^ _Nonnull)(id _Nullable, NSError * _Nullable))callback;
-- (void)deleteUserApplicationRecordsForUserID:(NSString * _Nonnull)userId applicationId:(NSString * _Nonnull)applicationId records:(NSArray<id <CopperRecord>> * _Nonnull)records callback:(void (^ _Nonnull)(id _Nullable, NSError * _Nullable))callback;
-- (void)createBytes:(NSString * _Nonnull)userID fileID:(NSString * _Nonnull)fileID file:(NSData * _Nonnull)file callback:(void (^ _Nonnull)(id _Nullable, NSError * _Nullable))callback;
+- (NSError * _Nonnull)handleError:(NSHTTPURLResponse * _Null_unspecified)response dataDict:(NSDictionary * _Null_unspecified)dataDict;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
+SWIFT_PROTOCOL("_TtP9CopperKit26CopperNetworkAPIDataSource_")
+@protocol CopperNetworkAPIDataSource
+- (C29RecordCache * _Nonnull)recordCacheForNetworkAPI:(CopperNetworkAPI * _Nonnull)api;
+@end
+
+
+SWIFT_PROTOCOL("_TtP9CopperKit24CopperNetworkAPIDelegate_")
+@protocol CopperNetworkAPIDelegate
+- (NSString * _Nullable)authTokenForAPI:(CopperNetworkAPI * _Nonnull)api;
+- (id _Nullable)userIdentifierForLoggingErrorsInAPI:(CopperNetworkAPI * _Nonnull)api;
+- (void)networkAPI:(CopperNetworkAPI * _Nonnull)api recordAnalyticsEvent:(NSString * _Nonnull)event withParameters:(NSDictionary<NSString *, id> * _Nonnull)parameters;
+- (void)networkAPI:(CopperNetworkAPI * _Nonnull)api attemptLoginWithCallback:(void (^ _Nonnull)(BOOL, NSError * _Nullable))callback;
+- (void)beganRequestInNetworkAPI:(CopperNetworkAPI * _Nonnull)api;
+- (void)endedRequestInNetworkAPI:(CopperNetworkAPI * _Nonnull)api;
 @end
 
 
@@ -737,6 +841,7 @@ SWIFT_CLASS("_TtC9CopperKit20CopperUsernameRecord")
 
 @interface NSDate (SWIFT_EXTENSION(CopperKit))
 - (NSString * _Nonnull)toLocalStringWithFormat:(NSString * _Nonnull)dateFormat;
+- (BOOL)isPastThreshold:(double)seconds;
 @end
 
 
@@ -823,15 +928,23 @@ SWIFT_CLASS("_TtC9CopperKit18TouchAndHoldButton")
 + (UIColor * _Nonnull)copper_SettingsSectionHeaderColor;
 + (UIColor * _Nonnull)copper_SettingsCellTitleTextColor;
 + (UIColor * _Nonnull)copper_SettingsCellSecondaryTextColor;
-+ (UIColor * _Nonnull)copper_SettingsTableViewSeparatorColor;
 + (UIColor * _Nonnull)copper_SettingsSeparatorViewColor;
 + (UIColor * _Nonnull)copper_SettingsTableViewFooterVersionColor;
++ (UIColor * _Nonnull)copper_SettingsTableViewNavBarTextColor;
++ (UIColor * _Nonnull)copper_SettngsTableViewNavigationControllerBackColor;
 + (UIColor * _Nonnull)copper_ContactsPickerTextColor;
 + (UIColor * _Nonnull)copper_ContactsPickerTintColor;
 + (UIColor * _Nonnull)copper_ContactsPickerViewBackgroundColor;
 + (UIColor * _Nonnull)copper_ContactsPickerPlaceholderTextColor;
 + (UIColor * _Nonnull)copper_ContactsPickerNavBarTintColor;
 + (UIColor * _Nonnull)copper_ContactsPickerHeaderBackgroundColor;
++ (UIColor * _Nonnull)copper_OnboardingViewTextColor;
++ (UIColor * _Nonnull)copper_OnboardingViewSubTextColor;
++ (UIColor * _Nonnull)copper_OnboardingViewContinueButtonTextColor;
++ (UIColor * _Nonnull)copper_OnboardingViewContinueButtonColor;
++ (UIColor * _Nonnull)copper_OnboardingViewLegalButtonTextColor;
++ (UIColor * _Nonnull)copper_OnboardingViewShadowGradientTopColor;
++ (UIColor * _Nonnull)copper_OnboardingViewShadowGradientBottomColor;
 + (UIColor * _Nonnull)copper_RegistrationViewBackgroundColor;
 + (UIColor * _Nonnull)copper_RegistrationViewPrimaryTextColor;
 + (UIColor * _Nonnull)copper_RegistrationViewSecondaryTextColor;
@@ -839,6 +952,7 @@ SWIFT_CLASS("_TtC9CopperKit18TouchAndHoldButton")
 + (UIColor * _Nonnull)copper_RegistrationViewBorderColor;
 + (UIColor * _Nonnull)copper_RegistrationViewSuccessColor;
 + (UIColor * _Nonnull)copper_RegistrationViewNumberPadHightlightColor;
++ (UIColor * _Nonnull)copper_RegistrationViewSendButtonColor;
 + (UIColor * _Nonnull)copper_IdentityCellKeyboardToolbarTintColor;
 + (UIColor * _Nonnull)copper_RegistrationColor;
 + (UIColor * _Nonnull)copper_ActivityIndicatorBackgroundColor;
@@ -847,7 +961,17 @@ SWIFT_CLASS("_TtC9CopperKit18TouchAndHoldButton")
 + (UIColor * _Nonnull)copper_AuthenticationControllerButtonDefaultColor;
 + (UIColor * _Nonnull)copper_AuthenticationControllerButtonDisabledColor;
 + (UIColor * _Nonnull)copper_DocumentViewControllerPrimaryColor;
-+ (UIColor * _Nonnull)copper_DocumentViewControllerTintColor;
++ (UIColor * _Nonnull)copper_DocumentViewControllerNetworkIndicatorColor;
++ (UIColor * _Nonnull)copper_DocumentViewControllerNavBarColor;
++ (UIColor * _Nonnull)copper_DocumentViewControllerNavBarBottomColor;
++ (UIColor * _Nonnull)copper_ModalCardChromeBackgroundColor;
++ (UIColor * _Nonnull)copper_ModalCardBackgroundColor;
++ (UIColor * _Nonnull)copper_ModalCardTitleColor;
++ (UIColor * _Nonnull)copper_ModalCardSubTextColor;
++ (UIColor * _Nonnull)copper_ModalCardActionButtonBackgroundColor;
++ (UIColor * _Nonnull)copper_ModalCardActionButtonTextColor;
++ (UIColor * _Nonnull)copper_ModalCardCloseButtonTextColor;
++ (UIColor * _Nonnull)copper_ModalCardImageShadowColor;
 + (UIColor * _Nonnull)copper_primaryCopper;
 + (UIColor * _Nonnull)copper_primaryGreen;
 + (UIColor * _Nonnull)copper_primaryVerdigris;
@@ -890,6 +1014,10 @@ SWIFT_CLASS("_TtC9CopperKit18TouchAndHoldButton")
 
 
 @interface UIFont (SWIFT_EXTENSION(CopperKit))
++ (UIFont * _Nonnull)C29_Body;
++ (UIFont * _Nonnull)C29_H2;
++ (UIFont * _Nonnull)C29_H3;
++ (UIFont * _Nonnull)C29_H4;
 + (UIFont * _Nonnull)copper_SectionHeaderFont;
 + (UIFont * _Nonnull)copper_PrimaryFont;
 + (UIFont * _Nonnull)copper_PrimaryItalicsFont;
@@ -901,17 +1029,24 @@ SWIFT_CLASS("_TtC9CopperKit18TouchAndHoldButton")
 + (UIFont * _Nonnull)copper_RequestSheetOpenWithCopperFont;
 + (UIFont * _Nonnull)copper_CardHeaderTitleFont;
 + (UIFont * _Nonnull)copper_CardHeaderSubtitleFont;
++ (UIFont * _Nonnull)copper_SettingsTableSectionHeaderFont;
 + (UIFont * _Nonnull)copper_SettingsTableViewFooterVersionFont;
 + (UIFont * _Nonnull)copper_SettingsTableViewNavigationControllerFont;
++ (UIFont * _Nonnull)copper_SettingsTableViewCellSecondaryTextFont;
++ (UIFont * _Nonnull)copper_SettingsTableViewNavigationControllerBackFont;
 + (UIFont * _Nonnull)copper_CopperContactsPickerCellFont;
 + (UIFont * _Nonnull)copper_ContactsPickerNavigationBarFont;
 + (UIFont * _Nonnull)copper_ContactsPickerNavigationButtonFont;
-+ (UIFont * _Nonnull)copper_RegistrationViewControlFont;
-+ (UIFont * _Nonnull)copper_copper_RegistrationViewSuccessMessageFont;
++ (UIFont * _Nonnull)copper_OnboardingViewTextFont;
++ (UIFont * _Nonnull)copper_OnboardingViewSubTextFont;
++ (UIFont * _Nonnull)copper_OnboardingViewContinueButtonFont;
++ (UIFont * _Nonnull)copper_OnboardingViewLegalButtonFont;
++ (UIFont * _Nonnull)copper_RegistrationViewSuccessMessageFont;
 + (UIFont * _Nonnull)copper_RegistrationViewControlPlaceholderFont;
 + (UIFont * _Nonnull)copper_RegistrationViewControlLabelFont;
 + (UIFont * _Nonnull)copper_RegistrationViewNumberPadFont;
 + (UIFont * _Nonnull)copper_RegistrationViewNumberPadPressedFont;
++ (UIFont * _Nonnull)copper_DocumentViewerNavBarFont;
 @end
 
 @class UIView;
@@ -920,11 +1055,11 @@ SWIFT_CLASS("_TtC9CopperKit18TouchAndHoldButton")
 @interface UIImage (SWIFT_EXTENSION(CopperKit))
 + (UIImage * _Nonnull)toImage:(UIView * _Nonnull)view;
 + (UIImage * _Nonnull)crop:(UIImage * _Nonnull)image rect:(CGRect)rect;
-+ (void)imageFromUrl:(NSString * _Nonnull)url callback:(void (^ _Nonnull)(UIImage * _Nullable))callback;
++ (void)c29_imageFromUrl:(NSString * _Nonnull)url callback:(void (^ _Nonnull)(UIImage * _Nullable))callback;
 + (CGSize)newSizeFromHeight:(UIImage * _Nonnull)image newHeight:(CGFloat)newHeight;
 + (UIImage * _Nonnull)imageWithImage:(UIImage * _Nonnull)image newSize:(CGSize)newSize;
 - (UIImage * _Nonnull)roundImage;
-+ (UIImage * _Nonnull)pixelWithColor:(UIColor * _Nonnull)color;
++ (UIImage * _Nonnull)c29_pixelWithColor:(UIColor * _Nonnull)color;
 + (void)pulseImageView:(UIImageView * _Nonnull)imageView repeat:(BOOL)repeat;
 @end
 
@@ -948,28 +1083,10 @@ SWIFT_CLASS("_TtC9CopperKit18TouchAndHoldButton")
 
 
 @interface UIView (SWIFT_EXTENSION(CopperKit))
-- (NSArray<UIView *> * _Nonnull)addBorderWithEdges:(UIRectEdge)edges color:(UIColor * _Nonnull)color thickness:(CGFloat)thickness;
+- (NSArray<UIView *> * _Nonnull)addBorderWithEdges:(UIRectEdge)edges color:(UIColor * _Nonnull)color thickness:(CGFloat)thickness bottomLeftInset:(CGFloat)bottomLeftInset;
+- (void)addGradient:(UIColor * _Nonnull)topColor bottomColor:(UIColor * _Nonnull)bottomColor;
 - (void)shakeWithConstraint:(NSLayoutConstraint * _Nonnull)constraint withShakeDistance:(CGFloat)distance animationDuration:(double)animationDuration times:(NSInteger)times state:(NSInteger)state callback:(void (^ _Null_unspecified)(void))callback;
 - (void)noticeWiggleWithConstant:(NSLayoutConstraint * _Nonnull)constraint withWiggleDistance:(CGFloat)withWiggleDistance animationDuration:(double)animationDuration completion:(void (^ _Null_unspecified)(void))completion;
-@end
-
-
-SWIFT_CLASS("_TtC9CopperKit10UserDevice")
-@interface UserDevice : NSObject <NSCoding>
-@property (nonatomic, readonly, copy) NSString * _Null_unspecified deviceId;
-@property (nonatomic, readonly, strong) NSDate * _Null_unspecified timestamp;
-@property (nonatomic, readonly, copy) NSString * _Null_unspecified name;
-@property (nonatomic, readonly, strong) NSDate * _Null_unspecified lastActive;
-@property (nonatomic, readonly, copy) NSString * _Null_unspecified label;
-- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)decoder;
-- (void)encodeWithCoder:(NSCoder * _Nonnull)coder;
-+ (UserDevice * _Nullable)fromDictionary:(NSDictionary * _Nonnull)dataDict;
-+ (NSArray<UserDevice *> * _Nullable)getDevicesFromDictionary:(NSArray<NSDictionary *> * _Nonnull)dataDict;
-- (BOOL)isEqual:(id _Nullable)object;
-@end
-
-
-@interface UserDevice (SWIFT_EXTENSION(CopperKit))
 @end
 
 #pragma clang diagnostic pop

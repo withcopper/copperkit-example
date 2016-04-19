@@ -29,5 +29,6 @@ FOUNDATION_EXPORT const unsigned char CopperKitVersionString[];
 #import <CopperKit/NBMetadataCoreTestMapper.h>
 #import <CopperKit/NBMetadataCore.h>
 #import <CopperKit/NBPhoneMetaDataGenerator.h>
+#import <CopperKit/NBMetadataCoreTest.h>
 
 #import <CopperKit/SFHFKeychainUtils.h>

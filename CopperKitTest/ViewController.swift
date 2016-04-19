@@ -36,25 +36,20 @@ class ViewController: UIViewController {
     @IBAction func signinButtonPressed(sender: AnyObject) {
         // get a reference to our CopperKit application instance
         copper = C29Application.sharedInstance
-        copper!.debug = true
-        // configure it with our app's token
-        copper!.configure(withApplicationId: "56FC63513259B250EC174C72B35697EB7C38B7B0")
-        // decide what information we want from the user
-        let scopes = [C29Scope.Name, C29Scope.Avatar, C29Scope.Email, C29Scope.Phone]
-        // make the call to ask the user =
-        copper!.open(withViewController: self, scopes: scopes, completion: { (userInfo: C29UserInfo?, error: NSError?) in
-            // check for errors
-            guard error == nil else {
+        // Required: configure it with our app's token
+        copper!.configureForApplication("56FC63513259B250EC174C72B35697EB7C38B7B0")
+        // Optionally, decide what information we want from the user, defaults to C29Scope.DefaultScopes = [C29Scope.Name, C29Scope.Avatar, C29Scope.Phone]
+        copper!.scopes = [C29Scope.Name, C29Scope.Avatar, C29Scope.Email, C29Scope.Phone]
+        // OK, let's make our call
+        copper!.open(withViewController: self, completion: { (result: C29UserInfoResult) in
+            switch result {
+            case let .Failure(error):
                 print("Bummer: \(error)")
-                return
+            case .UserCancelled:
+                print("The user cancelled.")
+            case let .Success(userInfo):
+                self.setupViewWithUserInfo(userInfo)
             }
-            // or user cancellation, if userInfo is nil
-            guard let userInfo = userInfo else {
-                print("The user cancelled without continuing ...")
-                return
-            }
-            // if we get here then the user completed successfully
-            self.setupViewWithUserInfo(userInfo)
         })
     }
 

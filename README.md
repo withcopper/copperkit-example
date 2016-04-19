@@ -34,9 +34,9 @@ Leave this site open as you will need both your application's id and iOS URL Sch
 
 Add CopperKit to your Xcode project, and configure it within the project settings.
 
-#### A. Download the latest version of CopperKit 
+#### A. Download the latest version of CopperKit source code
 
-* Swift 1.2: [https://…]
+* https://…]
 
 #### B. Import `CopperKit.framework` into your project
 
@@ -147,29 +147,26 @@ You can call the open method directly in your view controller's viewDidLoad meth
 
 ```
 	// get a reference to our CopperKit application instance
-    copper = C29Application.sharedInstance
-    // TODO: configure this with your app id
-    copper.configure(withApplicationId: "[YOUR_APPLICATION_ID]")
-    // optionally request a non-default set of scopes like this:
-    // let scopes = [C29Scope.Name, C29Scope.Avatar, C29Scope.Email, C29Scope.Phone]
-    // make the call to ask the user =
-    copper.open(withViewController: self, scopes: scopes, completion: { (userInfo: C29UserInfo?, error: NSError?) in
-        // Look for an handle errors
-        guard error == nil else {
-            print("Bummer: \(error)")
-            return
-        }
-        // Or for user cancellation, i.e. if userInfo is nil
-        guard let userInfo = userInfo else {
-            print("The user cancelled without continuing ...")
-            return
-        }
-        // if we get here then the user completed successfully
-        let userId = userInfo.userId
-        let name = userInfo.fullName
-     	
-        // ... the rest is up to you
-    })
+	let copper = C29Application.sharedInstance
+	// Required: configure it with our app's token
+	copper.configureForApplication("56FC63513259B250EC174C72B35697EB7C38B7B0")
+	// Optionally, decide what information we want from the user, defaults to C29Scope.DefaultScopes = [C29Scope.Name, C29Scope.Avatar, C29Scope.Phone]
+	copper.scopes = [C29Scope.Name, C29Scope.Avatar, C29Scope.Email, C29Scope.Phone]
+	// OK, let's make our call
+	copper.open(withViewController: self, completion: { (result: C29UserInfoResult) in
+		switch result {
+		case let .Failure(error):
+			print("Bummer: \(error)")
+		case .UserCancelled:
+			print("The user cancelled.")
+		case let .Success(userInfo):
+			// if we get here then the user completed successfully
+			let userId = userInfo.userId
+			let name = userInfo.fullName
+     		
+			// continue to inspect userInfo and take it away from here...
+		}
+	})
 
 ```
 
@@ -181,8 +178,6 @@ You can call the open method directly in your view controller's viewDidLoad meth
     // TBD
     }
 ```
-
-[TBD GIF of the login in action]
 
 At this point your app should compile, and CopperKit should be fully functional within your app.
 
@@ -196,6 +191,20 @@ See the corresponding entries in [`C29UserInfo`](#c29userinfo) to understand wha
 ### User Id
 
 Copper always returns a application-unique User Id with a successful call to `open(_ viewController:scopes:completion:)` . Copper will always return the same User Id for the same application so that you can identify the same user across different sessions or devices. You do not need to specify this scope as this value is always returned. Copper will never return the same Id for a different user or the same user on a different application.
+
+### Defaults
+
+`C29Scope.Defualts`
+
+The default scopes requested of the user which equals `[C29Scope.Name, C29Scope.Avatar, C29Scope.Phone]`
+
+### All
+
+`C29Scope.All`
+
+An array with all available scopes.
+
+--
 
 ### Address
 
@@ -217,14 +226,9 @@ Copper always returns a application-unique User Id with a successful call to `op
 
 `C29Scope.Phone` 
 
-
 ### Username
 
 `C29Scope.Username` 
-
-### All
-
-You can inspect C29Scope.All for a complete list available scopes.
 
 
 # CopperKit Objects

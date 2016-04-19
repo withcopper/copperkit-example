@@ -6,11 +6,11 @@
 	<dict>
 		<key>Headers/CopperKit-Swift.h</key>
 		<data>
-		Jr7f2yA6NrMKzCUXZnBkufSrPmU=
+		D/fPQeH/cQAO/BnCISm/J77n90U=
 		</data>
 		<key>Headers/CopperKit.h</key>
 		<data>
-		OLEgEGODZinO4AavvLVH3QnL+0k=
+		rVr5DzDay47/Id8Xh4EESlvhDDM=
 		</data>
 		<key>Headers/NBAsYouTypeFormatter.h</key>
 		<data>
@@ -23,6 +23,10 @@
 		<key>Headers/NBMetadataCoreMapper.h</key>
 		<data>
 		V00nj5a0jLhbdHuK7bu9ytq3IHU=
+		</data>
+		<key>Headers/NBMetadataCoreTest.h</key>
+		<data>
+		NN19/pC7mU+dirBU6LAvunJPl6I=
 		</data>
 		<key>Headers/NBMetadataCoreTestMapper.h</key>
 		<data>
@@ -70,7 +74,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		nSOKXkqHVi2+604Y3wJw1ul/Hgw=
+		j22OeaRC/kL9yU4TGd850Favpyo=
 		</data>
 		<key>Modules/CopperKit.swiftmodule/arm.swiftdoc</key>
 		<data>
@@ -78,7 +82,7 @@
 		</data>
 		<key>Modules/CopperKit.swiftmodule/arm.swiftmodule</key>
 		<data>
-		n1PPkADGcXQPXe3RBoCYcc55d9o=
+		n7ZM8MP4QjqLJxIs0POLyl9KJ+8=
 		</data>
 		<key>Modules/CopperKit.swiftmodule/arm64.swiftdoc</key>
 		<data>
@@ -86,7 +90,7 @@
 		</data>
 		<key>Modules/CopperKit.swiftmodule/arm64.swiftmodule</key>
 		<data>
-		ZSliXfv10F9WGrxp+fuqvowJdj0=
+		SdvEeo9ytr3pXXRQrRzPN2twY9E=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -99,22 +103,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			Jr7f2yA6NrMKzCUXZnBkufSrPmU=
+			D/fPQeH/cQAO/BnCISm/J77n90U=
 			</data>
 			<key>hash2</key>
 			<data>
-			JX9NHSMKOv/HqAGOtnA6FpD6YFJDwmHviGoL0Bl4X6w=
+			V2xnCdlvwa5+B96RKAlQpUZCNXCDq/f9WZfxIrdW7sg=
 			</data>
 		</dict>
 		<key>Headers/CopperKit.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			OLEgEGODZinO4AavvLVH3QnL+0k=
+			rVr5DzDay47/Id8Xh4EESlvhDDM=
 			</data>
 			<key>hash2</key>
 			<data>
-			hwyrO2qadwthT5eKBPR954NIUP6KlLs9WO4TQapLHt8=
+			eQiTgzrwsKSTvgj5yYZuG/pakixE3hj5SSaEUTtm+AM=
 			</data>
 		</dict>
 		<key>Headers/NBAsYouTypeFormatter.h</key>
@@ -148,6 +152,17 @@
 			<key>hash2</key>
 			<data>
 			23uf6I8QcQIZLMKUmGrEOM+AWu0h+hqT6WHiz7N71U4=
+			</data>
+		</dict>
+		<key>Headers/NBMetadataCoreTest.h</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			NN19/pC7mU+dirBU6LAvunJPl6I=
+			</data>
+			<key>hash2</key>
+			<data>
+			triRE4S3v3HNHuLBmYIRCcekWQTYCRKBRJMJB2WeC20=
 			</data>
 		</dict>
 		<key>Headers/NBMetadataCoreTestMapper.h</key>
@@ -286,11 +301,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			n1PPkADGcXQPXe3RBoCYcc55d9o=
+			n7ZM8MP4QjqLJxIs0POLyl9KJ+8=
 			</data>
 			<key>hash2</key>
 			<data>
-			8kUNhmyc1b1b+5b/L/oacOr3avGaLtooFxTK6aXm3Q8=
+			R7S95xwrA5zSMATAf8KA26G3l/Szgxxdp7CLFRfvCxY=
 			</data>
 		</dict>
 		<key>Modules/CopperKit.swiftmodule/arm64.swiftdoc</key>
@@ -308,11 +323,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			ZSliXfv10F9WGrxp+fuqvowJdj0=
+			SdvEeo9ytr3pXXRQrRzPN2twY9E=
 			</data>
 			<key>hash2</key>
 			<data>
-			0BxoAwHAXBul3Z6AjA7OMOK8vdhWwmgQjeQ2eptyxAU=
+			u9/KBlqF9u/ZUZcjHI5uhLd5rwieoBVVLRTGXn26LSg=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
