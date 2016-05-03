@@ -7,14 +7,30 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		F04189391CACA229003461CA /* CopperKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F04189371CACA217003461CA /* CopperKit.framework */; };
-		F041893A1CACA229003461CA /* CopperKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F04189371CACA217003461CA /* CopperKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		F053716F1CD936C600A29979 /* CopperKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F05371651CD9345400A29979 /* CopperKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F0E8BBBC1C98FFEB00B9A850 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0E8BBBB1C98FFEB00B9A850 /* AppDelegate.swift */; };
 		F0E8BBBE1C98FFEB00B9A850 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0E8BBBD1C98FFEB00B9A850 /* ViewController.swift */; };
 		F0E8BBC11C98FFEB00B9A850 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F0E8BBBF1C98FFEB00B9A850 /* Main.storyboard */; };
 		F0E8BBC31C98FFEB00B9A850 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F0E8BBC21C98FFEB00B9A850 /* Assets.xcassets */; };
 		F0E8BBC61C98FFEB00B9A850 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F0E8BBC41C98FFEB00B9A850 /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		F05371641CD9345400A29979 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F053715F1CD9345300A29979 /* CopperKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F009BE271CBED61500EC8A47;
+			remoteInfo = CopperKit;
+		};
+		F053716D1CD936BF00A29979 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F053715F1CD9345300A29979 /* CopperKit.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = F009BE261CBED61500EC8A47;
+			remoteInfo = CopperKit;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		F041893B1CACA229003461CA /* Embed Frameworks */ = {
@@ -23,7 +39,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				F041893A1CACA229003461CA /* CopperKit.framework in Embed Frameworks */,
+				F053716F1CD936C600A29979 /* CopperKit.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -31,7 +47,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		F04189371CACA217003461CA /* CopperKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CopperKit.framework; sourceTree = "<group>"; };
+		F053715F1CD9345300A29979 /* CopperKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CopperKit.xcodeproj; path = CopperKit/CopperKit.xcodeproj; sourceTree = SOURCE_ROOT; };
 		F0E8BBB81C98FFEB00B9A850 /* CopperKitTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CopperKitTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F0E8BBBB1C98FFEB00B9A850 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F0E8BBBD1C98FFEB00B9A850 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -46,13 +62,20 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F04189391CACA229003461CA /* CopperKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F05371601CD9345300A29979 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F05371651CD9345400A29979 /* CopperKit.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		F0E8BBAF1C98FFEB00B9A850 = {
 			isa = PBXGroup;
 			children = (
@@ -78,7 +101,7 @@
 				F0E8BBC21C98FFEB00B9A850 /* Assets.xcassets */,
 				F0E8BBC41C98FFEB00B9A850 /* LaunchScreen.storyboard */,
 				F0E8BBC71C98FFEB00B9A850 /* Info.plist */,
-				F04189371CACA217003461CA /* CopperKit.framework */,
+				F053715F1CD9345300A29979 /* CopperKit.xcodeproj */,
 			);
 			path = CopperKitTest;
 			sourceTree = "<group>";
@@ -98,6 +121,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				F053716E1CD936BF00A29979 /* PBXTargetDependency */,
 			);
 			name = CopperKitTest;
 			productName = CopperKitTest;
@@ -130,12 +154,28 @@
 			mainGroup = F0E8BBAF1C98FFEB00B9A850;
 			productRefGroup = F0E8BBB91C98FFEB00B9A850 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = F05371601CD9345300A29979 /* Products */;
+					ProjectRef = F053715F1CD9345300A29979 /* CopperKit.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				F0E8BBB71C98FFEB00B9A850 /* CopperKitTest */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		F05371651CD9345400A29979 /* CopperKit.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = CopperKit.framework;
+			remoteRef = F05371641CD9345400A29979 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		F0E8BBB61C98FFEB00B9A850 /* Resources */ = {
@@ -161,6 +201,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		F053716E1CD936BF00A29979 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = CopperKit;
+			targetProxy = F053716D1CD936BF00A29979 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		F0E8BBBF1C98FFEB00B9A850 /* Main.storyboard */ = {
