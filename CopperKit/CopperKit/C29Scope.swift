@@ -23,7 +23,7 @@
     // let MultiRawValueMax = 1999
     
     case Name = 1000
-    case Avatar = 1001
+    case Picture = 1001
     case Phone = 1002
     case Email = 1003
     case Username = 1004
@@ -40,13 +40,13 @@
         C29Scope.Email: "email",
         C29Scope.Name: "name",
         C29Scope.Phone: "phone",
-        C29Scope.Avatar: "picture",
+        C29Scope.Picture: "picture",
         C29Scope.Username: "username",
         C29Scope.Birthday: "birthday",
         C29Scope.Signature: "signature"]
     
     public static let All = [C29Scope] (scopesWithKeys.keys)
-    public static let DefaultScopes = [C29Scope.Name, C29Scope.Avatar, C29Scope.Phone]
+    public static let DefaultScopes = [C29Scope.Name, C29Scope.Picture, C29Scope.Phone]
     
     public static func fromString(scope: String) -> C29Scope? {
         let keys = scopesWithKeys.filter { $1 == scope }.map { $0.0 }
@@ -73,7 +73,7 @@
             return "Name".localized
         case .Phone:
             return "Phone Number".localized
-        case .Avatar:
+        case .Picture:
             return "Picture".localized
         case .Username:
             return "Username".localized
@@ -102,7 +102,7 @@
             } else {
                 return "Emails".localized.uppercaseString
             }
-        case .Name, .Avatar:
+        case .Name, .Picture:
             return "Profile".localized.uppercaseString
         case .Phone:
             if numberOfRecords < 2 {
@@ -148,8 +148,8 @@
             return CopperNameRecord()
         case .Phone:
             return CopperPhoneRecord()
-        case .Avatar:
-            return CopperAvatarRecord()
+        case .Picture:
+            return CopperPictureRecord()
         case .Username:
             return CopperUsernameRecord()
         case .Birthday:
@@ -173,8 +173,8 @@
             return [.NameFirstName, .NameLastName]
         case .Phone:
             return [.PhoneNumber]
-        case .Avatar:
-            return [.AvatarPicture, .AvatarURL]
+        case .Picture:
+            return [.PictureImage, .PictureURL]
         case .Username:
             return [.Username]
         case .Birthday:
@@ -229,9 +229,9 @@ enum ScopeDataKeys: String {
     case NameLastName = "last_name"
     // .Phone
     case PhoneNumber = "phone_number"
-    // .Avatar
-    case AvatarPicture = "picture"
-    case AvatarURL = "url"
+    // .Picture
+    case PictureImage = "picture"
+    case PictureURL = "url"
     // .Username
     case Username = "username"
     // .Birthdate

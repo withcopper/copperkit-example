@@ -11,7 +11,7 @@ import Foundation
 @objc public protocol C29IdentityDataSource: class {
     
     // Multi Record Types
-    var avatar: CopperAvatar? { get set }
+    var picture: CopperPicture? { get set }
     var name: CopperName? { get set }
     var address: CopperAddress? { get set }
     var email: CopperEmail? { get set }

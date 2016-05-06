@@ -18,6 +18,10 @@ public enum C29UserInfoResult<T, U> {
     case Failure(U)
 }
 
+public protocol C29ApplicationDelegate {
+    func didFinishWithResult(result: C29UserInfoResult<C29UserInfo, NSError>)
+}
+
 @available(iOS 9.0, *)
 public class C29Application: NSObject {
     
@@ -77,6 +81,8 @@ public class C29Application: NSObject {
             }
         }
     }
+    
+    public var delegate: C29ApplicationDelegate?
     
     override init() {
         self.debug = false
@@ -200,10 +206,13 @@ extension C29Application: C29UserInfoViewControllerDelegate {
     }
     internal func finish(userInfo: C29UserInfo?, error: NSError?) {
         if let userInfo = userInfo {
+            //self.delegate?.didFinishWithResult(result: C29UserInfoResult)
             self.completion?(result: .Success(userInfo))
         } else if let error = error {
+            //self.delegate?.didFinishWithResult(result: C29UserInfoResult)
             self.completion?(result: .Failure(error))
         } else {
+            //self.delegate?.didFinishWithResult(result: C29UserInfoResult)
             self.completion?(result: .UserCancelled)
         }
         self.c29ViewController?.dismissViewControllerAnimated(true, completion: {

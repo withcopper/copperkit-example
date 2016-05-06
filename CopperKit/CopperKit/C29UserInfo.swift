@@ -63,15 +63,15 @@ public class C29UserInfo: NSObject {
         return (records[.Phone] as? CopperPhone)?.phoneNumber
     }
     
-    // MARK: Avatar
+    // MARK: Picture
     
-    public var avatar: UIImage? {
-        return (records[.Avatar] as? CopperAvatar)?.image
+    public var picture: UIImage? {
+        return (records[.Picture] as? CopperPicture)?.image
     }
     
-    public var avatarURL: NSURL? {
+    public var pictureURL: NSURL? {
         get {
-            guard let u = (records[.Avatar] as? CopperAvatar)?.url else {
+            guard let u = (records[.Picture] as? CopperPicture)?.url else {
                 return nil
             }
             return NSURL(string: u)

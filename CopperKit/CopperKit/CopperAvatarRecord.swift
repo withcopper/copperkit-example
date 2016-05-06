@@ -1,5 +1,5 @@
 //
-//  CopperAvatarRecord.swift
+//  CopperPictureRecord.swift
 //  CopperRecordObject Representation of a avatar
 //
 //  Created by Doug Williams on 6/2/14.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-public class CopperAvatarRecord: CopperRecordObject, CopperAvatar {
+public class CopperPictureRecord: CopperRecordObject, CopperPicture {
 
     // We do this level of indirection because the JSON parser doesn't know how to deal with UIImage objects
     // So we manage to make it work with this little rodeo. You should call and set avatar, and we'll manage the data dictionary stuff
@@ -24,9 +24,9 @@ public class CopperAvatarRecord: CopperRecordObject, CopperAvatar {
     }
     
     // This is broken -- we have to methods to access avatar
-    // but there is a bug where accessing avatar when casting from a CopperRecordObject returns a bad_access error
-    // eg (record as? CopperAvatarRecord).avatar so we need this method instead
-    public func getAvatar() -> UIImage? {
+    // but there is a bug where accessing picture when casting from a CopperRecordObject returns a bad_access error
+    // eg (record as? CopperAvatarRecord).picture so we need this method instead
+    public func getPicture() -> UIImage? {
         if let picture = self.picture {
             return UIImage(data: picture)!
         }
@@ -35,16 +35,16 @@ public class CopperAvatarRecord: CopperRecordObject, CopperAvatar {
     
     public var url: String? {
         get {
-            if let url = data[ScopeDataKeys.AvatarURL.rawValue] as? String {
+            if let url = data[ScopeDataKeys.PictureURL.rawValue] as? String {
                 return url
             }
             return nil
         }
         set {
             if let new = newValue {
-                self.data[ScopeDataKeys.AvatarURL.rawValue] = new
+                self.data[ScopeDataKeys.PictureURL.rawValue] = new
             } else {
-                self.data.removeValueForKey(ScopeDataKeys.AvatarURL.rawValue)
+                self.data.removeValueForKey(ScopeDataKeys.PictureURL.rawValue)
             }
             self.uploaded = false
         }
@@ -53,7 +53,7 @@ public class CopperAvatarRecord: CopperRecordObject, CopperAvatar {
     // You shouldn't be calling this directly. This handles serializing the photo data into and out of a JSON acceptable format
     private var picture: NSData? {
         get {
-            if let base64Encoded = self.data[ScopeDataKeys.AvatarPicture.rawValue] as? String {
+            if let base64Encoded = self.data[ScopeDataKeys.PictureImage.rawValue] as? String {
                 if let decoded = NSData(base64EncodedString: base64Encoded, options: NSDataBase64DecodingOptions(rawValue: 0)) {
                     return decoded
                 }
@@ -62,9 +62,9 @@ public class CopperAvatarRecord: CopperRecordObject, CopperAvatar {
         }
         set {
             if let new = newValue?.base64EncodedStringWithOptions(NSDataBase64EncodingOptions(rawValue: 0)) {
-                self.data[ScopeDataKeys.AvatarPicture.rawValue] = new
+                self.data[ScopeDataKeys.PictureImage.rawValue] = new
             } else {
-                self.data.removeValueForKey(ScopeDataKeys.AvatarPicture.rawValue)
+                self.data.removeValueForKey(ScopeDataKeys.PictureURL.rawValue)
             }
             self.uploaded = false
         }
@@ -75,7 +75,7 @@ public class CopperAvatarRecord: CopperRecordObject, CopperAvatar {
     // so i removed it from the paramter set to ensure no hard to track down bugs occur
     // SO: set avatar after init
     public convenience init(id: String = "current", verified: Bool = false) {
-        self.init(scope: C29Scope.Avatar, data: nil, id: id, verified: verified)
+        self.init(scope: C29Scope.Picture, data: nil, id: id, verified: verified)
     }
 
     public override var valid: Bool {
@@ -101,8 +101,8 @@ public class CopperAvatarRecord: CopperRecordObject, CopperAvatar {
         }
     }
     
-    public class func getAvatarRecordForInitials(initials: String, session: C29SessionDataSource! = nil) -> CopperAvatar {
-        let record =  CopperAvatarRecord()
+    public class func getAvatarRecordForInitials(initials: String, session: C29SessionDataSource! = nil) -> CopperPicture {
+        let record =  CopperPictureRecord()
         record.url = "https://bytes.withcopper.com/default/\(initials.uppercaseString).png"
         record.rehydrateDataIfNeeded(session, completion: { record in
             // no op
@@ -111,7 +111,7 @@ public class CopperAvatarRecord: CopperRecordObject, CopperAvatar {
     }
 }
 
-func ==(lhs: CopperAvatarRecord, rhs: CopperAvatarRecord) -> Bool {
+func ==(lhs: CopperPictureRecord, rhs: CopperPictureRecord) -> Bool {
     if lhs.id == rhs.id {
         return true
     }

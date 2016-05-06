@@ -24,8 +24,8 @@ public class CopperSignatureRecord: CopperRecordObject, CopperSignature {
     }
     
     // This is broken -- we have to methods to access avatar
-    // but there is a bug where accessing avatar when casting from a CopperRecordObject returns a bad_access error
-    // eg (record as? CopperAvatarRecord).avatar so we need this method instead
+    // but there is a bug where accessing picture when casting from a CopperRecordObject returns a bad_access error
+    // eg (record as? CopperAvatarRecord).picture so we need this method instead
     public func getImage() -> UIImage? {
         if let picture = self.picture {
             return UIImage(data: picture)!
@@ -36,7 +36,7 @@ public class CopperSignatureRecord: CopperRecordObject, CopperSignature {
     // You shouldn't be calling this directly. This handles serializing the photo data into and out of a JSON acceptable format
     private var picture: NSData? {
         get {
-            if let base64Encoded = self.data[ScopeDataKeys.AvatarPicture.rawValue] as? String {
+            if let base64Encoded = self.data[ScopeDataKeys.SignatureImage.rawValue] as? String {
                 if let decoded = NSData(base64EncodedString: base64Encoded, options: NSDataBase64DecodingOptions(rawValue: 0)) {
                     return decoded
                 }
@@ -45,9 +45,9 @@ public class CopperSignatureRecord: CopperRecordObject, CopperSignature {
         }
         set {
             if let new = newValue?.base64EncodedStringWithOptions(NSDataBase64EncodingOptions(rawValue: 0)) {
-                self.data[ScopeDataKeys.AvatarPicture.rawValue] = new
+                self.data[ScopeDataKeys.SignatureImage.rawValue] = new
             } else {
-                self.data.removeValueForKey(ScopeDataKeys.AvatarPicture.rawValue)
+                self.data.removeValueForKey(ScopeDataKeys.SignatureImage.rawValue)
             }
             self.uploaded = false
         }

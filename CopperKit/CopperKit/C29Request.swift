@@ -403,12 +403,12 @@ extension C29Request {
             }
         }
         
-        var nserror: NSError {
+        public var nserror: NSError {
             return NSError(domain: self.domain, code: self.rawValue, userInfo: [NSLocalizedFailureReasonErrorKey: self.reason])
         }
         
         var domain: String {
-            return "\(NSBundle.mainBundle().bundleIdentifier!).Request"
+            return "\(NSBundle.mainBundle().bundleIdentifier!).C29Request"
         }
     }
 }

@@ -53,10 +53,10 @@ public typealias CopperMultiRecord = protocol<CopperRecord>
 //    func fromPlace(place: GMSPlace) // commented out to remove dependency of Google Maps
 }
 
-@objc public protocol CopperAvatar: CopperRecord {
+@objc public protocol CopperPicture: CopperRecord {
     var image: UIImage? { get set }
     var url: String? { get set }
-    func getAvatar() -> UIImage?
+    func getPicture() -> UIImage?
 }
 
 @objc public protocol CopperName: CopperRecord {

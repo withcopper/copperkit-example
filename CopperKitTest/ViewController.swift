@@ -38,8 +38,9 @@ class ViewController: UIViewController {
         copper = C29Application.sharedInstance
         // Required: configure it with our app's token
         copper!.configureForApplication("55F1DD04F89379E9F9394259994155A27C658591")
-        // Optionally, decide what information we want from the user, defaults to C29Scope.DefaultScopes = [C29Scope.Name, C29Scope.Avatar, C29Scope.Phone]
-        copper!.scopes = [C29Scope.Name, C29Scope.Avatar, C29Scope.Email, C29Scope.Phone]
+        // Optionally, decide what information we want from the user
+        // defaults to C29Scope.DefaultScopes = [C29Scope.Name, C29Scope.Picture, C29Scope.Phone]
+        copper!.scopes = [.Name, .Picture, .Email, .Phone]
         // OK, let's make our call
         copper!.open(withViewController: self, completion: { (result: C29UserInfoResult) in
             switch result {
@@ -59,7 +60,7 @@ class ViewController: UIViewController {
     }
     
     func setupViewWithUserInfo(userInfo: C29UserInfo) {
-        self.avatarImageView.image = userInfo.avatar
+        self.avatarImageView.image = userInfo.picture // userInfo.pictureURL is available, too
         self.nameLabel.text = userInfo.fullName
         self.emailLabel.text = userInfo.emailAddress
         self.phoneLabel.text = userInfo.phoneNumber
