@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "818A00675F6D742B435E9F5D5086278E656719EB",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "818A00675F6D742B435E9F5D5086278E656719EB" : 0,
+    "CBD47C34B4D087572F49888BC8AFB555DED906F9" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "6563E12B-6F87-4315-85FE-530E33AEA50F",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "818A00675F6D742B435E9F5D5086278E656719EB" : "CopperKitTest\/",
+    "CBD47C34B4D087572F49888BC8AFB555DED906F9" : "iOS\/CopperKit\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "CopperKitTest",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "CopperKitTest.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:withcopper\/copperkit-example.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "818A00675F6D742B435E9F5D5086278E656719EB"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:withcopper\/CopperKit.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "CBD47C34B4D087572F49888BC8AFB555DED906F9"
+    }
+  ]
+}
