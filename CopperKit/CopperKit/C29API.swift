@@ -38,7 +38,7 @@ public class CopperNetworkAPI: NSObject, C29API {
             return delegate?.authTokenForAPI(self)
         }
     }
-
+    
     // Instance Variables
     var session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
 
@@ -61,8 +61,8 @@ public class CopperNetworkAPI: NSObject, C29API {
         if apiRequest.authentication {
             // If we have our authToken, proceed
             if let token = self.authToken {
-                request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-                // If there are authentication retries left, then let's use them
+                self.addAuthorizationHeader(request, token: token)
+            // If there are authentication retries left, then let's use them
             } else if apiRequest.retries > 0 {
                 attemptLoginThenRetryHTTPRequest(apiRequest)
                 return
@@ -79,7 +79,7 @@ public class CopperNetworkAPI: NSObject, C29API {
         // Add any parameters to the request body as necessary
         if let params = apiRequest.params {
             do {
-                request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
+                self.addContentTypeHeader(request)
                 let json = try NSJSONSerialization.dataWithJSONObject(params, options: NSJSONWritingOptions())
                 request.HTTPBody = json
                 if let json = NSString(data: json, encoding: NSUTF8StringEncoding) {
@@ -128,6 +128,14 @@ public class CopperNetworkAPI: NSObject, C29API {
             }
         }
         task.resume()
+    }
+    
+    func addAuthorizationHeader(request: NSMutableURLRequest, token: String) {
+        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+    }
+    
+    func addContentTypeHeader(request: NSMutableURLRequest) {
+        request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
     }
     
     private func attemptLoginThenRetryHTTPRequest(apiRequest: CopperNetworkAPIRequest) {

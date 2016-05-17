@@ -187,7 +187,8 @@
         }
     }
     
-    public static func getCommaDelinatedString(fromScopes scopes: [C29Scope]) -> String {
+    public static func getCommaDelinatedString(fromScopes scopes: [C29Scope]?) -> String {
+        guard let scopes = scopes  else { return "" }
         var scopesStrings = [String]()
         for scopeString in scopes {
             scopesStrings.append(scopeString.value!)

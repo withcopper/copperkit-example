@@ -31,4 +31,5 @@ public let C29SessionIdentityDidUpdateNotification = "C29SessionIdentityDidUpdat
     func deleteUserApplication(application: C29CopperworksApplicationDataSource, callback: (success: Bool, error: NSError?)->())
     func getURLforCode(code: String, callback: (url: NSURL?, error: NSError?)->())
     func postUserVerification(verificationCode: C29VerificationCode, digits: String, callback: (verificationResult: AnyObject?, error: NSError?)->())
+    func handleOAuthDialogURL(oauth: C29OAuth, callback: (request: C29Request?, error: NSError?)->())
 }

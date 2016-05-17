@@ -32,3 +32,5 @@ FOUNDATION_EXPORT const unsigned char CopperKitVersionString[];
 #import <CopperKit/NBMetadataCoreTest.h>
 
 #import <CopperKit/SFHFKeychainUtils.h>
+
+#import <CopperKit/CountryPicker.h>

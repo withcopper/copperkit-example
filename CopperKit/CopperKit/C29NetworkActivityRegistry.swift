@@ -11,7 +11,15 @@ import UIKit
 public let C29NetworkActivityBeganNotification = "C29NetworkActivityBeganNotification"
 public let C29NetworkActivityEndedNotification = "C29NetworkActivityEndedNotification"
 
+public protocol CopperNetworkActivityRegistryDelegate: class {
+    func networkIndicatorShouldIndicate()
+    func networkIndicatorShouldNotIndicate()
+}
+
 public class CopperNetworkActivityRegistry: NSObject {
+    
+    public var delegate: CopperNetworkActivityRegistryDelegate?
+    
     private var _visibleNetworkActivityCalls = 0 {
         didSet(oldValue){
             guard oldValue != _visibleNetworkActivityCalls else {
@@ -45,11 +53,13 @@ public class CopperNetworkActivityRegistry: NSObject {
     private func handleStateChangeToStarted() {
         UIApplication.sharedApplication().networkActivityIndicatorVisible = true
         NSNotificationCenter.defaultCenter().postNotificationName(C29NetworkActivityBeganNotification, object: nil)
+        delegate?.networkIndicatorShouldIndicate()
     }
 
     private func handleStateChangeToEnded() {
         UIApplication.sharedApplication().networkActivityIndicatorVisible = false
         NSNotificationCenter.defaultCenter().postNotificationName(C29NetworkActivityEndedNotification, object: nil)
+        delegate?.networkIndicatorShouldNotIndicate()
     }
 
     public static var sharedRegistry:CopperNetworkActivityRegistry {

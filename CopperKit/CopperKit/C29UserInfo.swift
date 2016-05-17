@@ -10,7 +10,7 @@ import Foundation
 
 public class C29UserInfo: NSObject {
     
-    private var records: [C29Scope: CopperRecord]!
+    public var records: [C29Scope: CopperRecord]!
     
     // MARK: User Id
     
@@ -89,6 +89,11 @@ public class C29UserInfo: NSObject {
         self.records = records ?? [C29Scope: CopperRecord]()
     }
     
+    class func fromVerificationResult(result: C29VerificationResult, phoneNumber: String) -> C29UserInfo {
+        let phone = CopperPhoneRecord(isoNumber: phoneNumber, verified: true)
+        return C29UserInfo(userId: result.userId, records: [.Phone: phone])
+    }
+    
     func fromDictionary(dataDict: NSDictionary?, callback: (userInfo: C29UserInfo?, error: NSError?)->()) {
 
         guard let dataDict = dataDict else {
@@ -130,7 +135,8 @@ public class C29UserInfo: NSObject {
     }
     
     // returns the records for the scopes, nil if any requested scope is not available
-    func getRecords(forScopes scopes: [C29Scope]) -> [C29Scope: CopperRecord]? {
+    func getRecords(forScopes scopes: [C29Scope]?) -> [C29Scope: CopperRecord]? {
+        guard let scopes = scopes else { return [C29Scope: CopperRecord]() }
         var recordsForScopes = [C29Scope: CopperRecord]()
         for scope in scopes {
             if let record = self.records[scope] {

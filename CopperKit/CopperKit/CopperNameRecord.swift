@@ -46,7 +46,7 @@ public class CopperNameRecord: CopperRecordObject, CopperName {
     
     public var fullName: String? {
         guard !isBlank else { return nil }
-        return "\(self.firstName ?? "")\(self.lastName ?? "")".clean()
+        return "\(self.firstName ?? "") \(self.lastName ?? "")".clean()
     }
     
     public var initials: String? {

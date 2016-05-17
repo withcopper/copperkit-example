@@ -8,14 +8,15 @@
 
 import Foundation
 
-@available(iOS 9.0, *)
 public class C29UserInfoCoordinator {
     
     private let application: C29Application!
     private let networkAPI = CopperNetworkAPI()
-    private var jwt: String?
+
     internal var userInfo: C29UserInfo?
     internal var sessionId: String!
+    
+    var jwt: String?
     
     init(application: C29Application) {
         self.application = application
@@ -24,29 +25,31 @@ public class C29UserInfoCoordinator {
     }
     
     // Attempt to get a userInfo object with a response URL
-    func getUserInfo(withResponseURL url: NSURL, callback: ((userInfo: C29UserInfo?, error: NSError?)->())! = nil) {
+    func getUserInfo(withResponseURL url: NSURL, application: C29Application, callback: ((userInfo: C29UserInfo?, error: NSError?)->())! = nil) {
         let components = NSURLComponents(string: url.absoluteString)
-        
         guard let jwt = components?.getQueryStringParameter("access_token") else {
             C29LogWithRemote(.Error, error: Error.MissingAccessTokenFound.nserror)
             callback(userInfo: nil, error: Error.MissingAccessTokenFound.nserror)
             return
         }
+        self.jwt = jwt
         // 1. get the userId
         guard let userId = C29UserInfo.getUserId(withJWT: jwt) else {
             C29LogWithRemote(.Error, error: C29UserInfo.Error.JWTDecodeError.nserror)
             callback(userInfo: nil, error: C29UserInfo.Error.JWTDecodeError.nserror)
             return
         }
-        self.jwt = jwt
-        
+        self.getUserInfo(userId, callback: {(userInfo: C29UserInfo?, error: NSError?) in
+            callback?(userInfo: userInfo, error: error)
+        })
+    }
+    
+    
+    func getUserInfo(userId: String, callback: ((userInfo: C29UserInfo?, error: NSError?)->())! = nil) {
         if userInfo == nil {
             userInfo = C29UserInfo(userId: userId, records: nil)
         }
-        
         let url = NSURL(string: "\(networkAPI.URL)/\(C29APIPath.OauthUserinfo.rawValue)")!
-        
-        
         let request = CopperNetworkAPIRequest(method: .GET_USERINFO,
                                               httpMethod: .GET,
                                               url: url,
@@ -65,42 +68,65 @@ public class C29UserInfoCoordinator {
                                                         callback(userInfo: nil, error: Error.RecordsDictInvalidFormat.nserror)
                                                         return
                                                     }
-                                                    self.userInfo?.fromDictionary(dataDict, callback: {(newUserInfo: C29UserInfo?, error: NSError?) in
+                                                    self.userInfo?.fromDictionary(dataDict, callback: { (newUserInfo: C29UserInfo?, error: NSError?) in
+                                                        self.userInfo = newUserInfo
                                                         callback?(userInfo: self.userInfo, error: error)
                                                     })
-                                                
+                                                    
                                                 }
         })
         networkAPI.makeHTTPRequest(request)
     }
     
-    func getPermittedScopes() -> [C29Scope]? {
+    func refreshUserInfo(userId: String, callback: ((userInfo: C29UserInfo?, error: NSError?)->())! = nil) {
+        self.getUserInfo(userId, callback: {(userInfo: C29UserInfo?, error: NSError?) in
+            self.userInfo = userInfo
+            callback?(userInfo: userInfo, error: error)
+        })
+    }
+
+    func fromVerificationResult(result: C29VerificationResult, phoneNumber: String) {
+        self.userInfo = C29UserInfo.fromVerificationResult(result, phoneNumber: phoneNumber)
+    }
+    
+    public func getPermittedScopes() -> [C29Scope]? {
         return userInfo?.getPermittedScopes()
+    }
+    
+    public func allScopesArePermitted(scopes: [C29Scope]! = nil) -> Bool {
+        guard let scopes = scopes else {
+            return true
+        }
+        if let permitted = getPermittedScopes() {
+            for scope in scopes {
+                if !permitted.contains(scope) {
+                    return false
+                }
+            }
+            return true
+        }
+        return false
     }
 
 }
 
-@available(iOS 9.0, *)
 extension C29UserInfoCoordinator: CopperNetworkAPIDelegate {
-
+    
     @objc public func authTokenForAPI(api: CopperNetworkAPI) -> String? {
-        return self.jwt
+        return self.jwt ?? self.application.jwt // fallback
     }
     
     @objc public func userIdentifierForLoggingErrorsInAPI(api: CopperNetworkAPI) -> AnyObject? {
-        if let userId = userInfo?.userId {
-            return userId
-        }
-        return "UserId Unknown"
+        return self.application.userId
     }
     
     @objc public func networkAPI(api: CopperNetworkAPI, recordAnalyticsEvent event: String, withParameters parameters: [String : AnyObject]) {
-        C29LogWithRemote(.Error, error: Error.Non20XAPIError.nserror, infoDict: parameters)
+        C29LogWithRemote(.Error, error: Error.HTTPError.nserror, infoDict: parameters)
     }
     
     @objc public func networkAPI(api: CopperNetworkAPI, attemptLoginWithCallback callback: (success: Bool, error: NSError?) -> ()) {
-        C29LogWithRemote(.Error, error: Error.AuthError.nserror, infoDict: nil)
-        callback(success: false, error: Error.AuthError.nserror)
+        C29LogWithRemote(.Error, error: Error.Non20XAPIError.nserror, infoDict: nil)
+        callback(success: false, error: Error.Non20XAPIError.nserror)
         // If we get here, it likely means our access token was invalid or expired
         // TODO we should use it to get a refresh token
     }
@@ -110,24 +136,27 @@ extension C29UserInfoCoordinator: CopperNetworkAPIDelegate {
     }
     
     @objc public func endedRequestInNetworkAPI(api: CopperNetworkAPI) {
-       CopperNetworkActivityRegistry.sharedRegistry.activityEnded()
+        CopperNetworkActivityRegistry.sharedRegistry.activityEnded()
     }
     
 }
 
-@available(iOS 9.0, *)
 extension C29UserInfoCoordinator {
     
     public enum Error: Int {
+        case HTTPError = 900
         case MissingAccessTokenFound = 1
         case Non20XAPIError = 2
         case ApplicationIdNotSet = 3
         case RecordsDictInvalidFormat = 4
         case AuthError = 5
         case InvalidHTTPResponseCode = 6
+        case InvalidConfiguration = 7
         
         public var reason: String {
             switch self {
+            case .HTTPError:
+                return "There was an unexpected HTTP response"
             case .MissingAccessTokenFound:
                 return "There was no access token found in the login url."
             case .Non20XAPIError:
@@ -140,6 +169,8 @@ extension C29UserInfoCoordinator {
                 return "The API returned an auth error -- jwt is potentially expired -- TODO implement better handling"
             case .InvalidHTTPResponseCode:
                 return "How embarassing. We recieved an unexpected error from the server."
+            case .InvalidConfiguration:
+                    return "Missing configuration items needed to continue, e.g. JWT and user ID settings. You are likely calling this out of logical order."
             }
         }
         var description: String {

@@ -15,6 +15,7 @@ class ViewController: UIViewController {
     // Signed Out view IB Variables
     @IBOutlet weak var signedOutView: UIView!
     @IBOutlet weak var signinButton: UIButton!
+    @IBOutlet weak var versionLabel: UILabel!
     // Signed In view IB Variables
     @IBOutlet weak var signedInView: UIView!
     @IBOutlet weak var signoutButton: UIButton!
@@ -42,14 +43,14 @@ class ViewController: UIViewController {
         // defaults to C29Scope.DefaultScopes = [C29Scope.Name, C29Scope.Picture, C29Scope.Phone]
         copper!.scopes = [.Name, .Picture, .Email, .Phone]
         // OK, let's make our call
-        copper!.open(withViewController: self, completion: { (result: C29UserInfoResult) in
+        copper!.login(withViewController: self, completion: { (result: C29UserInfoResult) in
             switch result {
-            case let .Failure(error):
-                print("Bummer: \(error)")
-            case .UserCancelled:
-                print("The user cancelled.")
             case let .Success(userInfo):
                 self.setupViewWithUserInfo(userInfo)
+            case .UserCancelled:
+                    print("The user cancelled.")
+            case let .Failure(error):
+                print("Bummer: \(error)")
             }
         })
     }
@@ -71,12 +72,15 @@ class ViewController: UIViewController {
     }
     
     func resetView() {
+        // set our version string
+        self.versionLabel.text = "CopperKit Version \(CopperKitVersion)"
+        // reset our signed in state
         self.avatarImageView.image = nil
         self.nameLabel.text = ""
         self.emailLabel.text = ""
         self.phoneLabel.text = ""
         self.userIdLabel.text = ""
-        // flip our state
+        // flip our state to the signed out state
         self.signedInView.hidden = true
         self.signedOutView.hidden = false
     }

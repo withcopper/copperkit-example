@@ -120,16 +120,21 @@ public class CopperPhoneRecord: CopperRecordObject, CopperPhone {
                 }
             }
         }
-        return nil // default, TODO probably not the best solution but easy and good enough for now
+        return nil // default "not found"
     }
 
-    class func getCountryCodeForPrefix(countryCodePrefix: NSNumber) -> String? {
+    public class func getCountryCodeForPrefix(countryCodePrefix: NSNumber) -> String? {
         for (countryCode, prefix) in PrefixCodes {
+            // there are many '1's, and US is most popular and our default
+            // not scalable but sufficient for now
+            if prefix == "1" {
+                return "US"
+            }
             if prefix == countryCodePrefix.stringValue {
                 return countryCode
             }
         }
-        return nil // default, TODO probably not the best solution but easy and good enough for now
+        return nil // default "not found"
     }
     
     // Per: http://stackoverflow.com/questions/13022601/list-of-countries-and-country-dialing-codes-for-ios/13534627#13534627
@@ -138,7 +143,7 @@ public class CopperPhoneRecord: CopperRecordObject, CopperPhone {
     }
     
     class func flagForCountryCode(countryCode: String) -> UIImage? {
-        let bundle = NSBundle.mainBundle()
+        let bundle = CopperKitBundle
         let imagePath = bundle.resourcePath!+"/CountryPicker.bundle/"+countryCode+".png"
         return UIImage(contentsOfFile: imagePath)
     }

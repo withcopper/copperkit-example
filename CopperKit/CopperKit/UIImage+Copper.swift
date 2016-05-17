@@ -25,5 +25,14 @@ extension UIImage {
         }
         callback(image: nil)
     }
+    
+    public func c29_resizeToWidth(newWidth: CGFloat) -> CGSize {
+        let curWidth = self.size.width
+        let curHeight = self.size.height
+        let ratio = newWidth / curWidth
+        let newHeight = curHeight * ratio
+        let newSize = CGSizeMake(newWidth, newHeight)
+        return newSize
+    }
 
 }

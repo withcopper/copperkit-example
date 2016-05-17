@@ -84,6 +84,7 @@ public class C29VerificationResult {
     public var token: String
     public var isNewUser: Bool
     public var deviceId: String
+    public var secret: String?
 
     init(userId: String, token: String, isNewUser: Bool, deviceId: String) {
         self.userId = userId

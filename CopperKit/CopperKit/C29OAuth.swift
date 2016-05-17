@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class C29OAuth {
+@objc public class C29OAuth: NSObject {
     
     public enum Key: String {
         case ApplicationId = "client_id" // we leave this as client_id per the oauth spec
@@ -25,20 +25,22 @@ public class C29OAuth {
         return "internal"
     }
     
-    let applicationId: String!
-    let redirectUri: String!
-    let nonce: String!
-    let state: String!
-    let scope: String!
-    let responseType: String!
+    public let applicationId: String!
+    public let redirectUri: String!
+    public let nonce: String!
+    public let state: String!
+    public let scope: String!
+    public let responseType: String!
+    public let responseMode: String!
     
-    init(applicationId: String, redirectUri: String, nonce: String, state: String, scope: String, responseType: String) {
+    init(applicationId: String, redirectUri: String, nonce: String, state: String, scope: String, responseType: String, responseMode: String = C29OAuth.ResponseModeInternal) {
         self.applicationId = applicationId
         self.redirectUri = redirectUri
         self.nonce = nonce
         self.state = state
         self.scope = scope
         self.responseType = responseType
+        self.responseMode = responseMode
     }
     
     public class func handleURL(url: NSURL, session: C29SessionDataSource, callback: ((success: Bool, error: NSError?)->())! = nil) {
@@ -94,16 +96,7 @@ public class C29OAuth {
         // display=popup
         // scope=openid%20profile
         // response_type=id_token%2Ctoken
-        
-//
-// TODO this needs to be added to the V29SessionCoordinator or made available to this file
-//        guard let userId = session.userId else {
-//            callback(request: nil, error: Error.NilUserId.nserror)
-//            return
-//        }        
-//        session.api.oauthAuthorize(userId, applicationId: applicationId, redirectUri: redirectUri, nonce: nonce, state: state, scope: scope, responseMode: C29OAuth.ResponseModeInternal, responseType: responseType, callback: { result: C29APIResult -> () in
-//            callback(request: request as? C29Request, error: error)
-//        })
+        session.sessionCoordinator?.handleOAuthDialogURL(self, callback: callback)
     }
 }
 

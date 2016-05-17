@@ -31,6 +31,30 @@ public class C29Utils {
         return String?()
     }
     
+    
+    public class func delay(delay:Double, closure:()->()) {
+        dispatch_after(
+            dispatch_time(
+                DISPATCH_TIME_NOW,
+                Int64(delay * Double(NSEC_PER_SEC))
+            ),
+            dispatch_get_main_queue(), closure)
+        
+        // usage:
+        // delay(0.5) { // do stuff }
+    }
+    
+    
+    // Get the height of the status bar (http://stackoverflow.com/questions/12991935/how-to-programmatically-get-ios-status-bar-height/16598350#16598350)
+    public class func getStatusBarHeight() -> CGFloat {
+        let statusBarSize = UIApplication.sharedApplication().statusBarFrame.size
+        return Swift.min(statusBarSize.width, statusBarSize.height)
+    }
+    
+    public static var animationDuration: Double {
+        return 0.35
+    }
+    
     internal static var CopperURLs: [String] = ["withcopper.com", "open.withcopper.com", "open-staging.withcopper.com", "api-staging.withcopper.com", "www-staging.withcopper.com", "download.withcopper.com"]
 
 }
