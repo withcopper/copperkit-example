@@ -59,11 +59,6 @@ class ViewController: UIViewController {
             }
         })
     }
-
-    @IBAction func signoutButtonPressed(sender: AnyObject) {
-        copper?.closeSession()
-        resetView()
-    }
     
     func setupViewWithUserInfo(userInfo: C29UserInfo) {
         self.avatarImageView.image = userInfo.picture // userInfo.pictureURL is available, too
@@ -88,6 +83,11 @@ class ViewController: UIViewController {
         // flip our state to the signed out state
         self.signedInView.hidden = true
         self.signedOutView.hidden = false
+    }
+    
+    @IBAction func signoutButtonPressed(sender: AnyObject) {
+        copper?.closeSession()
+        resetView()
     }
     
     @IBAction func showOptionsMenu() {
