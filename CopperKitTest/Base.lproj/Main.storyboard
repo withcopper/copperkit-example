@@ -29,8 +29,17 @@
                                             <action selector="signinButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="vo7-5L-NF3"/>
                                         </connections>
                                     </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Version Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yTy-iG-Zpi">
-                                        <rect key="frame" x="136" y="626" width="103" height="21"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ace-zI-WRL" userLabel="Options Button">
+                                        <rect key="frame" x="157.5" y="578" width="60" height="33"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <state key="normal" title="Options"/>
+                                        <connections>
+                                            <action selector="showOptionsMenu" destination="BYZ-38-t0r" eventType="touchUpInside" id="3Mu-0p-Z0b"/>
+                                            <action selector="signinButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="cEL-Wl-2bd"/>
+                                        </connections>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Version Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yTy-iG-Zpi">
+                                        <rect key="frame" x="146" y="631" width="82" height="16"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
@@ -38,8 +47,10 @@
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
+                                    <constraint firstItem="Ace-zI-WRL" firstAttribute="centerX" secondItem="sLb-OO-UIN" secondAttribute="centerX" id="5Jg-j2-EDA"/>
                                     <constraint firstAttribute="bottom" secondItem="yTy-iG-Zpi" secondAttribute="bottom" constant="20" id="KYn-kh-yVJ"/>
                                     <constraint firstItem="yTy-iG-Zpi" firstAttribute="centerX" secondItem="sLb-OO-UIN" secondAttribute="centerX" id="Ob6-Qb-fIp"/>
+                                    <constraint firstItem="yTy-iG-Zpi" firstAttribute="top" secondItem="Ace-zI-WRL" secondAttribute="bottom" constant="20" id="fSP-GJ-TYi"/>
                                     <constraint firstItem="LxW-Qg-2HT" firstAttribute="centerX" secondItem="sLb-OO-UIN" secondAttribute="centerX" id="hUO-xy-aVs"/>
                                     <constraint firstItem="LxW-Qg-2HT" firstAttribute="centerY" secondItem="sLb-OO-UIN" secondAttribute="centerY" id="mhM-zg-DER"/>
                                 </constraints>
@@ -195,6 +206,7 @@
                         <outlet property="avatarImageView" destination="dY4-8e-SoG" id="0td-Hc-zbq"/>
                         <outlet property="emailLabel" destination="SPa-gG-T79" id="Gdd-TK-EhH"/>
                         <outlet property="nameLabel" destination="ENn-bE-i57" id="8UV-Eg-a6W"/>
+                        <outlet property="optionsButton" destination="Ace-zI-WRL" id="AcH-IG-fxh"/>
                         <outlet property="phoneLabel" destination="dUj-sh-NBV" id="Lmi-wk-rYo"/>
                         <outlet property="signedInView" destination="R6P-1X-mf6" id="4cB-cP-AnH"/>
                         <outlet property="signedOutView" destination="sLb-OO-UIN" id="zVM-ZS-ZYQ"/>

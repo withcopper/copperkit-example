@@ -15,6 +15,7 @@ class ViewController: UIViewController {
     // Signed Out view IB Variables
     @IBOutlet weak var signedOutView: UIView!
     @IBOutlet weak var signinButton: UIButton!
+    @IBOutlet weak var optionsButton: UIButton!
     @IBOutlet weak var versionLabel: UILabel!
     // Signed In view IB Variables
     @IBOutlet weak var signedInView: UIView!
@@ -24,8 +25,13 @@ class ViewController: UIViewController {
     @IBOutlet weak var emailLabel: UILabel!
     @IBOutlet weak var phoneLabel: UILabel!
     @IBOutlet weak var userIdLabel: UILabel!
+    
+    static let DefaultScopes: [C29Scope] = [.Name, .Picture, .Email, .Phone] // note: C29Scope.DefaultScopes = [C29Scope.Name, C29Scope.Picture, C29Scope.Phone]
+    
     // Reference to our CopperKit singleton
     var copper: C29Application?
+    // Instance variable holding our desired scopes to allow changes, see showOptionsMenu()
+    var desiredScopes: [C29Scope]? = ViewController.DefaultScopes
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,8 +46,7 @@ class ViewController: UIViewController {
         // Required: configure it with our app's token
         copper!.configureForApplication("55F1DD04F89379E9F9394259994155A27C658591")
         // Optionally, decide what information we want from the user
-        // defaults to C29Scope.DefaultScopes = [C29Scope.Name, C29Scope.Picture, C29Scope.Phone]
-        copper!.scopes = [.Name, .Picture, .Email, .Phone]
+        copper!.scopes = desiredScopes
         // OK, let's make our call
         copper!.login(withViewController: self, completion: { (result: C29UserInfoResult) in
             switch result {
@@ -84,5 +89,21 @@ class ViewController: UIViewController {
         self.signedInView.hidden = true
         self.signedOutView.hidden = false
     }
+    
+    @IBAction func showOptionsMenu() {
+        let alertController = UIAlertController(title: "Which Scopes?", message: nil, preferredStyle: .ActionSheet)
+        let defaultScopesAction = UIAlertAction(title: "Default scopes", style: .Default) { (action) in
+            self.desiredScopes = ViewController.DefaultScopes 
+        }
+        alertController.addAction(defaultScopesAction)
+        let verificationOnlyAction = UIAlertAction(title: "Verification only", style: .Default) { (action) in
+            self.desiredScopes = nil
+        }
+        alertController.addAction(verificationOnlyAction)
+        self.presentViewController(alertController, animated: true) {
+            // no op
+        }
+    }
+
 }
 
