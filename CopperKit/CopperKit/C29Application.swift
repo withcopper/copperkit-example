@@ -122,7 +122,7 @@ public class C29Application: NSObject {
         }
     }
     // when true, we will use the fallback WKWebKit view instead of the SFSafariViewController -- helpful for testing && debugging
-    public var degrade = false
+    public var safariViewIfAvailable = false
     public var baseURL: String = "https://open.withcopper.com"
     
     public var delegate: C29ApplicationDelegate?
@@ -221,26 +221,13 @@ public class C29Application: NSObject {
             return
         }
         // Display the appropriate view controller
-        if #available(iOS 9.0, *) {
-            displayCopperWebSFSafariViewController(viewController, url: url)
-        } else {
-            displayCopperWebWKWebKitController(viewController, url: url)
+        if safariViewIfAvailable {
+            if #available(iOS 9.0, *) {
+                displayCopperWebSFSafariViewController(viewController, url: url)
+                return
+            }
         }
-    }
-    
-    @available(iOS 9.0, *)
-    private func displayCopperWebSFSafariViewController(presentingViewController: UIViewController, url: NSURL) {
-        // degrade means we want to use the webkit version forcably
-        guard degrade == false else {
-            displayCopperWebWKWebKitController(presentingViewController, url: url)
-            return
-        }
-        let c29vc = C29UserInfoSafariViewController(URL: url)
-        c29vc.c29delegate = self
-        c29vc.modalTransitionStyle = UIModalTransitionStyle.CoverVertical
-        presentingViewController.presentViewController(c29vc, animated: true, completion: {
-            self.userInfoViewController = c29vc
-        })
+        displayCopperWebWKWebKitController(viewController, url: url)
     }
     
     private func displayCopperWebWKWebKitController(presentingViewController: UIViewController, url: NSURL) {
@@ -253,6 +240,16 @@ public class C29Application: NSObject {
                 headers.updateValue("Bearer \(token)", forKey: "Authorization")
             }
             webKitViewController.loadWebview(url, headers: headers)
+        })
+    }
+    
+    @available(iOS 9.0, *)
+    private func displayCopperWebSFSafariViewController(presentingViewController: UIViewController, url: NSURL) {
+        let c29vc = C29UserInfoSafariViewController(URL: url)
+        c29vc.c29delegate = self
+        c29vc.modalTransitionStyle = UIModalTransitionStyle.CoverVertical
+        presentingViewController.presentViewController(c29vc, animated: true, completion: {
+            self.userInfoViewController = c29vc
         })
     }
     

@@ -96,7 +96,10 @@ import Foundation
         // display=popup
         // scope=openid%20profile
         // response_type=id_token%2Ctoken
-        session.sessionCoordinator?.handleOAuthDialogURL(self, callback: callback)
+        guard let sessionCoordinator = session.sessionCoordinator else {
+            return callback(request: nil, error: Error.UserNotSignedIn.nserror)
+        }
+        sessionCoordinator.handleOAuthDialogURL(self, callback: callback)
     }
 }
 
@@ -108,6 +111,7 @@ extension C29OAuth {
         case Path = 2
         case Parameters = 3
         case NilUserId = 4
+        case UserNotSignedIn = 5
         
         var reason: String {
             switch self {
@@ -120,7 +124,9 @@ extension C29OAuth {
             case Parameters:
                 return "Missing or invalid parameters"
             case .NilUserId:
-                return "C29SessionDataSource has a nil user, and nil userID"
+                return "C29Oauth has a nil user, and nil userID"
+            case .UserNotSignedIn:
+                return "C29Oauth the user is not signed in"
             }
         }
         

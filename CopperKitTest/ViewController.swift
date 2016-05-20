@@ -44,7 +44,7 @@ class ViewController: UIViewController {
         // get a reference to our CopperKit application instance
         copper = C29Application.sharedInstance
         // Required: configure it with our app's token
-        copper!.configureForApplication("55F1DD04F89379E9F9394259994155A27C658591")
+        copper!.configureForApplication("573F837FD248FF72EF554F3093D9C1D396F8AA43")
         // Optionally, decide what information we want from the user
         copper!.scopes = desiredScopes
         // OK, let's make our call
@@ -100,6 +100,10 @@ class ViewController: UIViewController {
             self.desiredScopes = nil
         }
         alertController.addAction(verificationOnlyAction)
+        let sfSafariViewController = UIAlertAction(title: "Use SFSafariViewController", style: .Default) { (action) in
+            self.copper?.safariViewIfAvailable = true
+        }
+        alertController.addAction(sfSafariViewController)
         self.presentViewController(alertController, animated: true) {
             // no op
         }
