@@ -31,7 +31,7 @@ public class WebKitViewController: UIViewController {
         webView.backgroundColor = UIColor.hexStringToUIColor("#F5F5F5")
         webView.opaque = false
         networkActivityIndicator.barColor = UIColor.self.copper_black92()
-        webView.dataDetectorTypes = .Link // prevents phone numbers and email addresses from automatically linking, limits to HTTP Links
+        webView.dataDetectorTypes = .None // prevents phone numbers and email addresses from automatically linking, limits to HTTP Links
         webView.delegate = self
         closeButton.tintColor = UIColor.self.copper_black92()
         closeButton.setImage(C29ImageAssets.IconClose.image, forState: .Normal)
