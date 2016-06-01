@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="ptc-X7-jQp">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="ptc-X7-jQp">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -596,21 +596,11 @@
                                             </tableViewCell>
                                         </prototypes>
                                     </tableView>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="G3S-Go-sWN" customClass="NetworkActivityIndicatorView" customModule="CopperKit">
-                                        <rect key="frame" x="0.0" y="18" width="375" height="2"/>
-                                        <color key="backgroundColor" red="1" green="0.65002219189999999" blue="0.38946641840000001" alpha="1" colorSpace="calibratedRGB"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="2" id="Q1A-iA-tWi"/>
-                                        </constraints>
-                                    </view>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstItem="G3S-Go-sWN" firstAttribute="width" secondItem="7l7-0u-AM7" secondAttribute="width" id="1uO-D0-XbP"/>
                                     <constraint firstItem="ZXK-gt-08N" firstAttribute="centerX" secondItem="7l7-0u-AM7" secondAttribute="centerX" id="91e-bK-Vxd"/>
                                     <constraint firstItem="ZXK-gt-08N" firstAttribute="top" secondItem="7l7-0u-AM7" secondAttribute="top" constant="20" id="Gao-JA-OXD"/>
-                                    <constraint firstItem="G3S-Go-sWN" firstAttribute="top" secondItem="7l7-0u-AM7" secondAttribute="top" constant="18" id="hLy-Jk-yfh"/>
-                                    <constraint firstItem="G3S-Go-sWN" firstAttribute="centerX" secondItem="7l7-0u-AM7" secondAttribute="centerX" id="le9-4Z-VhS"/>
                                     <constraint firstAttribute="bottom" secondItem="ZXK-gt-08N" secondAttribute="bottom" constant="20" id="uAK-rl-bCd"/>
                                     <constraint firstItem="ZXK-gt-08N" firstAttribute="width" secondItem="7l7-0u-AM7" secondAttribute="width" id="zte-24-uDJ"/>
                                 </constraints>
@@ -622,13 +612,23 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="G3S-Go-sWN" customClass="NetworkActivityIndicatorView" customModule="CopperKit">
+                                <rect key="frame" x="0.0" y="20" width="375" height="2"/>
+                                <color key="backgroundColor" red="1" green="0.65002219189999999" blue="0.38946641840000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="2" id="Q1A-iA-tWi"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="0.26822815290000002" green="1" blue="0.93134226070000004" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="7l7-0u-AM7" firstAttribute="width" secondItem="f3l-aR-Oam" secondAttribute="width" id="K9K-jN-kkH"/>
                             <constraint firstItem="Mkk-v3-Ml4" firstAttribute="top" secondItem="7l7-0u-AM7" secondAttribute="top" constant="530" id="XCH-E6-7y9"/>
                             <constraint firstItem="7l7-0u-AM7" firstAttribute="height" secondItem="f3l-aR-Oam" secondAttribute="height" id="XsJ-Fe-65U"/>
+                            <constraint firstItem="G3S-Go-sWN" firstAttribute="width" secondItem="f3l-aR-Oam" secondAttribute="width" id="Y2H-Si-638"/>
+                            <constraint firstItem="G3S-Go-sWN" firstAttribute="centerX" secondItem="f3l-aR-Oam" secondAttribute="centerX" id="d6A-tK-gFG"/>
                             <constraint firstItem="7l7-0u-AM7" firstAttribute="centerX" secondItem="f3l-aR-Oam" secondAttribute="centerX" id="tLm-J8-DaP"/>
+                            <constraint firstItem="G3S-Go-sWN" firstAttribute="top" secondItem="DPQ-od-Jqs" secondAttribute="bottom" id="xvw-3s-vzB"/>
                         </constraints>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="boolean" keyPath="roundLower" value="NO"/>

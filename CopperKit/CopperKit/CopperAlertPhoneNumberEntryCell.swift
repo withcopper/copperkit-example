@@ -37,11 +37,15 @@ class CopperAlertPhoneNumberEntryCell: CopperAlertTableViewCell {
         phoneNumberControl.setup()
     }
     
-    func setPhoneNumber(phoneNumber: String) {
+    func setPhoneNumber(phoneRecord: CopperPhoneRecord) {
+        guard let phoneNumber = phoneRecord.number else {
+            phoneNumberControl.reset()
+            return
+        }
         if phoneNumber.characters.count <= 0 {
             phoneNumberControl.reset()
         } else {
-            phoneNumberControl.set(phoneNumber)
+            phoneNumberControl.set(phoneRecord.numberDisplayString)
         }
     }
     
@@ -59,14 +63,7 @@ class CopperAlertPhoneNumberEntryCell: CopperAlertTableViewCell {
 
 extension CopperAlertPhoneNumberEntryCell: CopperAlertCountryCodeControlDelegate {
     func countryCodeTextFieldDidBecomeFirstResponder() {
-        var countryCode = C29AuthenticationAlertController.DefaultCountryCode.countryCode
-        if let curPrefix = self.countryCodeControl.label?.text,
-            let prefixInt = Int(curPrefix.stringByReplacingOccurrencesOfString("+", withString: "")) {
-            let prefix = NSNumber(integer: prefixInt)
-            if let cc = CopperPhoneRecord.getCountryCodeForPrefix(prefix) {
-                countryCode = cc
-            }
-        }
+        let countryCode = alertCellDelegate?.phoneRecord.countryCode ?? CopperPhoneRecord.DefaultCountryCode
         self.countryPicker.setSelectedCountryCode(countryCode, animated: false)
         self.alertCellDelegate?.countryCodeDidBecomeFirstResponder()
     }
@@ -99,7 +96,12 @@ class CopperKitCountryCodeControl: CopperKitEntryControlView {
     }
     
     override func reset() {
-        self.label?.attributedText = C29Text.h2(C29AuthenticationAlertController.DefaultCountryCode.prefix, color: UIColor.copper_black92())
+        var prefix = "+1" // a reasonable default
+        let countryCode = CopperPhoneRecord.DefaultCountryCode
+        if let p = CopperPhoneRecord.getPrefixForCountryCode(countryCode) {
+            prefix = "+\(p)"
+        }
+        self.label?.attributedText = C29Text.h2(prefix, color: UIColor.copper_black92())
     }
     
     func configureHiddenTextField() {
@@ -154,7 +156,7 @@ class CopperKitPhoneNumberControl: CopperKitEntryControlView {
     }
     
     override func set(string: String) {
-        let text = CopperPhoneRecord.typeAheadPhoneNumber(string)
+        let text = string
         label?.attributedText = C29Text.h2(text, color: UIColor.copper_black92())
         // update the placeholder text
         self.placeholderLabel!.attributedText = C29Text.label_small(placeholderText.uppercaseString, color: UIColor.copper_black40())

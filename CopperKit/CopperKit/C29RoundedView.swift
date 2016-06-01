@@ -52,10 +52,10 @@ class C29RoundedView: UIView {
     override func awakeFromNib() {
         super.awakeFromNib()
         self.setupLayers()
+        self.clipsToBounds = true
     }
     override func layoutSubviews() {
         super.layoutSubviews()
-        self.clipsToBounds = true
         let b = self.bounds
         solidLayer.frame = self.bounds
         cornerMaskLayer.path = UIBezierPath(roundedRect: b,

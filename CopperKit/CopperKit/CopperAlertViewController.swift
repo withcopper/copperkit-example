@@ -24,13 +24,13 @@ public class CopperAlertViewController: UIViewController {
         return controller
     }
 
+    static var DefaultAccentColor: UIColor { return  UIColor.copper_primaryCopper() }
     let TopMargin: CGFloat = 10.0 // space between the tableview and the top of the card
     let BottomPadding: CGFloat = 30.0 // desired space below the table view and bottom of the card
     @IBOutlet weak var alertView: C29RoundedView!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var alertViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var activityIndicator: NetworkActivityIndicatorView!
-    
     
     var alertTableViewManager: CopperAlertViewTableManager?
     
@@ -80,7 +80,8 @@ public class CopperAlertViewController: UIViewController {
         self.alertTableViewManager = CopperAlertViewTableManager(alert: alert)
         alertTableViewManager?.dataSource = self.dataSource
         alertTableViewManager?.delegate = self
-        self.activityIndicator.barColor = UIColor.copper_primaryCopper()
+        self.activityIndicator.barColor = CopperAlertViewController.DefaultAccentColor
+        activityIndicator.hidden = true
         CopperNetworkActivityRegistry.sharedRegistry.delegate = self
         // Ensure buttons get taps right away
         tableView.delaysContentTouches = false
@@ -106,9 +107,14 @@ public class CopperAlertViewController: UIViewController {
     }
 
     override public func viewDidAppear(animated: Bool) {
+        activityIndicator.hidden = false
         super.viewDidAppear(animated)
         self.reload(true)
         self.delegate?.viewDidAppearFinished()
+    }
+    
+    override public func viewWillDisappear(animated: Bool) {
+        self.activityIndicator.hidden = true
     }
     
     public func reload(animated: Bool = true) {

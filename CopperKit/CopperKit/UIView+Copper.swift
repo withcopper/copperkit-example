@@ -9,6 +9,14 @@
 import Foundation
 
 extension UIView {
+    
+    public func addGradient(topColor: UIColor, bottomColor: UIColor) {
+        let gradientColors: [CGColor] = [topColor.CGColor, bottomColor.CGColor]
+        let gradientLayer: CAGradientLayer = CAGradientLayer()
+        gradientLayer.colors = gradientColors
+        gradientLayer.frame = self.bounds
+        self.layer.insertSublayer(gradientLayer, atIndex: 0)
+    }
 
     // credit http://stackoverflow.com/a/23157272
     public func addBorder(edges edges: UIRectEdge, color: UIColor = UIColor.whiteColor(), thickness: CGFloat = 1, bottomLeftInset: CGFloat = 0.0) -> [UIView] {

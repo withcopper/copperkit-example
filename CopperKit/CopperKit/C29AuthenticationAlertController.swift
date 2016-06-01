@@ -11,20 +11,20 @@ import AudioToolbox
 
 protocol C29AuthenticationAlertControllerCellDelegate {
     func countryCodeDidBecomeFirstResponder()
-    func didUpdateCountryCode(code: String)
-    func didUpdatePhoneNumber(phoneNumber: String)
+    func didUpdateCountryCode(countryCode: String?)
+    func didUpdatePhoneNumber(phoneNumber: String?)
     func didUpdateDigitsEntry(digits: String)
     func sendButtonWasPressed()
+    var phoneRecord: CopperPhoneRecord { get }
 }
 
 public protocol C29AuthenticationAlertControllerDelegate {
-    func authenticationDidFinishWithVerificationResult(verificationResult: C29VerificationResult, phoneNumber: String)
+    func authenticationDidFinishWithVerificationResult(verificationResult: C29VerificationResult, phoneRecord: CopperPhoneRecord)
     func authenticationDidFinishUserCancelled()
 }
 
 public class C29AuthenticationAlertController: NSObject, CopperAlertControllerDatasource {
-    
-    
+
     let MaxPhoneNumberLength = 20
     var MaxDigitsLength = 6
     
@@ -37,24 +37,14 @@ public class C29AuthenticationAlertController: NSObject, CopperAlertControllerDa
     var verificationCode: C29VerificationCode?
     let secret = C29Utils.getGUID()
     var networkAPI: CopperNetworkAPI!
-
-    var countryCode = C29AuthenticationAlertController.DefaultCountryCode.countryCode
-    var countryCodePrefix = C29AuthenticationAlertController.DefaultCountryCode.prefix
-    var phoneNumber = ""
-    var prettyPrintPhoneNumber = "You"
-    var toPhoneNumber: String {
-        return "\(countryCodePrefix)\(phoneNumber)"
-    }
-
+    
+    var phoneRecord = CopperPhoneRecord()
     var digitsEntry = ""
     
-    static var DefaultCountryCode: (countryCode: String, prefix: String) {
-        // attempt to use the person's phone number and local country code
-        if let countryCode = C29Utils.getPhoneCountryCode(),
-            let prefix = CopperPhoneRecord.getPrefixForCountryCode(countryCode) {
-            return (countryCode, "+\(prefix)")
+    public var application: C29CopperworksApplication? {
+        didSet {
+            alertController.activityIndicator.barColor = application?.color ?? CopperAlertViewController.DefaultAccentColor
         }
-        return ("US", "+1")
     }
     
     enum State: Int {
@@ -78,20 +68,20 @@ public class C29AuthenticationAlertController: NSObject, CopperAlertControllerDa
                 self.cancelAction?.enabled = true
                 self.phoneNumberSent = false
                 self.digitsEntrySent = false
+                self.resetPhoneNumberEntry()
             case .Verification:
                 alert.title = "Verify your number"
-                alert.message = "We sent \(prettyPrintPhoneNumber) a text.\nWhat is your 👉code👈?"
+                alert.message = "We sent \(phoneRecord.displayString) a text.\nWhat is your 👉 code 👈?"
                 alert.removeAllActions()
                 alert.addAction(wrongNumberAction!)
                 alert.addAction(resendCodeAction!)
-                self.resetDigitsEntry()
                 self.resendCodeAction?.enabled = true
                 self.wrongNumberAction?.enabled = true
                 self.phoneNumberSent = true
                 self.digitsEntrySent = false
-            case .Login:
                 self.resetDigitsEntry()
-                alert.title = prettyPrintPhoneNumber
+            case .Login:
+                alert.title = phoneRecord.displayString
                 alert.message = "Logged in"
                 alert.removeAllActions()
                 alert.image = C29ImageAssets.LoginCheckbox.image
@@ -171,7 +161,7 @@ public class C29AuthenticationAlertController: NSObject, CopperAlertControllerDa
         self.backgroundTapView = UIView()
         self.wrongNumberAction = C29AlertAction(title: "Wrong number", format: .Inline, closeAfterAction: false, handler: {
             self.resetDigitsEntry()
-            self.didUpdatePhoneNumber(self.phoneNumber)
+            self.resetPhoneNumberEntry()
             self.setState(.PhoneNumber)
         })
         wrongNumberAction!.repeatable = true
@@ -179,7 +169,7 @@ public class C29AuthenticationAlertController: NSObject, CopperAlertControllerDa
             self.alert.message = "We texted a new code"
             self.messageCell?.messageTextColor = CopperAlertMessageCell.DefaultTextColor
             self.resetDigitsEntry()
-            self.startRegistration(to: self.toPhoneNumber, secret: self.secret)
+            self.startRegistration(self.phoneRecord, secret: self.secret)
         })
         resendCodeAction!.repeatable = true
         self.cancelAction = C29AlertAction(title: "Go back", format: .Inline, closeAfterAction: false, handler: {
@@ -190,9 +180,10 @@ public class C29AuthenticationAlertController: NSObject, CopperAlertControllerDa
         cancelAction!.repeatable = true
         self.nextAction = C29AlertAction(title: "Next", format: .Default, style: .Green, closeAfterAction: false, handler: {
             self.nextAction?.enabled = false
-            self.startRegistration(to: self.toPhoneNumber, secret: self.secret)
+            self.startRegistration(self.phoneRecord, secret: self.secret)
         })
         nextAction!.repeatable = true
+        self.phoneRecord.countryCode = CopperPhoneRecord.DefaultCountryCode
         updateNextButtonStatus()
         self.alertController.alert = alert
         alertController.delegate = self
@@ -256,7 +247,7 @@ public class C29AuthenticationAlertController: NSObject, CopperAlertControllerDa
     }
     
     func updateNextButtonStatus() {
-        let enable = phoneNumber.characters.count >= 5
+        let enable = phoneRecord.valid
         if nextAction?.enabled != enable {
             nextAction?.enabled = enable
         }
@@ -265,10 +256,12 @@ public class C29AuthenticationAlertController: NSObject, CopperAlertControllerDa
     // MARK: Control Display Management
     
     func resetPhoneNumberEntry() {
-        didUpdatePhoneNumber("")
+        phoneNumberSent = false
+        didUpdatePhoneNumber(nil)
     }
 
     func resetDigitsEntry() {
+        digitsEntrySent = false
         didUpdateDigitsEntry("")
     }
     
@@ -290,9 +283,10 @@ public class C29AuthenticationAlertController: NSObject, CopperAlertControllerDa
     // MARK: Primary State Machine Handlers
     
     // step 1: swap our phone number for a verification code
-    func startRegistration(to phoneNumber:String, secret: String) {
+    func startRegistration(phoneRecord: CopperPhoneRecord, secret: String) {
         self.alertController.indicate = true
         let url = NSURL(string: "\(networkAPI.URL)/\(C29APIPath.Users.rawValue)/\(C29APIPath.Verify.rawValue)")!
+        guard let phoneNumber = phoneRecord.phoneNumber else { return }
         let params: [String:String] = ["to" : phoneNumber, "secret" : secret]
         let request = CopperNetworkAPIRequest(method: .DIALOG_VERIFY,
                                               httpMethod: .POST,
@@ -314,8 +308,8 @@ public class C29AuthenticationAlertController: NSObject, CopperAlertControllerDa
                                                         return
                                                     }
                                                     self.verificationCode = verificationCode
-                                                    self.prettyPrintPhoneNumber = CopperPhoneRecord(isoNumber: self.toPhoneNumber, verified: true).displayString
                                                     self.setState(.Verification)
+                                                    self.messageCell?.boldString(phoneRecord.displayString)
                                                     self.resetDigitsEntry()
                                                 }
         })
@@ -324,6 +318,7 @@ public class C29AuthenticationAlertController: NSObject, CopperAlertControllerDa
     
     // step 2: trade our digits + code for a user reg (hopefully)
     func attemptVerification(digits: String) {
+        digitsEntrySent = true // lock the keypad
         // ensure we have all the prereqs
         guard let verificationCode = self.verificationCode else {
             // restart the process if we don't have a verificationCode
@@ -361,10 +356,11 @@ public class C29AuthenticationAlertController: NSObject, CopperAlertControllerDa
     func handleVerificationSuccess(withVerificationResult result: C29VerificationResult) {
         digitsEntrySent = true
         C29Log(.Debug, "Registration Success: Setting up account \(result.userId) with jwt \(result.token).")
+        self.phoneRecord.verified = true
         self.digitsEntryCell?.setSuccess()
         // delay for some animations
         C29Utils.delay(1.0) {
-            self.delegate?.authenticationDidFinishWithVerificationResult(result, phoneNumber: self.toPhoneNumber)
+            self.delegate?.authenticationDidFinishWithVerificationResult(result, phoneRecord: self.phoneRecord)
             C29Utils.delay(C29Utils.animationDuration) {
                 // we want to hide this behind the web view, hence the delay to allow the animation to finish
                 self.setState(.Login)
@@ -387,7 +383,7 @@ public class C29AuthenticationAlertController: NSObject, CopperAlertControllerDa
         var errorReason: String?
         if !Reachability.isConnectedToNetwork() {
             errorReason = Error.NetworkConnectionFailure.description
-            didUpdatePhoneNumber(self.phoneNumber)
+            didUpdatePhoneNumber(phoneRecord.number)
         } else {
             switch state {
             case .PhoneNumber:
@@ -439,16 +435,20 @@ public class C29AuthenticationAlertController: NSObject, CopperAlertControllerDa
 
 extension C29AuthenticationAlertController: CopperAlertViewControllerDelegate {
     public func viewDidLoadFinished() {
-        // no op
         configureBackgroundTapView()
-        self.alertController.alertTableViewManager?.numberPadCell?.numberPadDelegate = self as CopperAlertNumberPadCellDelegate
-        self.alertController.alertTableViewManager?.phoneEntryCell?.alertCellDelegate = self
-        self.alertController.alertTableViewManager?.numberPadCell?.numberPadHeightConstraint.constant = (self.alertController.view.frame.height / 2)
+        self.layoutSubviews()
         self.alertController.reload(true)
         self.viewLoaded = true
     }
     public func viewDidAppearFinished() {
-        // no op
+        self.configureCellDelegates()
+    }
+    public func layoutSubviews() {
+        self.alertController.alertTableViewManager?.numberPadCell?.numberPadHeightConstraint.constant = (self.alertController.view.frame.height / 2)
+    }
+    public func configureCellDelegates() {
+        self.alertController.alertTableViewManager?.numberPadCell?.numberPadDelegate = self as CopperAlertNumberPadCellDelegate
+        self.alertController.alertTableViewManager?.phoneEntryCell?.alertCellDelegate = self
     }
 }
 
@@ -456,34 +456,42 @@ extension C29AuthenticationAlertController: C29AuthenticationAlertControllerCell
     func countryCodeDidBecomeFirstResponder() {
         self.backgroundTapView.hidden = false
     }
-    func didUpdateCountryCode(countryCode: String) {
+    func didUpdateCountryCode(countryCode: String?) {
+        guard let countryCode = countryCode else {
+            self.phoneEntryCell?.setCountryCodeToPrefix(CopperPhoneRecord.DefaultCountryCode)
+            return
+        }
         guard let prefix = CopperPhoneRecord.getPrefixForCountryCode(countryCode) else {
             let pickerError = Error.CountrtCodePickerPrefixNotFound
             C29LogWithRemote(.Error, error: pickerError.nserror, infoDict: ["affected country code": "\(countryCode)"])
             return
         }
-        self.countryCode = countryCode
-        self.countryCodePrefix = "+\(prefix)"
-        C29Log(.Debug, "C29AuthenticationAlertController didUpdateCountryCode to \"\(countryCode) with prefix \(countryCodePrefix) toPhoneNumber \(toPhoneNumber)\"")
-        self.phoneEntryCell?.setCountryCodeToPrefix(countryCodePrefix)
+        self.phoneRecord.countryCode = countryCode
+        self.phoneEntryCell?.setCountryCodeToPrefix("+\(prefix)")
+        C29Log(.Debug, "C29AuthenticationAlertController didUpdateCountryCode to \"\(countryCode) with prefix \(prefix) toPhoneNumber \(phoneRecord.displayString)\"")
+        self.didUpdatePhoneNumber(phoneRecord.number) // ensure any typeahead changes are respected
     }
-    func didUpdatePhoneNumber(phoneNumber: String) {
+    func didUpdatePhoneNumber(phoneNumber: String?) {
+        guard let phoneNumber = phoneNumber else {
+            self.didUpdatePhoneNumber("")
+            return
+        }
         // ensure we're not at our phone number limit
-        if self.phoneNumber.characters.count > MaxPhoneNumberLength {
-            C29Log(.Debug, "C29AuthenticationAlertController didUpdatePhoneNumber to \"\(phoneNumber) is already at the maximum lenght of \(MaxPhoneNumberLength)")
+        guard phoneNumber.characters.count <= MaxPhoneNumberLength else {
+            C29Log(.Debug, "C29AuthenticationAlertController didUpdatePhoneNumber to \"\(phoneNumber) is already at max length of \(MaxPhoneNumberLength)")
             return
         }
         // otherwise, move forward
-        self.phoneNumber = phoneNumber
-        C29Log(.Debug, "C29AuthenticationAlertController didUpdatePhoneNumber to \"\(phoneNumber) with toPhoneNumber \(toPhoneNumber)\"")
-        self.phoneEntryCell?.setPhoneNumber(phoneNumber)
+        self.phoneRecord.number = phoneNumber
+        C29Log(.Debug, "C29AuthenticationAlertController didUpdatePhoneNumber to \"\(phoneRecord.displayString)")
+        self.phoneEntryCell?.setPhoneNumber(phoneRecord)
         updateNextButtonStatus()
         self.numberPadCell?.numberPadUpdateDeleteButtonStatus()
     }
     func didUpdateDigitsEntry(digits: String) {
         guard !digitsEntrySent else { return }
-        if self.digitsEntry.characters.count > MaxDigitsLength {
-            C29Log(.Debug, "C29AuthenticationAlertController didUpdateDigitsEntry to \"\(digits) but digitsEntry is already at the maximum lenght of \(MaxPhoneNumberLength)")
+        if digits.characters.count > MaxDigitsLength {
+            C29Log(.Debug, "C29AuthenticationAlertController didUpdateDigitsEntry failed to update to \"\(digits) because it exceeds the maximum lenght of \(MaxPhoneNumberLength)")
             return
         }
         digitsEntry = digits
@@ -497,6 +505,10 @@ extension C29AuthenticationAlertController: CopperAlertNumberPadCellDelegate {
     func numberPadDeleteWasPressed() {
         switch self.state {
         case .PhoneNumber:
+            guard let phoneNumber = phoneRecord.number else {
+                didUpdatePhoneNumber("")
+                return
+            }
             if phoneNumber.characters.count > 0 {
                 didUpdatePhoneNumber(phoneNumber.substringToIndex(phoneNumber.endIndex.predecessor()))
             }
@@ -511,8 +523,10 @@ extension C29AuthenticationAlertController: CopperAlertNumberPadCellDelegate {
     func numberPadWasPressed(key: CopperNumberPadKey) {
         switch self.state {
         case .PhoneNumber:
-            self.didUpdatePhoneNumber(phoneNumber+"\(key.rawValue)")
+            let phoneNumber = "\(phoneRecord.number ?? "")\(key.rawValue)"
+            self.didUpdatePhoneNumber(phoneNumber)
         case .Verification:
+            guard !digitsEntrySent else { return }
             self.didUpdateDigitsEntry(digitsEntry+"\(key.rawValue)")
             if digitsEntry.characters.count == MaxDigitsLength {
                 attemptVerification(digitsEntry)
@@ -524,6 +538,7 @@ extension C29AuthenticationAlertController: CopperAlertNumberPadCellDelegate {
     func numberPadDeleteShouldBeEnabled() -> Bool {
         switch state {
         case .PhoneNumber:
+            guard let phoneNumber = phoneRecord.phoneNumber else { return false }
             return  phoneNumber.characters.count > 0 && !phoneNumberSent
         case .Verification:
             return  digitsEntry.characters.count > 0 && !digitsEntrySent
@@ -532,7 +547,7 @@ extension C29AuthenticationAlertController: CopperAlertNumberPadCellDelegate {
         }
     }
     func sendButtonWasPressed() {
-        self.startRegistration(to: toPhoneNumber, secret: self.secret)
+        self.startRegistration(phoneRecord, secret: self.secret)
     }
 }
 

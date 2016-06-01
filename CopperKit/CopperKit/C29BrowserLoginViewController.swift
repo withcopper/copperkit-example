@@ -12,6 +12,12 @@ import SafariServices
 @available(iOS 9.0, *)
 public class C29BrowserLoginViewController: SFSafariViewController, SFSafariViewControllerDelegate {
 
+    private var application: C29Application? {
+        didSet {
+            // no op atm
+        }
+    }
+    
     override public func loadView() {
         self.delegate = self
         super.loadView()

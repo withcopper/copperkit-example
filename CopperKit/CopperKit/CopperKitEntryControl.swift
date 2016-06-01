@@ -16,6 +16,8 @@ class CopperKitEntryControlView: UIView {
     
     func setup() {
         label = UILabel()
+        label!.minimumScaleFactor = 0.5
+        label!.lineBreakMode = .ByTruncatingMiddle
         label!.translatesAutoresizingMaskIntoConstraints = false
         label!.textAlignment = NSTextAlignment.Center
         let downsize = self.frame.size.height * 0.10

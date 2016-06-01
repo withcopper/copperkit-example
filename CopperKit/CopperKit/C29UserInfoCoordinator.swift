@@ -85,8 +85,8 @@ public class C29UserInfoCoordinator {
         })
     }
 
-    func fromVerificationResult(result: C29VerificationResult, phoneNumber: String) {
-        self.userInfo = C29UserInfo.fromVerificationResult(result, phoneNumber: phoneNumber)
+    func userInfoFromVerificationResult(result: C29VerificationResult) {
+        self.userInfo = C29UserInfo.fromVerificationResult(result)
     }
     
     public func getPermittedScopes() -> [C29Scope]? {

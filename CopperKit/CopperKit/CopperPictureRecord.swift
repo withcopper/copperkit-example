@@ -74,8 +74,9 @@ public class CopperPictureRecord: CopperRecordObject, CopperPicture {
     // which doesnt appear to happen when you set avatar in the init() function
     // so i removed it from the paramter set to ensure no hard to track down bugs occur
     // SO: set avatar after init
-    public convenience init(id: String = "current", verified: Bool = false) {
+    public convenience init(image: UIImage! = nil, id: String = "current", verified: Bool = false) {
         self.init(scope: C29Scope.Picture, data: nil, id: id, verified: verified)
+        self.image = image
     }
 
     public override var valid: Bool {
@@ -100,7 +101,7 @@ public class CopperPictureRecord: CopperRecordObject, CopperPicture {
             completion(record: self)
         }
     }
-    
+
     public class func getAvatarRecordForInitials(initials: String, session: C29SessionDataSource! = nil) -> CopperPicture {
         let record =  CopperPictureRecord()
         record.url = "https://bytes.withcopper.com/default/\(initials.uppercaseString).png"

@@ -18,7 +18,7 @@ public class C29CopperworksApplication: NSObject, NSCoding, C29CopperworksApplic
         case Logo = "logo_uri"
         case URL = "application_url" // TODO not sure if correct
         case Records = "records"
-        case Color = "color"
+        case Color = "accent_color"
         case RedirectURI = "redirect_uri"
     }
 
@@ -61,12 +61,15 @@ public class C29CopperworksApplication: NSObject, NSCoding, C29CopperworksApplic
     }
 
     public class func fromDictionary(dataDict: NSDictionary) -> C29CopperworksApplication? {
-        C29Log(.Debug, "Application.fromDictionary")
-        if let applicationId = dataDict[Key.ApplicationId.rawValue] as? String,
-            name = dataDict[Key.Name.rawValue] as? String {
-                
+        C29Log(.Debug, "Application.fromDictionary with dataDict \(dataDict)")
+        var data = dataDict
+        if let client =  dataDict["client"] as? NSDictionary{
+            data = client
+        }
+        if let applicationId = data[Key.ApplicationId.rawValue] as? String,
+            let name = data[Key.Name.rawValue] as? String {
             let records = [CopperRecord]()
-// TODO fix this when we decide how we want to use it
+// TODO fix this when we decide how we want to use it again
 //            if let recordsDict = dataDict[Key.Records.rawValue] as? [String:String] {
 //                //  format we expect in data: ["scope" : "recordid"]
 //                for (scopeString, _) in recordsDict {
@@ -83,10 +86,10 @@ public class C29CopperworksApplication: NSObject, NSCoding, C29CopperworksApplic
             
             let app = C29CopperworksApplication(applicationId: applicationId, name: name, records: records)
             // optional, nice to have values
-            app.logoUri = dataDict[Key.Logo.rawValue] as? String
-            app.url = dataDict[Key.URL.rawValue] as? String
-            app.redirectUri = dataDict[Key.RedirectURI.rawValue] as? String
-            if let colorRaw = dataDict[Key.Color.rawValue] as? String {
+            app.logoUri = data[Key.Logo.rawValue] as? String
+            app.url = data[Key.URL.rawValue] as? String
+            app.redirectUri = data[Key.RedirectURI.rawValue] as? String
+            if let colorRaw = data[Key.Color.rawValue] as? String {
                 app.color = UIColor.hexStringToUIColor(colorRaw)
             }
             return app

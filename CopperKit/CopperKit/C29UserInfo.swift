@@ -89,9 +89,8 @@ public class C29UserInfo: NSObject {
         self.records = records ?? [C29Scope: CopperRecord]()
     }
     
-    class func fromVerificationResult(result: C29VerificationResult, phoneNumber: String) -> C29UserInfo {
-        let phone = CopperPhoneRecord(isoNumber: phoneNumber, verified: true)
-        return C29UserInfo(userId: result.userId, records: [.Phone: phone])
+    class func fromVerificationResult(result: C29VerificationResult) -> C29UserInfo {
+        return C29UserInfo(userId: result.userId)
     }
     
     func fromDictionary(dataDict: NSDictionary?, callback: (userInfo: C29UserInfo?, error: NSError?)->()) {

@@ -14,7 +14,6 @@ public class CopperPhoneRecord: CopperRecordObject, CopperPhone {
         return phoneNumber == nil || self.number == nil
     }
     
-    
     public var phoneNumber: String? {
         get {
             if let num = self.data[ScopeDataKeys.PhoneNumber.rawValue] as? String {
@@ -35,18 +34,73 @@ public class CopperPhoneRecord: CopperRecordObject, CopperPhone {
     // countryCode for this phone number
     // ISO-3166-2 expected (e.g. "US", or "UK")
     public var countryCode: String? {
-        guard let nbPhoneNumber = nbPhoneNumber else {
+        get {
+            // 1. first, do we have this variable already set?
+            if let countryCode = self._countryCode {
+                return countryCode
+            }
+            // 2. otherwise, let's inspect for it...
+            if let nbPhoneNumber = nbPhoneNumber {
+                let code = CopperPhoneRecord.getCountryCodeForPrefix(nbPhoneNumber.countryCode)
+                self.countryCode = code
+                return code
+            }
+            // 3. default to nothing
             return nil
         }
-        return CopperPhoneRecord.getCountryCodeForPrefix(nbPhoneNumber.countryCode)
+        set {
+            self._countryCode = newValue
+            resetPhoneNumber()
+        }
     }
+    private var _countryCode: String?
     
     // get this phone number (e.g. (4156130691 of +1 41561305691)
     public var number: String? {
-        guard let nbPhoneNumber = nbPhoneNumber else {
+        get {
+            // 1. first, do we have this variable already set?
+            if let number = _number {
+                return number
+            }
+            // 2. otherwise, let's inspect for it...
+            if let nbPhoneNumber = nbPhoneNumber {
+                return String(nbPhoneNumber.nationalNumber)
+            }
+            // 3. strip it from phone number
+            if let phoneNumber = phoneNumber {
+                if let prefix = self.countryCodePrefix {
+                    // strip a prefix away if present
+                    return phoneNumber.stringByReplacingOccurrencesOfString("+\(prefix)", withString: "")
+                } else {
+                    // otherwise just sent the whole nubmer, no prefix
+                    return phoneNumber.clean()
+                }
+            }
+            // 4. default to nothing
             return nil
         }
-        return String(nbPhoneNumber.nationalNumber)
+        set {
+            self._number = newValue
+            resetPhoneNumber()
+        }
+    }
+    private var _number: String?
+    
+    func resetPhoneNumber() {
+        if let prefix = self.countryCodePrefix {
+            self.phoneNumber = "+\(prefix)\(number ?? "")"
+        } else {
+            self.phoneNumber = "\(number ?? "")"
+        }
+    }
+    
+    // get the prefix for the country code, e.g. "44", without the "+"
+    public var countryCodePrefix: String? {
+        if let countryCode = self.countryCode,
+            let prefix = CopperPhoneRecord.getPrefixForCountryCode(countryCode) {
+            return String(prefix)
+        }
+        return nil
     }
     
     // get the image for the country code of this number
@@ -64,27 +118,30 @@ public class CopperPhoneRecord: CopperRecordObject, CopperPhone {
         return "US"
     }
     
-    // match on 5+ consecutive numbers
-    let pattern = "[0-9]{5,}"
-    
     public convenience init(isoNumber: String! = nil, id: String = "current", verified: Bool = false) {
         self.init(scope: C29Scope.Phone, data: nil, id: id, verified: verified)
         self.phoneNumber = isoNumber
     }
     
+    public convenience init(countryCode: String, number: String, id: String = "current", verified: Bool = false) {
+        self.init(id: id, verified: verified)
+        self.countryCode = countryCode
+        self.number = number
+    }
+    
     // returns true if the cobject conforms to all requirements of its Type
+    // match on 5+ consecutive numbers
+    let pattern = "[0-9]{5,}"
     override public var valid: Bool {
         if super.valid {
             return true
         }
-        
         let regex: NSRegularExpression?
         do {
             regex = try NSRegularExpression(pattern: self.pattern, options: .CaseInsensitive)
         } catch _ {
             regex = nil
         }
-        
         if let text = number {
             let range = NSMakeRange(0, text.characters.count)
             if let matchRange = regex?.rangeOfFirstMatchInString(text, options: .ReportProgress, range: range) {
@@ -95,8 +152,7 @@ public class CopperPhoneRecord: CopperRecordObject, CopperPhone {
         return false
     }
     
-    
-    // utility class used by to parse the phoneNumber
+    // utility class used by to parse the phoneNumber from libPhoneNumber
     private var nbPhoneNumber: NBPhoneNumber? {
         let phoneUtil = NBPhoneNumberUtil()
         let number: NBPhoneNumber!
@@ -148,24 +204,23 @@ public class CopperPhoneRecord: CopperRecordObject, CopperPhone {
         return UIImage(contentsOfFile: imagePath)
     }
     
-
-    public class func typeAheadPhoneNumber(phoneNumber: String) -> String {
-        if phoneNumber.characters.count > 10 {
-            return phoneNumber
+    public var numberDisplayString: String {
+        var s = ""
+        guard let countryCode = self.countryCode else {
+            if let number = number {
+                return number.clean()
+            }
+            return ""
         }
-        
-        // build the (###) ###-#### with numbers of 10 chars in length
-        let num: NSMutableString = NSMutableString(string: phoneNumber)
-        if phoneNumber.characters.count > 0 {
-            num.insertString("(", atIndex: 0)
+        let formatter = NBAsYouTypeFormatter(regionCode: countryCode)
+        if let number = number {
+            s += "\(formatter.inputString(number))".clean()
         }
-        if phoneNumber.characters.count >= 3 {
-            num.insertString(") ", atIndex: 4)
+        // remove the country code prefix if present
+        if let prefix = self.countryCodePrefix {
+            s = s.stringByReplacingOccurrencesOfString("+\(prefix)", withString: "").clean()
         }
-        if phoneNumber.characters.count >= 6 {
-            num.insertString("-", atIndex: 9)
-        }
-        return num as String
+        return s.clean()
     }
 }
 
@@ -173,27 +228,14 @@ extension CopperPhoneRecord : CopperStringDisplayRecord {
     
     public var displayString: String {
         var s = ""
-        
-        if let countryCode = self.countryCode,
-            let prefix = CopperPhoneRecord.getPrefixForCountryCode(countryCode) {
+        if let prefix = self.countryCodePrefix {
             s += "+\(prefix) "
         }
-        
+        let formatter = NBAsYouTypeFormatter(regionCode: countryCode)
         if let number = number {
-            // build the (###) ###-#### with numbers of 10 chars in length
-            if number.characters.count == 10 {
-                let num: NSMutableString = NSMutableString(string: number)
-                num.insertString("(", atIndex: 0)
-                num.insertString(")", atIndex: 4)
-                num.insertString(" ", atIndex: 5)
-                num.insertString("-", atIndex: 9)
-                s += "\(num)"
-            } else {
-                // simply display the numbers as a string, like iOS contacts app
-                s += "\(number)"
-            }
+            s += "\(formatter.inputString(number))"
         }
-        return s
+        return s.clean()
     }
     
 }

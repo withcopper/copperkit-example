@@ -39,10 +39,10 @@ class CopperAlertMessageCell: CopperAlertTableViewCell {
     }
     
     func boldString(subString: String! = nil) {
-//        if let subString = subString {
-//            messageLabel.boldSubstring(subString)
-//        } else if let message = alert?.message {
-//            messageLabel.boldSubstring(message)
-//        }
+        if let subString = subString {
+            messageLabel.boldSubstring(subString)
+        } else if let message = alert?.message {
+            messageLabel.boldSubstring(message)
+        }
     }
 }

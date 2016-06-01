@@ -78,14 +78,36 @@ public class C29Application: NSObject {
     
     public var authenticated: Bool {
         get {
-            return self.jwt != nil && self.userId != nil && self.verificationResult != nil && self.phoneNumber != C29Application.DefaultPhoneNumber
+            return self.jwt != nil && self.userId != nil && self.verificationResult != nil && self.phoneRecord.valid
+        }
+    }
+    
+    public var application: C29CopperworksApplication? {
+        didSet {
+            // we don't save a state of which view is currently active
+            // we could and wouldn't have to fire this off to all views
+            // but this does have advantages of keeping everyone up to date...
+            authenticationAlert.application = application
+            (userInfoViewController as? WebKitViewController)?.application = application
+            // delete or update the session's device
+            if temporarySession {
+                deleteDeviceForSession()
+            }else if let app = application {
+                updateDeviceNameForSession(app.name)
+            }
         }
     }
     
     // MARK: Instance variables
     private let networkAPI = CopperNetworkAPI()
     
-    public var verificationResult: C29VerificationResult?
+    public var verificationResult: C29VerificationResult? {
+        didSet {
+            if authenticated {
+                getApplication()
+            }
+        }
+    }
     internal var jwt: String? {
         return verificationResult?.token
     }
@@ -95,17 +117,18 @@ public class C29Application: NSObject {
     
     // MARK: Optional Config Variables
     public var scopes: [C29Scope]? = C29Scope.DefaultScopes // defaults
+    public var temporarySession = true // when true, device created by this session is deleted
     
     // MARK: Private internal variables
     private var mixpanel = Mixpanel(token: MixPanelToken)
     private var completion: C29ApplicationUserInfoCompletionHandler?
-    static let DefaultPhoneNumber = "You"
-    public var phoneNumber: String = DefaultPhoneNumber
+    public var phoneRecord = CopperPhoneRecord()
     
     // MARK: View Controllers and UI elements
     private var presentingViewController: UIViewController?
     private var authenticationAlert: C29AuthenticationAlertController!
     private var userInfoViewController: UIViewController?
+    private var webKitController: WebKitViewController?
     
     // MARK: Optional test and debug
     public var debug: Bool = false {
@@ -152,47 +175,57 @@ public class C29Application: NSObject {
         // Store our instance variables
         self.presentingViewController = viewController
         if let phoneNumber = phoneNumber {
-            self.phoneNumber = phoneNumber
+            self.phoneRecord = CopperPhoneRecord(isoNumber: phoneNumber)
         }
         self.completion = completion
         
-        // On with the request:
-        self.showAuthenticationAlert(withViewController: viewController, completion: {
-            // Give the alertViewController animations time to finish
-            C29Utils.delay(0.5) {
-                if self.authenticated {
-                    // 0. check if we even need any scopes
-                    guard self.scopes != nil else {
-                        // note: self.phoneNumber and self.verificationResult is guaranteed by authenticated
-                        self.coordinator?.fromVerificationResult(self.verificationResult!, phoneNumber: self.phoneNumber)
-                        self.applicationDidFinish(self.coordinator?.userInfo, error: nil)
-                        return
-                    }
-                    // 1. check and see if we already have these records locally
-                    if let userInfo = self.coordinator?.userInfo,
-                        let records = userInfo.getRecords(forScopes: self.scopes) {
-                        C29Log(.Debug, "C29Application open() All \(records.count) requested records locally available.")
-                        self.delegate?.didFinishWithResult(.Success(userInfo))
-                        completion(result: .Success(userInfo))
-                        return
-                    // 2. always fall back to the full web dialog
-                    } else {
-                        self.displayCopperWeb(withViewController: self.authenticationAlert.alertController)
-                        return
-                    }
+        // Give the alertViewController animations time to finish and be seen
+        C29Utils.delay(0.0) { // disabled for best ux
+            if self.authenticated {
+                // 0. check if we even need any scopes
+                guard self.scopes != nil else {
+                    // note: self.phoneNumber and self.verificationResult is guaranteed by authenticated
+                    self.coordinator?.userInfoFromVerificationResult(self.verificationResult!)
+                    self.applicationDidFinish(self.coordinator?.userInfo, error: nil)
+                    return
                 }
+                // 1. check and see if we already have these records locally
+                if let userInfo = self.coordinator?.userInfo,
+                    let records = userInfo.getRecords(forScopes: self.scopes) {
+                    C29Log(.Debug, "C29Application open() All \(records.count) requested records locally available.")
+                    self.delegate?.didFinishWithResult(.Success(userInfo))
+                    completion(result: .Success(userInfo))
+                    return
+                    // 2. always fall back to the full web dialog
+                } else {
+                    // We have to display this to present on top of
+                    // Adds context for the user too, which is helpful
+                    self.showAuthenticationAlert(withViewController: viewController, completion: {
+                        // no op
+                    })
+                    self.displayCopperWeb(withViewController: self.authenticationAlert.alertController)
+                    return
+                }
+            // Not authenticated
+            } else {
+                // We need to auth
+                self.showAuthenticationAlert(withViewController: viewController, completion: {
+                    // no op
+                })
             }
-        })
+        }
     }
     
-    private func showAuthenticationAlert(withViewController viewController:UIViewController, completion: (()->())! = nil) {
+    private func showAuthenticationAlert(withViewController viewController: UIViewController, completion: (()->())! = nil) {
         // TODO check for our cookie!
         authenticationAlert = C29AuthenticationAlertController(networkAPI: networkAPI)
         authenticationAlert.delegate = self
-        authenticationAlert.prettyPrintPhoneNumber = CopperPhoneRecord(isoNumber: self.phoneNumber, verified: true).displayString
+        authenticationAlert.phoneRecord = self.phoneRecord
         let state: C29AuthenticationAlertController.State = authenticated ? .Login : .PhoneNumber
         authenticationAlert.setState(state)
-        authenticationAlert.displayWithViewController(viewController, completion: completion)
+        authenticationAlert.displayWithViewController(viewController, completion: {
+            self.authenticationAlert.application = self.application
+        })
         self.trackEvent(.LoginStarted)
     }
     
@@ -211,7 +244,7 @@ public class C29Application: NSObject {
         queryItems.append(queryApplicationType)
         let queryScope = NSURLQueryItem(name: QueryItems.Scope.rawValue, value: C29Scope.getCommaDelinatedString(fromScopes: scopes))
         queryItems.append(queryScope)
-        if phoneNumber != C29Application.DefaultPhoneNumber {
+        if let phoneNumber = phoneRecord.phoneNumber {
             let queryPhoneNumber = NSURLQueryItem(name: QueryItems.PhoneNumber.rawValue, value: phoneNumber)
             queryItems.append(queryPhoneNumber)
         }
@@ -234,6 +267,9 @@ public class C29Application: NSObject {
         let webKitViewController = WebKitViewController.webKitViewController()
         webKitViewController.c29delegate = self
         presentingViewController.presentViewController(webKitViewController, animated: true, completion: {
+            if let application = self.application {
+                webKitViewController.application = application
+            }
             self.userInfoViewController = webKitViewController
             var headers = [String:String]()
             if let token = self.verificationResult?.token {
@@ -260,7 +296,7 @@ public class C29Application: NSObject {
     }
     
     public func closeSession() {
-        self.phoneNumber = C29Application.DefaultPhoneNumber
+        self.phoneRecord = CopperPhoneRecord()
         self.verificationResult = nil
         coordinator = C29UserInfoCoordinator(application: self)
     }
@@ -290,6 +326,63 @@ public class C29Application: NSObject {
             self.completion?(result: .UserCancelled)
             self.trackEvent(.ContinueCancelled)
         }
+    }
+    
+    private func updateDeviceNameForSession(name: String) {
+        guard authenticated else { return }
+        guard let deviceId = verificationResult?.deviceId else { return }
+        guard let userId = userId else { return }
+        let params: [String:AnyObject] = [C29UserDevice.Key.Name.rawValue: name]
+        guard let url = NSURL(string: "\(networkAPI.URL)/\(C29APIPath.Users.rawValue)/\(userId)/\(C29APIPath.UserDevices.rawValue)/\(deviceId)") else { return }
+        let request = CopperNetworkAPIRequest(method: .UPDATE_USER_DEVICE,
+                                              httpMethod: .POST,
+                                              url: url,
+                                              authentication: true,
+                                              params: params,
+                                              callback: { (result: C29APIResult)->() in
+                                                // fire and forget
+        })
+        networkAPI.makeHTTPRequest(request)
+    }
+    
+    private func deleteDeviceForSession() {
+        guard authenticated else { return }
+        guard let deviceId = verificationResult?.deviceId else { return }
+        guard let userId = userId else { return }
+        guard let url = NSURL(string: "\(networkAPI.URL)/\(C29APIPath.Users.rawValue)/\(userId)/\(C29APIPath.UserDevices.rawValue)/\(deviceId)") else { return }
+        let request = CopperNetworkAPIRequest(method: .DELETE_USER_DEVICE,
+                                              httpMethod: .DELETE,
+                                              url: url,
+                                              authentication: true,
+                                              params: nil,
+                                              callback: { (result: C29APIResult)->() in
+                                                // fire and forget
+        })
+        networkAPI.makeHTTPRequest(request)
+    }
+    
+    private func getApplication() {
+        guard authenticated else { return }
+        guard let applicationId = _applicationId else { return }
+        let url = NSURL(string: "\(networkAPI.URL)/\(C29APIPath.Users.rawValue)/\(self.userId!)/\(C29APIPath.Applications.rawValue)/\(applicationId)")!
+        let request = CopperNetworkAPIRequest(method: .GET_USER_APPLICATION,
+            httpMethod: .GET,
+            url: url,
+            authentication: true,
+            params: nil,
+            callback: { (result: C29APIResult) in
+                switch result {
+                case let .Error(error):
+                    C29Log(.Error, "C29Application getApplication api returned an error \(error)")
+                case let .Success(_, dataDict):
+                    guard let dataDict = dataDict else {
+                        C29Log(.Info, "C29Application getApplication api returned no application")
+                        return
+                    }
+                    self.application = C29CopperworksApplication.fromDictionary(dataDict)
+                }
+        })
+        networkAPI.makeHTTPRequest(request)
     }
     
     public func openURL(url: NSURL, sourceApplication: String?) -> Bool {
@@ -363,14 +456,14 @@ extension C29Application: C29UserInfoViewControllerDelegate {
 }
 
 extension C29Application: C29AuthenticationAlertControllerDelegate {
-    public func authenticationDidFinishWithVerificationResult(result: C29VerificationResult, phoneNumber: String) {
+    public func authenticationDidFinishWithVerificationResult(result: C29VerificationResult, phoneRecord: CopperPhoneRecord) {
         self.verificationResult = result
-        self.phoneNumber = phoneNumber
+        self.phoneRecord = phoneRecord
         self.trackEvent(.LoginSuccessful)
         if scopes != nil {
             self.displayCopperWeb(withViewController: authenticationAlert.alertController)
         } else {
-            coordinator?.fromVerificationResult(result, phoneNumber: phoneNumber)
+            coordinator?.userInfoFromVerificationResult(result)
             applicationDidFinish(coordinator?.userInfo, error: nil)
         }
     }

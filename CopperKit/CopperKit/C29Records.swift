@@ -67,10 +67,10 @@ public typealias CopperMultiRecord = protocol<CopperRecord>
 }
 
 @objc public protocol CopperPhone: CopperMultiRecord {
-    var phoneNumber: String? { get set }
-    var countryCode: String? { get }
-    var number: String? { get }
-    var countryImage: UIImage? { get }
+    var phoneNumber: String? { get set } // the whole number: +14156130691
+    var countryCode: String? { get set } // the country code: US
+    var number: String? { get set } // the phone number 4156130691
+    var countryImage: UIImage? { get } // flag of the country code
 }
 
 @objc public protocol CopperUsername: CopperRecord {
