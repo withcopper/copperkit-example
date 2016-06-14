@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import QuartzCore
 
 class CopperAlertDigitEntryCell: CopperAlertTableViewCell {
     
@@ -67,17 +68,17 @@ class CopperAlertDigitEntryCell: CopperAlertTableViewCell {
     
     func setSuccess() {
         C29Utils.delay(0.05) {
-            self.digit0.set("✨")
+            self.digit0.set("🎉")
             C29Utils.delay(0.06) {
                 self.digit1.set("🎉")
                 C29Utils.delay(0.07) {
-                    self.digit2.set("🎈")
+                    self.digit2.set("🎉")
                     C29Utils.delay(0.08) {
                         self.digit3.set("🙌")
                         C29Utils.delay(0.09) {
-                            self.digit4.set("🌮")
+                            self.digit4.set("🙌")
                             C29Utils.delay(0.1) {
-                                self.digit5.set("🙃")
+                                self.digit5.set("🙌")
                             }
                         }
                     }
@@ -95,6 +96,14 @@ class CopperAlertDigitEntryCell: CopperAlertTableViewCell {
 
 class CopperKitDigitControl: CopperKitEntryControlView {
     
+    override func setup() {
+        super.setup()
+        self.layer.cornerRadius = 6.0
+        self.bottomBorder?.hidden = true
+        self.layer.borderWidth = borderWidth
+        self.layer.borderColor = UIColor.copper_black40().CGColor
+    }
+    
     override func set(string: String) {
         let text: String = string[0] // limit to the first char
         self.label?.attributedText = C29Text.h3(text, color: UIColor.copper_black92())
@@ -110,11 +119,11 @@ class CopperKitDigitControl: CopperKitEntryControlView {
     }
     
     func setInactive() {
-        bottomBorder?.backgroundColor = UIColor.copper_black40()
+        self.layer.borderColor = UIColor.copper_black40().CGColor
     }
     
     func setActive() {
-        bottomBorder?.backgroundColor = UIColor.copper_black92()
+        self.layer.borderColor = UIColor.copper_black92().CGColor
     }
     
     func setSuccess() {

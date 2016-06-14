@@ -17,6 +17,10 @@ protocol CopperAlertControllerDatasource {
     var identifiers: [CopperAlertTableRowConfig] { get }
 }
 
+protocol CopperAlertControllerTableViewDelegate {
+    func scrollViewDidScroll(scrollView: UIScrollView)
+}
+
 public class CopperAlertViewController: UIViewController {
     
     public class func alertViewController() -> CopperAlertViewController {
@@ -31,8 +35,12 @@ public class CopperAlertViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var alertViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var activityIndicator: NetworkActivityIndicatorView!
+    @IBOutlet weak var bottomGradientView: UIView!
     
     var alertTableViewManager: CopperAlertViewTableManager?
+    
+    let GradientStartColor = UIColor.copper_black20()
+    let GradientFadeColor = UIColor.copper_black().colorWithAlphaComponent(0.0)
     
     public var alert: C29Alert? // It is expected that this is set before viewDidLoad() is called!!
     public var delegate: CopperAlertViewControllerDelegate?
@@ -80,9 +88,13 @@ public class CopperAlertViewController: UIViewController {
         self.alertTableViewManager = CopperAlertViewTableManager(alert: alert)
         alertTableViewManager?.dataSource = self.dataSource
         alertTableViewManager?.delegate = self
+        alertTableViewManager?.alertTableViewDelegate = self
         self.activityIndicator.barColor = CopperAlertViewController.DefaultAccentColor
         activityIndicator.hidden = true
         CopperNetworkActivityRegistry.sharedRegistry.delegate = self
+        self.bottomGradientView.backgroundColor = UIColor.clearColor()
+        bottomGradientView.addGradient(GradientFadeColor, bottomColor: GradientStartColor)
+        bottomGradientView.userInteractionEnabled = false
         // Ensure buttons get taps right away
         tableView.delaysContentTouches = false
         for view in self.tableView.subviews {
@@ -104,6 +116,7 @@ public class CopperAlertViewController: UIViewController {
         self.view.addGestureRecognizer(tap)
         self.reload(false)
         self.delegate?.viewDidLoadFinished()
+        syncGradientView()
     }
 
     override public func viewDidAppear(animated: Bool) {
@@ -142,6 +155,20 @@ public class CopperAlertViewController: UIViewController {
         })
     }
     
+    func syncGradientView() {
+        let y: CGFloat
+        let contentOffsetY = tableView.contentSize.height - tableView.contentOffset.y - tableView.frame.height
+        if contentOffsetY < 50 {
+            // we are showing the bottom, hide the
+            y = 0
+        } else {
+            // we are not showing the buttom, show the gradient
+            y = min(100, contentOffsetY) - 50
+        }
+        let bottomGradientViewAlpha = 1.0 * (y / 50)
+        self.bottomGradientView.alpha = bottomGradientViewAlpha
+    }
+    
     func didTapView() {
         if closeOnTap {
             self.close()
@@ -160,6 +187,12 @@ public class CopperAlertViewController: UIViewController {
     
     override public func preferredStatusBarStyle() -> UIStatusBarStyle {
         return .LightContent
+    }
+}
+
+extension CopperAlertViewController: CopperAlertControllerTableViewDelegate {
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        self.syncGradientView()
     }
 }
 

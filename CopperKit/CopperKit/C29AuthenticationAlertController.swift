@@ -159,7 +159,7 @@ public class C29AuthenticationAlertController: NSObject, CopperAlertControllerDa
     init(networkAPI: CopperNetworkAPI) {
         super.init()
         self.backgroundTapView = UIView()
-        self.wrongNumberAction = C29AlertAction(title: "Wrong number", format: .Inline, closeAfterAction: false, handler: {
+        self.wrongNumberAction = C29AlertAction(title: "Edit number", format: .Inline, closeAfterAction: false, handler: {
             self.resetDigitsEntry()
             self.resetPhoneNumberEntry()
             self.setState(.PhoneNumber)
@@ -373,7 +373,6 @@ public class C29AuthenticationAlertController: NSObject, CopperAlertControllerDa
         guard let error = error else {
             C29Log(.Error, "There was a problem with the verification flow without an NSError")
             // If we are here without an NSError, there is nothing for us to inspect, nor do... so best guess is to send the person back to the start...
-//            alertController.V29_displayError("There was a problem with no information", message: "Try again from the start.", error: Error.UnknownError.nserror)
             resetPhoneNumberEntry()
             self.setState(.PhoneNumber)
             return
@@ -444,7 +443,19 @@ extension C29AuthenticationAlertController: CopperAlertViewControllerDelegate {
         self.configureCellDelegates()
     }
     public func layoutSubviews() {
-        self.alertController.alertTableViewManager?.numberPadCell?.numberPadHeightConstraint.constant = (self.alertController.view.frame.height / 2)
+        // we set the number pad, optimistically as half of the view
+        // this works well for iPhone 6 on up
+        let numberPadCellHeight =  self.alertController.view.frame.height/2
+        self.alertController.alertTableViewManager?.numberPadCell?.numberPadHeightConstraint.constant = numberPadCellHeight
+        // for smaller screens, we don't want any scrolling, so we shorten the 
+        // numberpad to pull everything in, if necessary
+        // however there's a known issue where this doesn't completely work on iPhone 4's so we skip
+        // TODO not great, but this works for now
+        guard self.alertController.view.frame.height > 480.0 else { return }
+        let overflow = self.alertController.tableView.contentSize.height - self.alertController.tableView.frame.height
+        if overflow > 0 {
+            self.alertController.alertTableViewManager?.numberPadCell?.numberPadHeightConstraint.constant = max(numberPadCellHeight-overflow, 0)
+        }
     }
     public func configureCellDelegates() {
         self.alertController.alertTableViewManager?.numberPadCell?.numberPadDelegate = self as CopperAlertNumberPadCellDelegate

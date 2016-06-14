@@ -40,8 +40,9 @@ class CopperAlertViewTableManager: NSObject, UITableViewDataSource, UITableViewD
 
     var delegate: CopperAlertViewTableManagerDelegate?
     var dataSource: CopperAlertControllerDatasource?
+    var alertTableViewDelegate: CopperAlertControllerTableViewDelegate?
     var alert: C29Alert!
-        
+    
     init(alert: C29Alert) {
         super.init()
         self.alert = alert
@@ -154,6 +155,10 @@ class CopperAlertViewTableManager: NSObject, UITableViewDataSource, UITableViewD
     
     func configForIndexPath(indexPath: NSIndexPath) -> CopperAlertTableRowConfig {
         return identifiers[indexPath.row]
+    }
+    
+    public func scrollViewDidScroll(scrollView: UIScrollView) {
+        alertTableViewDelegate?.scrollViewDidScroll(scrollView)
     }
 }
 
